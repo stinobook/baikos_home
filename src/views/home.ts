@@ -26,8 +26,12 @@ export class HomeView extends LiteElement {
 
   render() {
     return html`
+    <flex-container>
+    <div id="logo">
+    <img src="/img/full.png"/>
+    </div>    
+    </flex-container>
 
-  <p>Test</p>
     `
   }
 }
