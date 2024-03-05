@@ -1,0 +1,33 @@
+{
+  "name": "baikos-home",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "watch": "cross-env NODE_ENV=development rollup -c -w",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "serve": "node server.js"
+  },
+  "devDependencies": {
+    "@material-symbols/svg-400": "^0.14.5",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "chokidar": "^3.5.3",
+    "cross-env": "^7.0.3",
+    "custom-element-decorator": "^0.6.0",
+    "glob": "^10.3.10",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.12.0",
+    "rollup-plugin-material-symbols": "^2.1.5",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "websocket": "^1.0.34"
+  },
+  "dependencies": {
+    "@material/web": "^1.1.1",
+    "@vandeurenglenn/flex-elements": "^1.2.3",
+    "@vandeurenglenn/lit-elements": "^0.3.19",
+    "@vandeurenglenn/lite": "^0.2.7",
+    "lit": "^3.1.1"
+  }
+}
