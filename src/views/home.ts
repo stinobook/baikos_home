@@ -1,13 +1,8 @@
 import { html, css, LiteElement, query } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 
-import '@material/web/fab/fab.js'
-
-import '../components/sales/pad/pad.js'
-import '../components/sales/grid/grid.js'
-
-@customElement('sales-view')
-export class SalesView extends LiteElement {
+@customElement('home-view')
+export class HomeView extends LiteElement {
   static styles = [
     css`
       :host {

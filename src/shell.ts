@@ -5,7 +5,6 @@ import '@vandeurenglenn/lit-elements/icon-set.js'
 import '@vandeurenglenn/lit-elements/theme.js'
 import '@vandeurenglenn/lit-elements/selector.js'
 import '@vandeurenglenn/lit-elements/pages.js'
-import './components/search.js'
 import icons from './icons.js'
 import Router from './routing.js'
 import type { CustomDrawerLayout, CustomPages, CustomSelector } from './component-types.js'
@@ -51,19 +50,17 @@ export class BaikoShell extends LiteElement {
       </style>
       <!-- just cleaner -->
       ${icons}
-
-      <md-dialog></md-dialog>
       <!-- see https://vandeurenglenn.github.io/custom-elements/ -->
       <custom-drawer-layout appBarType="small">
         <span slot="top-app-bar-title">Baiko\'s Home</span>
         <span slot="drawer-headline"> menu </span>
         <custom-selector attr-for-selected="route" slot="drawer-content" @selected=${this.selectorSelected.bind(this)}>
-          <custom-drawer-item route="home"> Home </custom-drawer-item>
+          <custom-drawer-item route="home">Home</custom-drawer-item>
         </custom-selector>
 
         <custom-pages attr-for-selected="route">
           <loading-view route="loading"> </loading-view>
-          <sales-view route="home"> </sales-view>
+          <home-view route="home"> </home-view>
         </custom-pages>
       </custom-drawer-layout>
     `
