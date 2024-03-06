@@ -13,11 +13,6 @@ try {
 } catch (error) {
   await cp('./src/themes', './www/themes', { recursive: true })
 }
-try {
-  await opendir('./www/img')
-} catch (error) {
-  await cp('./src/img', './www/img', { recursive: true })
-}
 
 const views = await glob(['./src/views/**/*'])
 

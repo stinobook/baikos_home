@@ -21,16 +21,25 @@ export class HomeView extends LiteElement {
         border-radius: var(--md-sys-shape-corner-extra-large);
         box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
       }
+      flex-container {
+        width: 100%;
+      }
+      #logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+      #logo img {
+        max-width: 100%;
+        max-height: 100%;
+      }
     `
   ]
 
   render() {
     return html`
-    <flex-container>
-    <div id="logo">
-    <img src="/img/full.png"/>
-    </div>    
-    </flex-container>
+  
 
     `
   }

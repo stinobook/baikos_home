@@ -10,7 +10,7 @@ export default class Router {
     console.log(location.hash)
 
     if (!location.hash) {
-      location.hash = Router.bang('sales')
+      location.hash = Router.bang('home')
     } else this.#onhashchange()
   }
 

@@ -15,39 +15,32 @@ export class LoadingView extends LiteElement {
       }
       /* HTML: <div class="loader"></div> */
       .loader {
-        width: 55px;
-        aspect-ratio: 1;
-        --g1: conic-gradient(from 90deg at 3px 3px, #0000 90deg, #fff 0);
-        --g2: conic-gradient(from -90deg at 22px 22px, #0000 90deg, #fff 0);
-        background: var(--g1), var(--g1), var(--g1), var(--g2), var(--g2), var(--g2);
-        background-size: 25px 25px;
-        background-repeat: no-repeat;
-        animation: l7 1.5s infinite;
+        width: calc(6*30px);
+        height: 50px;
+        display: flex;
+        color: #8d7958;
+        filter: drop-shadow(30px 25px 0 currentColor) drop-shadow(60px 0 0 currentColor) drop-shadow(120px 0 0 currentColor);
+        clip-path: inset(0 100% 0 0);
+        animation: l12 2s infinite steps(7);
       }
-      @keyframes l7 {
-        0% {
-          background-position: 0 0, 0 100%, 100% 100%;
-        }
-        25% {
-          background-position: 100% 0, 0 100%, 100% 100%;
-        }
-        50% {
-          background-position: 100% 0, 0 0, 100% 100%;
-        }
-        75% {
-          background-position: 100% 0, 0 0, 0 100%;
-        }
-        100% {
-          background-position: 100% 100%, 0 0, 0 100%;
-        }
+      .loader:before {
+        content: "";
+        width: 30px;
+        height: 25px;
+        --c:no-repeat radial-gradient(farthest-side,currentColor 92%,#0000);
+        background: url(img/paw.png) no-repeat scroll ;
+        transform: rotate(90deg);
+        background-size: 30px 25px;
       }
+      @keyframes l12 {
+        100% {clip-path: inset(0 -30px 0 0)}
+      }
+        
     `
   ]
 
   render() {
     return html`
-      <h1>Loading...</h1>
-      <h3>hang in there!</h3>
       <div class="loader"></div>
     `
   }
