@@ -1,15 +1,12 @@
 import { html, css, LiteElement, query, property } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
-import '@vandeurenglenn/lit-elements/drawer-layout.js'
-import '@vandeurenglenn/lit-elements/icon-set.js'
-import '@vandeurenglenn/lit-elements/theme.js'
-import '@vandeurenglenn/lit-elements/selector.js'
-import '@vandeurenglenn/lit-elements/pages.js'
-import '@vandeurenglenn/lit-elements/tabs.js'
-import '@vandeurenglenn/lit-elements/tab.js'
+import '@vandeurenglenn/lite-elements/icon-set.js'
+import '@vandeurenglenn/lite-elements/theme.js'
+import '@vandeurenglenn/lite-elements/selector.js'
+import '@vandeurenglenn/lite-elements/pages.js'
 import icons from './icons.js'
 import Router from './routing.js'
-import type { CustomDrawerLayout, CustomPages, CustomSelector } from './component-types.js'
+import type { CustomPages, CustomSelector } from './component-types.js'
 // import default page
 import './views/loading.js'
 
@@ -18,6 +15,12 @@ export class BaikoShell extends LiteElement {
   router: Router
 
   selectorSelected({ detail }: CustomEvent) {
+    const menuElement = this.shadowRoot.querySelector('#menu') as HTMLDivElement
+      if (detail === 'home') {
+        menuElement.classList.add('bottom')
+      } else {
+        menuElement.classList.remove('bottom')
+      }
       location.hash = Router.bang(detail)
   }
 
@@ -26,9 +29,6 @@ export class BaikoShell extends LiteElement {
 
   @query('custom-pages')
   accessor pages: CustomPages
-
-  @query('custom-drawer-layout')
-  accessor drawerLayout: CustomDrawerLayout
 
 
   async select(selected) {
@@ -45,7 +45,8 @@ export class BaikoShell extends LiteElement {
         display: flex;
         flex-direction: row;
         box-sizing: border-box;
-        padding: 12px 0 12px 24px;
+        background: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
       }
       ::-webkit-scrollbar {
         width: 8px;
@@ -57,52 +58,78 @@ export class BaikoShell extends LiteElement {
         border-radius: var(--md-sys-shape-corner-extra-large);
         box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
       }
-      flex-container {
-        width: 100%;
-      }
-      #logo {
+      #container {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
+        height: 100vh;
+        flex-direction: column;
       }
-      #logo img {
-        max-width: 100%;
-        max-height: 100%;
+      #menu {
+        border-radius: 30px;
+        height: 50px;
+        background: var(--md-sys-color-surface);
+        color: var(--md-sys-color-on-surface);
+        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.281);
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        position: relative;
+        padding: 0 24px;
+        margin: 24px;
+      }
+      custom-selector {
+        flex-direction: row;
+        width: unset;
+        height: unset;
+        gap: 24px;
+      }
+
+      .bottom {
+        position: fixed !important;
+        bottom: 0;
+        z-index:1000;
       }
     `
   ]
+
   render() {
     return html`
       <style>
+      :host {
+        display: block;
+        inset: 0;
+        position: relative;
+        height: 100%;
+        width: 100%;
+      }
         custom-pages {
           width: 100%;
           height: 100%;
-          display: block;
+          display: flex;
         }
       </style>
       <!-- just cleaner -->
       ${icons}
       <!-- see https://vandeurenglenn.github.io/custom-elements/ -->
-      <flex-container>
-      <div id="logo">
-      <img src="/img/full.png"/>
-      </div>  
-      <custom-tabs round="">
-        <custom-selector attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
-        <custom-tab route="home">Home</custom-tab>
-        <custom-tab route="home">Home</custom-tab>
-        <custom-tab route="home">Home</custom-tab>
-        <custom-tab route="home">Home</custom-tab>
-        <custom-tab route="home">Home</custom-tab>
-        </custom-selector>
-
+      <custom-theme loadFont="false"></custom-theme>
+      <div id="container">
+        <div id="menu">
+          <custom-selector attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
+          <a route="home">Home</a>
+          <a route="about">Over ons</a>
+          <a route="training">Aanbod</a>
+          <a route="breeding">Border Collie</a>
+          <a route="contact">Contact</a>
+          </custom-selector>
+        </div>
         <custom-pages attr-for-selected="route">
           <loading-view route="loading"> </loading-view>
           <home-view route="home"> </home-view>
+          <about-view route="about"> </about-view>
         </custom-pages>
-      </custom-tabs>
-      </flex-container>
+      </div>
     `
   }
 }

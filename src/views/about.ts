@@ -1,9 +1,8 @@
 import { html, css, LiteElement, query } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
-import '@vandeurenglenn/flex-elements/container.js'
 
-@customElement('home-view')
-export class HomeView extends LiteElement {
+@customElement('about-view')
+export class AboutView extends LiteElement {
   static styles = [
     css`
       :host {
@@ -18,11 +17,6 @@ export class HomeView extends LiteElement {
         border-radius: var(--md-sys-shape-corner-extra-large);
         box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
       }
-      img{
-        max-width:100%;
-        max-height: calc(100vh - 50px - 24px - 24px);
-        object-fit:contain;
-      }
       flex-container {
         width: 100vh;
         margin: auto;
@@ -33,7 +27,7 @@ export class HomeView extends LiteElement {
   render() {
     return html`
     <flex-container>
-    <img src="/img/full.png" />
+    about
     </flex-container>
     `
   }
