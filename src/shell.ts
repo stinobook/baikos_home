@@ -9,36 +9,11 @@ import Router from './routing.js'
 import type { CustomPages, CustomSelector } from './component-types.js'
 // import default page
 import './views/loading.js'
+import './components/lang.js'
 
 @customElement('baiko-shell')
 export class BaikoShell extends LiteElement {
   router: Router
-
-  selectorSelected({ detail }: CustomEvent) {
-    const menuElement = this.shadowRoot.querySelector('#menu') as HTMLDivElement
-      if (detail === 'home') {
-        menuElement.classList.add('bottom')
-      } else {
-        menuElement.classList.remove('bottom')
-      }
-      location.hash = Router.bang(detail)
-  }
-
-  @query('custom-selector')
-  accessor selector: CustomSelector
-
-  @query('custom-pages')
-  accessor pages: CustomPages
-
-
-  async select(selected) {
-    this.selector.select(selected)
-    this.pages.select(selected)
-  }
-
-  async connectedCallback() {
-    this.router = new Router(this)
-  }
   static styles = [
     css`
       :host {
@@ -66,7 +41,7 @@ export class BaikoShell extends LiteElement {
         height: 100vh;
         flex-direction: column;
       }
-      #menu {
+      .menu {
         border-radius: 30px;
         height: 50px;
         background: var(--md-sys-color-surface);
@@ -76,8 +51,9 @@ export class BaikoShell extends LiteElement {
         justify-content: space-evenly;
         align-items: center;
         position: relative;
-        padding: 0 24px;
         margin: 24px;
+        transform: translateY(var(--transformBottom));
+        transition: all 0.3 ease-in-out;
       }
       custom-selector {
         flex-direction: row;
@@ -85,14 +61,72 @@ export class BaikoShell extends LiteElement {
         height: unset;
         gap: 24px;
       }
+      custom-selector a {
+        line-height: 50px;
+        height: 100%;
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        border-radius: 30px;
+        padding: 0 12px;
+        cursor:pointer;
+      }
+      .menu::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        left: 0;
+        transform: translateX(var(--transformJS));
+        width: var(--widthJS);
+        border-radius: 30px;
+        background: var(--md-sys-color-secondary-container);
+        transition: all 0.3s ease-in-out;
+      }
+      custom-selector a.custom-selected {
+        background: unset;
+      }
 
       .bottom {
         position: fixed !important;
         bottom: 0;
         z-index:1000;
+        transition: all 0.5s ease-in-out;
       }
     `
   ]
+
+  selectorSelected({ detail }: CustomEvent) {
+    location.hash = Router.bang(detail)
+  }
+
+  @query('custom-selector')
+  accessor selector: CustomSelector
+
+  @query('custom-pages')
+  accessor pages: CustomPages
+
+
+  async select(selected) {
+    this.selector.select(selected)
+    this.pages.select(selected)
+  }
+
+  async connectedCallback() {
+    this.router = new Router(this)
+    this.shadowRoot.addEventListener('click', () => {
+      this.getMenuPage()
+    })
+    this.getMenuPage()
+  }
+
+  async getMenuPage() {
+    const menu = this.shadowRoot.querySelector('.menu') as HTMLElement
+    const menuLinkActive = menu.querySelector('a.custom-selected') as HTMLAnchorElement
+    menu.style.setProperty("--transformJS", `${menuLinkActive.offsetLeft}px`);
+    menu.style.setProperty("--widthJS", `${menuLinkActive.offsetWidth}px`);
+  }
+ 
 
   render() {
     return html`
@@ -114,8 +148,9 @@ export class BaikoShell extends LiteElement {
       ${icons}
       <!-- see https://vandeurenglenn.github.io/custom-elements/ -->
       <custom-theme loadFont="false"></custom-theme>
+      <lang-element></lang-element>
       <div id="container">
-        <div id="menu">
+        <div class="menu">
           <custom-selector attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
           <a route="home">Home</a>
           <a route="about">Over ons</a>
@@ -128,6 +163,9 @@ export class BaikoShell extends LiteElement {
           <loading-view route="loading"> </loading-view>
           <home-view route="home"> </home-view>
           <about-view route="about"> </about-view>
+          <training-view route="training"> </training-view>
+          <breeding-view route="breeding"> </breeding-view>
+          <contact-view route="contact"> </contact-view>
         </custom-pages>
       </div>
     `
