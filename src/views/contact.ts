@@ -27,7 +27,7 @@ export class ContactView extends LiteElement {
   render() {
     return html`
     <flex-container>
-    about
+    contact
     </flex-container>
     `
   }
