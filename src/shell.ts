@@ -4,6 +4,8 @@ import '@vandeurenglenn/lite-elements/icon-set.js'
 import '@vandeurenglenn/lite-elements/theme.js'
 import '@vandeurenglenn/lite-elements/selector.js'
 import '@vandeurenglenn/lite-elements/pages.js'
+import '@vandeurenglenn/lite-elements/tabs.js'
+import '@vandeurenglenn/lite-elements/icon.js'
 import icons from './icons.js'
 import Router from './routing.js'
 import type { CustomPages, CustomSelector } from './component-types.js'
@@ -41,57 +43,37 @@ export class BaikoShell extends LiteElement {
         height: 100vh;
         flex-direction: column;
       }
-      .menu {
+      custom-tabs {
+        margin: 24px;
+      }
+      custom-selector {
         border-radius: 30px;
         height: 50px;
         background: var(--md-sys-color-surface);
         color: var(--md-sys-color-on-surface);
         box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.281);
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        position: relative;
-        margin: 24px;
-        transform: translateY(var(--transformBottom));
-        transition: all 0.3 ease-in-out;
-      }
-      custom-selector {
         flex-direction: row;
-        width: unset;
-        height: unset;
-        gap: 24px;
+        align-items: center;
+        padding: 5px;
+        align-items: center;
       }
-      custom-selector a {
-        line-height: 50px;
+      custom-tab {
         height: 100%;
-        display: inline-block;
-        position: relative;
-        z-index: 1;
-        text-align: center;
         border-radius: 30px;
-        padding: 0 12px;
-        cursor:pointer;
-      }
-      .menu::before {
-        content: "";
-        position: absolute;
-        height: 100%;
-        left: 0;
-        transform: translateX(var(--transformJS));
-        width: var(--widthJS);
-        border-radius: 30px;
-        background: var(--md-sys-color-secondary-container);
-        transition: all 0.3s ease-in-out;
-      }
-      custom-selector a.custom-selected {
-        background: unset;
       }
 
-      .bottom {
-        position: fixed !important;
-        bottom: 0;
-        z-index:1000;
-        transition: all 0.5s ease-in-out;
+      lang-element {
+        position: fixed;
+        right: 0;
+        top: 0;
+        margin: 5px;
+      }
+
+      @media (max-width: 600px) {
+        lang-element {
+          bottom: 0;
+          top: unset;
+        }
       }
     `
   ]
@@ -115,16 +97,16 @@ export class BaikoShell extends LiteElement {
   async connectedCallback() {
     this.router = new Router(this)
     this.shadowRoot.addEventListener('click', () => {
-      this.getMenuPage()
+      //this.getMenuPage()
     })
-    this.getMenuPage()
+    //this.getMenuPage()
   }
 
   async getMenuPage() {
+    let route = '[route=' + Router.parseHash(location.hash).route + ']'
     const menu = this.shadowRoot.querySelector('.menu') as HTMLElement
-    const menuLinkActive = menu.querySelector('a.custom-selected') as HTMLAnchorElement
+    const menuLinkActive = menu.querySelector(route) as HTMLAnchorElement
     menu.style.setProperty("--transformJS", `${menuLinkActive.offsetLeft}px`);
-    menu.style.setProperty("--widthJS", `${menuLinkActive.offsetWidth}px`);
   }
  
 
@@ -150,15 +132,15 @@ export class BaikoShell extends LiteElement {
       <custom-theme loadFont="false"></custom-theme>
       <lang-element></lang-element>
       <div id="container">
-        <div class="menu">
+        <custom-tabs>
           <custom-selector attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
-          <a route="home">Home</a>
-          <a route="about">Over ons</a>
-          <a route="training">Aanbod</a>
-          <a route="breeding">Border Collie</a>
-          <a route="contact">Contact</a>
+            <custom-tab route="home"><custom-icon>home</custom-icon>Home</custom-tab>
+            <custom-tab route="about">Over ons</custom-tab>
+            <custom-tab route="training">Aanbod</custom-tab>
+            <custom-tab route="breeding">Border Collie</custom-tab>
+            <custom-tab route="contact">Contact</custom-tab>
           </custom-selector>
-        </div>
+        </custom-tabs>
         <custom-pages attr-for-selected="route">
           <loading-view route="loading"> </loading-view>
           <home-view route="home"> </home-view>
