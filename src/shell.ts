@@ -6,6 +6,7 @@ import '@vandeurenglenn/lite-elements/selector.js'
 import '@vandeurenglenn/lite-elements/pages.js'
 import '@vandeurenglenn/lite-elements/tabs.js'
 import '@vandeurenglenn/lite-elements/icon.js'
+import '@vandeurenglenn/lite-elements/dropdown-menu.js'
 import icons from './icons.js'
 import Router from './routing.js'
 import type { CustomPages, CustomSelector } from './component-types.js'
@@ -70,6 +71,7 @@ export class BaikoShell extends LiteElement {
         margin: auto;
         border-radius: 30px;
         z-index: 100;
+        position: relative;
       }
       .custom-selected {
         border: unset; 
@@ -82,6 +84,20 @@ export class BaikoShell extends LiteElement {
         top: 0;
         margin: 5px;
         z-index: 1000;
+      }
+
+      .submenu-training {
+        position: absolute;
+        pointer-events: auto;
+        top: 88px;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.281);
+        background: var(--md-sys-color-surface);
+        width: 125px;
+        max-height: 0px;
+        overflow: hidden;
+        transition: max-height 0.26s ease-in-out;
+        z-index: 100;
       }
 
       @media (max-width: 600px) {
@@ -99,7 +115,8 @@ export class BaikoShell extends LiteElement {
           padding: 6px;
           z-index: 1000;
           transition: transform .5s ease-in-out;
-          transform: translateX(var(--togglemenu))
+          transform: translateX(var(--togglemenu));
+          overflow: visible;
         }
         custom-tabs::before {
           height: 40px;
@@ -174,6 +191,14 @@ export class BaikoShell extends LiteElement {
       menu.style.setProperty("--transformJS", `${menuLinkActive.offsetLeft}px`);
       menu.style.setProperty("--widthJS", `${menuLinkActive.offsetWidth}px`);
       menu.style.setProperty("--transformJStop", `0px`);
+      const submenuTraining = this.shadowRoot.querySelector('.submenu-training') as HTMLElement
+      if (Router.parseHash(location.hash).route === 'submenu-training') {
+        submenuTraining.style.setProperty("max-height", "500px")
+        const offset = menuLinkActive.offsetLeft - (submenuTraining.clientWidth - menuLinkActive.clientWidth) / 2
+        submenuTraining.style.setProperty("left", `${offset}px`);
+      } else {
+        submenuTraining.style.setProperty("max-height", "0px")
+      }
     }
   }
  
@@ -218,9 +243,14 @@ export class BaikoShell extends LiteElement {
         <custom-tabs attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
           <custom-tab route="home">Home</custom-tab>
           <custom-tab route="about">Over ons</custom-tab>
-          <custom-tab route="training">Aanbod</custom-tab>
+          <custom-tab route="submenu-training">Aanbod</custom-tab>
           <custom-tab route="breeding">Border Collie</custom-tab>
           <custom-tab route="contact">Contact</custom-tab>
+
+          <div class="submenu-training">
+            <custom-tab route="fitness">Fitness</custom-tab>
+            <custom-tab route="training">Training</custom-tab>
+          </div>
         </custom-tabs>
         <custom-pages attr-for-selected="route">
           <loading-view route="loading"> </loading-view>
