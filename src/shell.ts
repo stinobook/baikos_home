@@ -45,8 +45,6 @@ export class BaikoShell extends LiteElement {
       }
       custom-tabs {
         margin: 24px;
-      }
-      custom-selector {
         border-radius: 30px;
         height: 50px;
         background: var(--md-sys-color-surface);
@@ -54,12 +52,28 @@ export class BaikoShell extends LiteElement {
         box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.281);
         flex-direction: row;
         align-items: center;
-        padding: 5px;
-        align-items: center;
+        padding: 0 6px;
+      }
+      custom-tabs::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        transform: translateX(var(--transformJS)) translateY(var(--transformJStop));
+        width: var(--widthJS);
+        border-radius: 30px;
+        background: var(--md-sys-color-secondary-container);
+        transition: all 0.3s ease-in-out;
+        height: 50px;
+        z-index: 99;
       }
       custom-tab {
-        height: 100%;
+        margin: auto;
         border-radius: 30px;
+        z-index: 100;
+      }
+      .custom-selected {
+        border: unset; 
+        color: unset;
       }
 
       lang-element {
@@ -67,12 +81,54 @@ export class BaikoShell extends LiteElement {
         right: 0;
         top: 0;
         margin: 5px;
+        z-index: 1000;
       }
 
       @media (max-width: 600px) {
-        lang-element {
-          bottom: 0;
-          top: unset;
+        custom-pages {
+          margin-bottom: 50px;
+        }
+        custom-tabs {
+          flex-direction: column;
+          border-radius: 30px 30px 6px 30px;
+          position: fixed;
+          bottom: 6px;
+          right: 6px;
+          margin: 0;
+          height: auto;
+          padding: 6px;
+          z-index: 1000;
+          transition: transform .5s ease-in-out;
+          transform: translateX(var(--togglemenu))
+        }
+        custom-tabs::before {
+          height: 40px;
+          left: 6px;
+          top: 0;
+          border-radius: 24px;
+        }
+        custom-tab {
+          width: 100%;
+        }
+        label {
+          display: inline-block;
+          padding: 7px;
+          background: var(--md-sys-color-surface);
+          border-radius: 50%;
+          cursor: pointer;
+          z-index: 999;
+          position: fixed;
+          bottom: 6px;
+          right: 6px;
+        }
+        .bar {
+          display: block;
+          background: var(--md-sys-color-secondary-container);
+          width: 30px;
+          height: 3px;
+          border-radius: 5px;
+          margin: 5px auto;
+          transition: background-color .5s ease-in, transform .5s ease-in, width .5s ease-in;
         }
       }
     `
@@ -80,9 +136,10 @@ export class BaikoShell extends LiteElement {
 
   selectorSelected({ detail }: CustomEvent) {
     location.hash = Router.bang(detail)
+    this.toggleMenu()
   }
 
-  @query('custom-selector')
+  @query('custom-tabs')
   accessor selector: CustomSelector
 
   @query('custom-pages')
@@ -97,18 +154,39 @@ export class BaikoShell extends LiteElement {
   async connectedCallback() {
     this.router = new Router(this)
     this.shadowRoot.addEventListener('click', () => {
-      //this.getMenuPage()
+      this.getMenuPage()
     })
-    //this.getMenuPage()
+    this.getMenuPage()
+    screen.orientation.addEventListener("change", () => {
+      this.getMenuPage()
+    });
   }
 
   async getMenuPage() {
     let route = '[route=' + Router.parseHash(location.hash).route + ']'
-    const menu = this.shadowRoot.querySelector('.menu') as HTMLElement
+    const menu = this.shadowRoot.querySelector('custom-tabs') as HTMLElement
     const menuLinkActive = menu.querySelector(route) as HTMLAnchorElement
-    menu.style.setProperty("--transformJS", `${menuLinkActive.offsetLeft}px`);
+    if (menu.clientWidth < 250) {
+      menu.style.setProperty("--transformJStop", `${menuLinkActive.offsetTop}px`);
+      menu.style.setProperty("--widthJS", `${menuLinkActive.offsetWidth}px`);
+      menu.style.setProperty("--transformJS", `0px`);
+    } else {
+      menu.style.setProperty("--transformJS", `${menuLinkActive.offsetLeft}px`);
+      menu.style.setProperty("--widthJS", `${menuLinkActive.offsetWidth}px`);
+      menu.style.setProperty("--transformJStop", `0px`);
+    }
   }
  
+  toggleMenu() {
+    const menu = this.shadowRoot.querySelector('custom-tabs') as HTMLElement
+    let toggle = menu.style.getPropertyValue("--togglemenu")
+    if (toggle !== '150%') {
+      menu.style.setProperty("--togglemenu", `150%`);
+    } else {
+      menu.style.setProperty("--togglemenu", `0`);
+    }
+
+  }
 
   render() {
     return html`
@@ -132,14 +210,17 @@ export class BaikoShell extends LiteElement {
       <custom-theme loadFont="false"></custom-theme>
       <lang-element></lang-element>
       <div id="container">
-        <custom-tabs>
-          <custom-selector attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
-            <custom-tab route="home"><custom-icon>home</custom-icon>Home</custom-tab>
-            <custom-tab route="about">Over ons</custom-tab>
-            <custom-tab route="training">Aanbod</custom-tab>
-            <custom-tab route="breeding">Border Collie</custom-tab>
-            <custom-tab route="contact">Contact</custom-tab>
-          </custom-selector>
+        <label @click=${() => this.toggleMenu()}>
+          <span class="bar top"></span>
+          <span class="bar middle"></span>
+          <span class="bar bottom"></span>
+        </label>
+        <custom-tabs attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
+          <custom-tab route="home">Home</custom-tab>
+          <custom-tab route="about">Over ons</custom-tab>
+          <custom-tab route="training">Aanbod</custom-tab>
+          <custom-tab route="breeding">Border Collie</custom-tab>
+          <custom-tab route="contact">Contact</custom-tab>
         </custom-tabs>
         <custom-pages attr-for-selected="route">
           <loading-view route="loading"> </loading-view>
