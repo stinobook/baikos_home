@@ -102,7 +102,7 @@ export class BaikoShell extends LiteElement {
       }
       .submenuitem {
         opacity: 0;
-        transition: all 0.35s ease-in-out;
+        transition: transform 0.35s ease-in-out;
         transform: translateY(200%);
         width: 0;
         height: 0;
@@ -169,6 +169,7 @@ export class BaikoShell extends LiteElement {
 
   selectorSelected({ detail }: CustomEvent) {
     location.hash = Router.bang(detail)
+    this.getMenuPage(detail)
     this.toggleMenu()
   }
 
@@ -180,6 +181,8 @@ export class BaikoShell extends LiteElement {
 
   @property()
   accessor submenuName
+  @property()
+  accessor submenuNameValue
 
   async select(selected) {
     this.selector.select(selected)
@@ -188,17 +191,13 @@ export class BaikoShell extends LiteElement {
 
   async connectedCallback() {
     this.router = new Router(this)
-    this.shadowRoot.addEventListener('click', () => {
-      this.getMenuPage()
-    })
-    this.getMenuPage()
+    this.getMenuPage(Router.parseHash(location.hash).route)
     screen.orientation.addEventListener("change", () => {
-      this.getMenuPage()
+      this.getMenuPage(Router.parseHash(location.hash).route)
     });
   }
 
-  async getMenuPage() {
-    let route = Router.parseHash(location.hash).route
+  async getMenuPage(route) {
     let routeselector = '[route=' + route + ']'
     const menu = this.shadowRoot.querySelector('custom-tabs') as HTMLElement
     let menuLinkActive = menu.querySelector(routeselector) as HTMLElement
@@ -212,23 +211,26 @@ export class BaikoShell extends LiteElement {
       menu.style.setProperty("--transformJStop", `0px`);
     }
     let submenu = menuLinkActive.getAttribute('submenu')
-    let submenuReturn = this.shadowRoot.querySelector('[submenuactive="1"')
-    console.log(submenuReturn)
-    if (submenu === 'main') {}
-    else if (submenuReturn) {
-      this.shadowRoot.querySelectorAll('[submenu="main"]').forEach((item) => {
+    let submenuReturn = this.shadowRoot.querySelector('[submenuactive="1"]')
+    if (submenu === 'main') {
+    } else if (submenuReturn) {
+      this.shadowRoot.querySelectorAll('.is-inactive').forEach((item) => {
         item.classList.remove('is-inactive')
       })
-      this.shadowRoot.querySelectorAll('.submenuitem').forEach((item) => {
+      this.shadowRoot.querySelectorAll('.is-active').forEach((item) => {
         item.classList.remove('is-active')
       })
-      submenuReturn.setAttribute('submenuactive', '0')
-      submenuReturn.innerHTML = this.submenuName
+      this.submenuName.setAttribute('submenuactive', '0')
+      this.submenuName.innerHTML = this.submenuNameValue
     } else {
-      menuLinkActive.setAttribute('submenuactive', '1')
-      this.submenuName = menuLinkActive.innerHTML
-      menuLinkActive.innerHTML = 'Terug'
+      this.submenuName = this.shadowRoot.querySelector('[submenu='+ submenu + '][submenuactive="0"')
+      this.submenuName.setAttribute('submenuactive', '1')
+      this.submenuNameValue = this.submenuName.innerHTML
+      this.submenuName.innerHTML = 'Terug'
       this.shadowRoot.querySelectorAll('[submenu="main"]').forEach((item) => {
+        item.classList.add('is-inactive')
+      })
+      this.shadowRoot.querySelectorAll('[route="submenu"][submenuactive="0"').forEach((item) => {
         item.classList.add('is-inactive')
       })
       this.shadowRoot.querySelectorAll('[submenu='+ submenu + ']').forEach((item) => {
@@ -281,8 +283,13 @@ export class BaikoShell extends LiteElement {
           <custom-tab route="about" submenu="main">Over ons</custom-tab>
           <custom-tab route="submenu" submenu="offers" submenuactive="0" class="submenu">Aanbod</custom-tab>
           <custom-tab route="fitness" submenu="offers" class="submenuitem">Fitness</custom-tab>
+          <custom-tab route="bodybalance" submenu="offers" class="submenuitem">Body & Balance</custom-tab>
+          <custom-tab route="massage" submenu="offers" class="submenuitem">Massage</custom-tab>
           <custom-tab route="training" submenu="offers" class="submenuitem">Training</custom-tab>
-          <custom-tab route="breeding" submenu="main">Border Collie</custom-tab>
+          <custom-tab route="submenu" submenu="breeding" submenuactive="0" class="submenu">Border Collie</custom-tab>
+          <custom-tab route="vision" submenu="breeding" class="submenuitem">Visie</custom-tab>
+          <custom-tab route="studs" submenu="breeding" class="submenuitem">Reuen</custom-tab>
+          <custom-tab route="bitches" submenu="breeding" class="submenuitem">Teven</custom-tab>
           <custom-tab route="contact" submenu="main">Contact</custom-tab>
         </custom-tabs>
         <custom-pages attr-for-selected="route">
@@ -290,7 +297,6 @@ export class BaikoShell extends LiteElement {
           <home-view route="home"> </home-view>
           <about-view route="about"> </about-view>
           <training-view route="training"> </training-view>
-          <breeding-view route="breeding"> </breeding-view>
           <contact-view route="contact"> </contact-view>
         </custom-pages>
       </div>
