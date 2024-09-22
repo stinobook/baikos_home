@@ -1,12 +1,13 @@
-import { html, css, LiteElement, query, property } from '@vandeurenglenn/lite'
+import { html, css, LiteElement, query, property, queryAll } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 import '@vandeurenglenn/lite-elements/icon-set.js'
 import '@vandeurenglenn/lite-elements/theme.js'
 import '@vandeurenglenn/lite-elements/selector.js'
 import '@vandeurenglenn/lite-elements/pages.js'
-import '@vandeurenglenn/lite-elements/tabs.js'
 import '@vandeurenglenn/lite-elements/icon.js'
-import '@vandeurenglenn/lite-elements/dropdown-menu.js'
+import './ui/header.js'
+import './ui/drawer.js'
+import './custom-hover-menu.js'
 import icons from './icons.js'
 import Router from './routing.js'
 import type { CustomPages, CustomSelector } from './component-types.js'
@@ -44,55 +45,12 @@ export class BaikoShell extends LiteElement {
         height: 100vh;
         flex-direction: column;
       }
-      custom-tabs {
-        margin: 24px;
-        border-radius: 30px;
-        height: 50px;
-        background: var(--md-sys-color-surface);
-        color: var(--md-sys-color-on-surface);
-        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.281);
-        flex-direction: row;
-        align-items: center;
-        padding: 0 6px;
-        overflow: hidden;
-        transition: all .5s ease-in-out;
+      header-element {
+        max-width: fit-content;
       }
-      custom-tabs::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        transform: translateX(var(--transformJS)) translateY(var(--transformJStop));
-        width: var(--widthJS);
-        border-radius: 30px;
-        background: var(--md-sys-color-secondary-container);
-        transition: all 0.3s ease-in-out;
-        height: 50px;
-        z-index: 99;
+      drawer-element custom-hover-menu {
+        align-items: flex-start;
       }
-      custom-tab {
-        margin: auto;
-        border-radius: 30px;
-        z-index: 100;
-        position: relative;
-        opacity: 1;
-        transform: translateY(0%);
-        width: auto;
-        height: auto;
-        padding: 0 12px;
-        transition: all 0.35s ease-in-out;
-        &.is-inactive {
-          opacity: 0;
-          transform: translateY(-200%);
-          width: 0;
-          height: 0;
-          padding: 0;
-        }
-      }
-      .custom-selected {
-        border: unset; 
-        color: unset;
-      }
-
       lang-element {
         position: fixed;
         right: 0;
@@ -100,68 +58,16 @@ export class BaikoShell extends LiteElement {
         margin: 5px;
         z-index: 1000;
       }
-      .submenuitem {
-        opacity: 0;
-        transition: transform 0.35s ease-in-out;
-        transform: translateY(200%);
-        width: 0;
-        height: 0;
-        padding: 0;
-        &.is-active {
-          width: auto;
-          height: auto;
-          padding: 0 12px;
-          opacity: 1;
-          transform: translateY(0%);
+      @media (max-width: 1280px) {
+        header-element {
+          min-width: 100%;
         }
       }
 
-      @media (max-width: 600px) {
-        custom-pages {
-          margin-bottom: 50px;
-        }
-        custom-tabs {
-          flex-direction: column;
-          border-radius: 30px 30px 6px 30px;
-          position: fixed;
-          bottom: 6px;
-          right: 6px;
-          margin: 0;
-          height: auto;
-          padding: 6px;
-          z-index: 1000;
-          transition: transform .5s ease-in-out;
-          transform: translateX(var(--togglemenu));
-          overflow: visible;
-        }
-        custom-tabs::before {
-          height: 40px;
-          left: 6px;
-          top: 0;
-          border-radius: 24px;
-        }
-        custom-tab {
-          width: 100%;
-        }
-        label {
-          display: inline-block;
-          padding: 7px;
-          background: var(--md-sys-color-surface);
-          border-radius: 50%;
-          cursor: pointer;
-          z-index: 999;
-          position: fixed;
-          bottom: 6px;
-          right: 6px;
-        }
-        .bar {
-          display: block;
-          background: var(--md-sys-color-secondary-container);
-          width: 30px;
-          height: 3px;
-          border-radius: 5px;
-          margin: 5px auto;
-          transition: background-color .5s ease-in, transform .5s ease-in, width .5s ease-in;
+      @media (min-width: 1280px) {
+        drawer-element {
+          opacity: 0;
+          pointer-events: none;
         }
       }
     `
@@ -169,87 +75,52 @@ export class BaikoShell extends LiteElement {
 
   selectorSelected({ detail }: CustomEvent) {
     location.hash = Router.bang(detail)
-    this.getMenuPage(detail)
-    this.toggleMenu()
   }
-
-  @query('custom-tabs')
-  accessor selector: CustomSelector
-
   @query('custom-pages')
   accessor pages: CustomPages
-
-  @property()
-  accessor submenuName
-  @property()
-  accessor submenuNameValue
+  @query('drawer-element')
+  accessor drawer
+  @queryAll('custom-hover-menu')
+  accessor customHoverMenus
+  @queryAll('custom-hover-menu-item')
+  accessor customHoverMenuItems
 
   async select(selected) {
-    this.selector.select(selected)
+    await this.pages.rendered
     this.pages.select(selected)
+    for (const item of this.customHoverMenus) {
+      if (item.classList.contains('custom-selected')) item.classList.remove('custom-selected')
+      const menuItem = item.shadowRoot.querySelector('custom-hover-menu-item')
+      const _selected = item.getAttribute('route') ?? item.getAttribute('name')
+      if (menuItem.classList.contains('custom-selected') && _selected !== selected)
+        menuItem.classList.remove('custom-selected')
+    }
+    for (const item of this.customHoverMenuItems) {
+      const _selected = item.getAttribute('route') ?? item.getAttribute('name')
+      if (item.classList.contains('custom-selected') && _selected !== selected) item.classList.remove('custom-selected')
+
+      if (_selected === selected) {
+        item.classList.add('custom-selected')
+        if (item.getAttribute('slot') === 'sub-menu') {
+          item.parentElement.classList.add('custom-selected')
+          item && this.drawer.open === true ? this.drawer.open = false : '' 
+        } else {
+          this.drawer.open === true ? this.drawer.open = false : '' 
+        }
+      }
+    }
+  }
+
+  _drawerOpen = ({ detail }) => {
+    console.log(detail)
+
+    if (detail) this.drawer.open = true
+    else this.drawer.open = false
   }
 
   async connectedCallback() {
     this.router = new Router(this)
-    this.getMenuPage(Router.parseHash(location.hash).route)
-    screen.orientation.addEventListener("change", () => {
-      this.getMenuPage(Router.parseHash(location.hash).route)
-    });
-  }
-
-  async getMenuPage(route) {
-    let routeselector = '[route=' + route + ']'
-    const menu = this.shadowRoot.querySelector('custom-tabs') as HTMLElement
-    let menuLinkActive = menu.querySelector(routeselector) as HTMLElement
-    let submenu = menuLinkActive.getAttribute('submenu')
-    let submenuReturn = this.shadowRoot.querySelector('[submenuactive="1"]') as HTMLElement
-    if (submenu === 'main') {
-    } else if (submenuReturn) {
-      this.shadowRoot.querySelectorAll('.is-inactive').forEach((item) => {
-        item.classList.remove('is-inactive')
-      })
-      this.shadowRoot.querySelectorAll('.is-active').forEach((item) => {
-        item.classList.remove('is-active')
-      })
-      this.submenuName.setAttribute('submenuactive', '0')
-      this.submenuName.innerHTML = this.submenuNameValue
-      menuLinkActive = submenuReturn
-    } else {
-      this.submenuName = this.shadowRoot.querySelector('[submenu='+ submenu + '][submenuactive="0"')
-      this.submenuName.setAttribute('submenuactive', '1')
-      this.submenuNameValue = this.submenuName.innerHTML
-      this.submenuName.innerHTML = 'Terug'
-      menuLinkActive = this.submenuName
-      this.shadowRoot.querySelectorAll('[submenu="main"]').forEach((item) => {
-        item.classList.add('is-inactive')
-      })
-      this.shadowRoot.querySelectorAll('[submenuactive="0"').forEach((item) => {
-        item.classList.add('is-inactive')
-      })
-      this.shadowRoot.querySelectorAll('[submenu='+ submenu + ']').forEach((item) => {
-        item.classList.add('is-active')
-      })
-    }
-    if (menu.clientWidth < 250) {
-      menu.style.setProperty("--transformJS", `0px`);
-      menu.style.setProperty("--transformJStop", `${menuLinkActive.offsetTop}px`);
-      menu.style.setProperty("--widthJS", `${menuLinkActive.offsetWidth}px`);
-    } else {
-      menu.style.setProperty("--transformJStop", `0px`);
-      menu.style.setProperty("--widthJS", `${menuLinkActive.offsetWidth}px`);
-      menu.style.setProperty("--transformJS", `${menuLinkActive.offsetLeft}px`);
-    }
-  }
- 
-  toggleMenu() {
-    const menu = this.shadowRoot.querySelector('custom-tabs') as HTMLElement
-    let toggle = menu.style.getPropertyValue("--togglemenu")
-    if (toggle !== '150%') {
-      menu.style.setProperty("--togglemenu", `150%`);
-    } else {
-      menu.style.setProperty("--togglemenu", `0`);
-    }
-
+    document.addEventListener('drawer-open', this._drawerOpen)
   }
 
   render() {
@@ -271,28 +142,45 @@ export class BaikoShell extends LiteElement {
       <!-- just cleaner -->
       ${icons}
       <!-- see https://vandeurenglenn.github.io/custom-elements/ -->
-      <custom-theme loadFont="false"></custom-theme>
+      <custom-theme .loadFont=${false}></custom-theme>
       <lang-element></lang-element>
       <div id="container">
-        <label @click=${() => this.toggleMenu()}>
-          <span class="bar top"></span>
-          <span class="bar middle"></span>
-          <span class="bar bottom"></span>
-        </label>
-        <custom-tabs attr-for-selected="route" @selected=${this.selectorSelected.bind(this)}>
-          <custom-tab route="home" submenu="main">Home</custom-tab>
-          <custom-tab route="about" submenu="main">Over ons</custom-tab>
-          <custom-tab route="submenu1" submenu="offers" submenuactive="0" class="submenu">Aanbod</custom-tab>
-          <custom-tab route="fitness" submenu="offers" class="submenuitem">Fitness</custom-tab>
-          <custom-tab route="bodybalance" submenu="offers" class="submenuitem">Body & Balance</custom-tab>
-          <custom-tab route="massage" submenu="offers" class="submenuitem">Massage</custom-tab>
-          <custom-tab route="training" submenu="offers" class="submenuitem">Training</custom-tab>
-          <custom-tab route="submenu2" submenu="breeding" submenuactive="0" class="submenu">Border Collie</custom-tab>
-          <custom-tab route="vision" submenu="breeding" class="submenuitem">Visie</custom-tab>
-          <custom-tab route="studs" submenu="breeding" class="submenuitem">Reuen</custom-tab>
-          <custom-tab route="bitches" submenu="breeding" class="submenuitem">Teven</custom-tab>
-          <custom-tab route="contact" submenu="main">Contact</custom-tab>
-        </custom-tabs>
+        <header-element>
+          <flex-row slot="nav-bar">
+            <custom-hover-menu-item name="Home" route="home"></custom-hover-menu-item>
+            <custom-hover-menu-item name="Over ons" route="about"></custom-hover-menu-item>
+            <custom-hover-menu name="Aanbod">
+              <custom-hover-menu-item slot="sub-menu" name="Fitness" route="fitness"></custom-hover-menu-item>
+              <custom-hover-menu-item slot="sub-menu" name="Body & Balance" route="bodybalance"></custom-hover-menu-item>
+              <custom-hover-menu-item slot="sub-menu" name="Massage" route="massage"></custom-hover-menu-item>
+              <custom-hover-menu-item slot="sub-menu" name="Training" route="training"></custom-hover-menu-item>
+            </custom-hover-menu>
+            <custom-hover-menu name="Border Collie">
+              <custom-hover-menu-item slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
+              <custom-hover-menu-item slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
+              <custom-hover-menu-item slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
+            </custom-hover-menu>
+            <custom-hover-menu-item name="Contact" route="contact"></custom-hover-menu-item>
+          </flex-row>
+        </header-element>
+        <drawer-element>
+        <custom-hover-menu-item type="drawer" name="Home" route="home"></custom-hover-menu-item>
+        <custom-hover-menu-item type="drawer" name="Over ons" route="about"></custom-hover-menu-item>
+        <custom-hover-menu name="Aanbod">
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Fitness" route="fitness"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Body & Balance" route="bodybalance"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Massage" route="massage"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Training" route="training"></custom-hover-menu-item>
+        </custom-hover-menu>
+        <custom-hover-menu name="Border Collie">
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
+        </custom-hover-menu>
+        <custom-hover-menu-item type="drawer" name="Contact" route="contact"></custom-hover-menu-item>
+        </drawer-element>
+
+
         <custom-pages attr-for-selected="route">
           <loading-view route="loading"> </loading-view>
           <home-view route="home"> </home-view>
@@ -300,7 +188,13 @@ export class BaikoShell extends LiteElement {
           <fitness-view route="fitness"> </fitness-view>
           <bodybalance-view route="bodybalance"> </bodybalance-view>
           <massage-view route="massage"> </massage-view>
+          <fitness-view route="fitness"> </fitness-view>
+          <bodybalance-view route="bodybalance"> </bodybalance-view>
+          <massage-view route="massage"> </massage-view>
           <training-view route="training"> </training-view>
+          <vision-view route="vision"> </vision-view>
+          <studs-view route="studs"> </studs-view>
+          <bitches-view route="bitches"> </bitches-view>
           <vision-view route="vision"> </vision-view>
           <studs-view route="studs"> </studs-view>
           <bitches-view route="bitches"> </bitches-view>

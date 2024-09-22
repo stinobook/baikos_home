@@ -7,11 +7,11 @@ export default class Router {
     this.host = host
 
     globalThis.onhashchange = this.#onhashchange
-    console.log(location.hash)
 
     if (!location.hash) {
       location.hash = Router.bang('home')
-    } else this.#onhashchange()
+    }
+    this.#onhashchange()
   }
 
   static bang(route: string) {
@@ -42,9 +42,10 @@ export default class Router {
 
   #onhashchange = async () => {
     const { route, params } = Router.parseHash(location.hash)
-    await this.host.pages.updateComplete
-    await this.host.selector.updateComplete
     this.host.select(route)
-    if (!customElements.get(`./${route}.js`)) await import(`./${route}.js`)
+    if (!customElements.get(`./${route}-view`)) await import(`./${route}.js`)
+    const selected = this.host.pages.querySelector('.custom-selected')
+    this.host.selected = selected
+    if (Object.keys(params).length > 0) selected.params = params
   }
 }

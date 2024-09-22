@@ -9,7 +9,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["node", "lit"]
+    "types": ["node", "lit", "@vandeurenglenn/lite", "@vandeurenglenn/lite-elements/elements"]
   },
   "include": ["src"]
 }
