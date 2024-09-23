@@ -56,6 +56,13 @@ export class CustomHoverMenu extends LiteElement {
         background-color: var(--md-sys-color-secondary-container);
         color: var(--md-sys-color-on-secondary-container);
       }
+      :host([type='drawer']) .sub-menu {
+        background-color: var(--md-sys-color-surface-container-highest);
+        color: var(--md-sys-color-on-secondary-container);
+        box-shadow: unset;
+        border-radius: 30px;
+        margin-top: 12px;
+      }
 
       :host([type='drawer']:hover) .sub-menu-container {
         position: relative;

@@ -48,6 +48,18 @@ export class BaikoShell extends LiteElement {
       header-element {
         max-width: fit-content;
       }
+      .logo {
+        background: url('./assets/icons/icon-32x32.png') no-repeat;
+        cursor: pointer;
+      }
+      .logo h1 {
+        font-size: 20px;
+        white-space: nowrap;
+        min-width: fit-content;
+        margin: 0 0 0 44px;
+        height: 32px;
+        cursor: pointer;
+      }
       drawer-element custom-hover-menu {
         align-items: flex-start;
       }
@@ -164,15 +176,16 @@ export class BaikoShell extends LiteElement {
           </flex-row>
         </header-element>
         <drawer-element>
+        <div slot="logoname" class="logo" @click=${() => location.hash = '!/home'}><h1>Baiko's Home</h1></div>
         <custom-hover-menu-item type="drawer" name="Home" route="home"></custom-hover-menu-item>
         <custom-hover-menu-item type="drawer" name="Over ons" route="about"></custom-hover-menu-item>
-        <custom-hover-menu name="Aanbod">
+        <custom-hover-menu type="drawer" name="Aanbod">
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Fitness" route="fitness"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Body & Balance" route="bodybalance"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Massage" route="massage"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Training" route="training"></custom-hover-menu-item>
         </custom-hover-menu>
-        <custom-hover-menu name="Border Collie">
+        <custom-hover-menu type="drawer" name="Border Collie">
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
