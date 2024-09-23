@@ -15,5 +15,7 @@
     ],
     "theme_color": "#9c4143",
     "background_color": "#9c4143",
-    "display": "standalone"
+    "display": "standalone",
+    "scope": "/baikos_home",
+    "start_url": "/"
 }

@@ -49,7 +49,7 @@ export class BaikoShell extends LiteElement {
         max-width: fit-content;
       }
       .logo {
-        background: url('./img/full.png') no-repeat;
+        background: url("./img/full.png") no-repeat;
         cursor: pointer;
       }
       .logo h1 {
@@ -84,6 +84,9 @@ export class BaikoShell extends LiteElement {
         .logo {
           opacity: 0;
           width: 0px;
+          position:fixed;
+          left:-100px;
+          top:-100px;
         }
       }
     `
@@ -166,12 +169,7 @@ export class BaikoShell extends LiteElement {
           <flex-row slot="nav-bar">
             <custom-hover-menu-item name="Home" route="home"></custom-hover-menu-item>
             <custom-hover-menu-item name="Over ons" route="about"></custom-hover-menu-item>
-            <custom-hover-menu name="Aanbod">
-              <custom-hover-menu-item slot="sub-menu" name="Fitness" route="fitness"></custom-hover-menu-item>
-              <custom-hover-menu-item slot="sub-menu" name="Body & Balance" route="bodybalance"></custom-hover-menu-item>
-              <custom-hover-menu-item slot="sub-menu" name="Massage" route="massage"></custom-hover-menu-item>
-              <custom-hover-menu-item slot="sub-menu" name="Training" route="training"></custom-hover-menu-item>
-            </custom-hover-menu>
+            <custom-hover-menu-item name="Aanbod" route="services"></custom-hover-menu-item>
             <custom-hover-menu name="Border Collie">
               <custom-hover-menu-item slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
               <custom-hover-menu-item slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
@@ -184,12 +182,7 @@ export class BaikoShell extends LiteElement {
         <div slot="logoname" class="logo" @click=${() => location.hash = '!/home'}><h1>Baiko's Home</h1></div>
         <custom-hover-menu-item type="drawer" name="Home" route="home"></custom-hover-menu-item>
         <custom-hover-menu-item type="drawer" name="Over ons" route="about"></custom-hover-menu-item>
-        <custom-hover-menu type="drawer" name="Aanbod">
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Fitness" route="fitness"></custom-hover-menu-item>
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Body & Balance" route="bodybalance"></custom-hover-menu-item>
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Massage" route="massage"></custom-hover-menu-item>
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Training" route="training"></custom-hover-menu-item>
-        </custom-hover-menu>
+        <custom-hover-menu-item type="drawer" name="Aanbod" route="services"></custom-hover-menu-item>
         <custom-hover-menu type="drawer" name="Border Collie">
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
@@ -203,16 +196,7 @@ export class BaikoShell extends LiteElement {
           <loading-view route="loading"> </loading-view>
           <home-view route="home"> </home-view>
           <about-view route="about"> </about-view>
-          <fitness-view route="fitness"> </fitness-view>
-          <bodybalance-view route="bodybalance"> </bodybalance-view>
-          <massage-view route="massage"> </massage-view>
-          <fitness-view route="fitness"> </fitness-view>
-          <bodybalance-view route="bodybalance"> </bodybalance-view>
-          <massage-view route="massage"> </massage-view>
-          <training-view route="training"> </training-view>
-          <vision-view route="vision"> </vision-view>
-          <studs-view route="studs"> </studs-view>
-          <bitches-view route="bitches"> </bitches-view>
+          <services-view route="services"> </services-view>
           <vision-view route="vision"> </vision-view>
           <studs-view route="studs"> </studs-view>
           <bitches-view route="bitches"> </bitches-view>
