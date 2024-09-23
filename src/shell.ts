@@ -49,7 +49,7 @@ export class BaikoShell extends LiteElement {
         max-width: fit-content;
       }
       .logo {
-        background: url('./assets/icons/icon-32x32.png') no-repeat;
+        background: url('./img/full.png') no-repeat;
         cursor: pointer;
       }
       .logo h1 {
@@ -80,6 +80,10 @@ export class BaikoShell extends LiteElement {
         drawer-element {
           opacity: 0;
           pointer-events: none;
+        }
+        .logo {
+          opacity: 0;
+          width: 0px;
         }
       }
     `
@@ -158,6 +162,7 @@ export class BaikoShell extends LiteElement {
       <lang-element></lang-element>
       <div id="container">
         <header-element>
+          <div class="logo" @click=${() => location.hash = '!/home'} ><h1>Baiko's Home</h1></div>
           <flex-row slot="nav-bar">
             <custom-hover-menu-item name="Home" route="home"></custom-hover-menu-item>
             <custom-hover-menu-item name="Over ons" route="about"></custom-hover-menu-item>
