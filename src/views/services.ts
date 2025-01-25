@@ -62,7 +62,7 @@ export class ServicesView extends LiteElement {
             `}
       ></post-element>
       <post-element
-      image="./img/full.png"
+      image="./img/services/fitness.webp"
       headline="Fitness"
       .content=${html`
                 <p>Tijdens de fitness fixeren we ons om bepaalde spiergroepen aan te sterken door oefeningen te herhalen. Fitness kan m’n ook doen als revalidatie na een operatie, dit mits verslag van de dierenarts.<br>
@@ -71,7 +71,7 @@ export class ServicesView extends LiteElement {
             `}
       ></post-element>
       <post-element
-      image="./img/full.png"
+      image="./img/services/bodybalance.webp"
       headline="Body & Balance"
       .content=${html`
                 <p>Tijdens Body&Balance worden verschillende toestellen en ondergronden klaargezet zodat de hond hier gewoon kan aan worden en zich bewust leert worden van zijn poten en eigen lichaam. <br>
@@ -89,7 +89,7 @@ Voor onze sporthonden kan dit ook heel belangrijk zijn, hoe beter bewust ze zijn
             `}
       ></post-element>
       <post-element
-      image="./img/full.png"
+      image="./img/services/loopband.webp"
       headline="Loopband"
       .content=${html`
                 <p>De loopband kan enorm handig zijn tijdens de donkere en/of regenachtige dagen om de honden toch voldoende beweging te geven. Het verschil met een gewone wandeling en de loopband is dat de gangen van de hond beter bekeken kunnen worden en dat de hond zich ook meer moet concentreren op zijn stappen. Een nadeel ervan is dat de gang deels beïnvloed wordt door het bewegende vlak.

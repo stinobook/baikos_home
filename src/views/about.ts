@@ -52,7 +52,7 @@ export class AboutView extends LiteElement {
     return html`
     <flex-container>
       <post-element
-      image="./img/about1.jpg"
+      image="./img/about/about1.webp"
       headline="Madeline,"
       .content=${html`
                 <p>
@@ -63,7 +63,7 @@ export class AboutView extends LiteElement {
             `}
       ></post-element>
       <post-element
-      image="./img/about1.jpg"
+      image="./img/about/about2.webp"
       .content=${html`
                 <p>Van 2013-2016 volgde ik de opleiding agro – en biotechnologie met de afstudeerrichting dierenzorg</p>
                 <p>2018, het eerste Baiko’s Home nestje werd geboren. Koda schonk het leven aan 5 knappe pups, het 6de pupje heeft het jammer genoeg niet gehaald. Van dit nestje is Roylu bij ons gebleven. Het eerst volgende nestje zou, indien alles goed verloopt, in 2025 plaatsvinden.
@@ -73,7 +73,7 @@ export class AboutView extends LiteElement {
             `}
       ></post-element>
       <post-element
-      image="./img/about1.jpg"
+      image="./img/about/about3.webp"
       .content=${html`
                 <p>Ons gezin bestaat momenteel uit 4 border collies (Koda, Roylu, Siyala en Xorua), 1 mechelaar (Riley) en 1 franse Bulldog (Blue). Naast verschillende honden leeft er ook een kat bij ons en verschillende buitendiertjes. Hier wil ik ook nog Bailey vernoemen, aangezien met haar alles begon. Bailey hebben we op 12,5 jarige leeftijd moeten laten inslapen.</p>
             `}
