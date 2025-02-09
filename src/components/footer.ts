@@ -12,9 +12,8 @@ export class FooterElement extends LiteElement {
         max-width: 1280px;
         align-self: center;
         width: 100%;
-        min-height: fit-content;
+        height: auto;
         margin: 6px;
-        overflow: hidden;
         justify-content: flex-end;
         display: flex;
       }
