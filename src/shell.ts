@@ -14,6 +14,7 @@ import type { CustomPages, CustomSelector } from './component-types.js'
 // import default page
 import './views/loading.js'
 import './components/lang.js'
+import './components/footer.js'
 
 @customElement('baiko-shell')
 export class BaikoShell extends LiteElement {
@@ -21,10 +22,13 @@ export class BaikoShell extends LiteElement {
   static styles = [
     css`
       :host {
+        background: linear-gradient(135deg, 
+            var(--md-sys-color-primary), 
+            color-mix(in srgb, var(--md-sys-color-primary) 50%, black 40%)
+          );
         display: flex;
         flex-direction: row;
         box-sizing: border-box;
-        background: var(--md-sys-color-primary);
         color: var(--md-sys-color-on-primary);
       }
       ::-webkit-scrollbar {
@@ -47,6 +51,9 @@ export class BaikoShell extends LiteElement {
       }
       header-element {
         max-width: fit-content;
+      }
+      header-element flex-row {
+        height: unset !important;
       }
       .logo {
         background: url("./img/full.png") no-repeat;
@@ -144,27 +151,27 @@ export class BaikoShell extends LiteElement {
 
   render() {
     return html`
-      <style>
-      :host {
-        display: block;
-        inset: 0;
-        position: relative;
-        height: 100%;
+    <style>
+    :host {
+      display: block;
+      inset: 0;
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+      custom-pages {
         width: 100%;
+        height: 100%;
+        display: flex;
       }
-        custom-pages {
-          width: 100%;
-          height: 100%;
-          display: flex;
-        }
-      </style>
+    </style>
       <!-- just cleaner -->
       ${icons}
       <!-- see https://vandeurenglenn.github.io/custom-elements/ -->
       <custom-theme .loadFont=${false}></custom-theme>
       <lang-element></lang-element>
       <div id="container">
-        <header-element>
+      <header-element>
           <div class="logo" @click=${() => location.hash = '!/home'} ><h1>Baiko's Home</h1></div>
           <flex-row slot="nav-bar">
             <custom-hover-menu-item name="Home" route="home"></custom-hover-menu-item>
@@ -190,17 +197,15 @@ export class BaikoShell extends LiteElement {
         </custom-hover-menu>
         <custom-hover-menu-item type="drawer" name="Contact" route="contact"></custom-hover-menu-item>
         </drawer-element>
-
-
         <custom-pages attr-for-selected="route">
-          <loading-view route="loading"> </loading-view>
-          <home-view route="home"> </home-view>
-          <about-view route="about"> </about-view>
-          <services-view route="services"> </services-view>
-          <vision-view route="vision"> </vision-view>
-          <studs-view route="studs"> </studs-view>
-          <bitches-view route="bitches"> </bitches-view>
-          <contact-view route="contact"> </contact-view>
+            <loading-view route="loading"> </loading-view>
+            <home-view route="home"> </home-view>
+            <about-view route="about"> </about-view>
+            <services-view route="services"> </services-view>
+            <vision-view route="vision"> </vision-view>
+            <studs-view route="studs"> </studs-view>
+            <bitches-view route="bitches"> </bitches-view>
+            <contact-view route="contact"> </contact-view>
         </custom-pages>
       </div>
     `

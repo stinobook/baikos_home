@@ -1,6 +1,5 @@
 import { LiteElement, html, css, customElement, property } from '@vandeurenglenn/lite'
 import './custom-hover-menu-item.js'
-import Router from './routing.js'
 
 @customElement('custom-hover-menu')
 export class CustomHoverMenu extends LiteElement {

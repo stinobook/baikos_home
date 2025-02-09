@@ -1,12 +1,14 @@
 import { html, css, LiteElement, query } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 import '@vandeurenglenn/flex-elements/container.js'
+import '../components/footer.js'
 
 @customElement('home-view')
 export class HomeView extends LiteElement {
   static styles = [
     css`
       :host {
+        width: 100%;
       }
       ::-webkit-scrollbar {
         width: 8px;
@@ -23,12 +25,18 @@ export class HomeView extends LiteElement {
         margin: 0 auto 24px;
         object-fit:contain;
       }
+      flex-container {
+        margin: 0 auto;
+      }
     `
   ]
 
   render() {
     return html`
+    <flex-container direction="row">
     <img src="/img/full.png" />
+    <footer-element></footer-element>
+    </flex-container>
     `
   }
 }

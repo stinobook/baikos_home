@@ -1,6 +1,7 @@
 import { html, css, LiteElement, query } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
+import '../components/footer.js'
 
 @customElement('services-view')
 export class ServicesView extends LiteElement {
@@ -9,6 +10,7 @@ export class ServicesView extends LiteElement {
       :host {
         overflow-y: auto;
         padding-bottom: 12px;
+        flex-direction: column;
       }
       ::-webkit-scrollbar {
         width: 8px;
@@ -97,6 +99,7 @@ Voor onze sporthonden kan dit ook heel belangrijk zijn, hoe beter bewust ze zijn
             `}
       ></post-element>
     </flex-container>
+    <footer-element></footer-element>
     `
   }
 }

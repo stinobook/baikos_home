@@ -1,6 +1,7 @@
 import { html, css, LiteElement, query } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
+import '../components/footer.js'
 
 @customElement('about-view')
 export class AboutView extends LiteElement {
@@ -9,6 +10,7 @@ export class AboutView extends LiteElement {
       :host {
         overflow-y: auto;
         padding-bottom: 12px;
+        flex-direction: column;
       }
       ::-webkit-scrollbar {
         width: 8px;
@@ -93,7 +95,8 @@ export class AboutView extends LiteElement {
                 </table>
             `}
       ></post-element>
-    </flex-container>
+      </flex-container>
+      <footer-element></footer-element>
     `
   }
 }
