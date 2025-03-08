@@ -5,6 +5,9 @@ import { customElement } from 'lit/decorators.js'
 export class LangElement extends LiteElement {
   static styles = [
     css`
+    :host {
+        visibility: hidden;
+    }
     `
   ]
 

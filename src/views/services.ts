@@ -57,10 +57,21 @@ export class ServicesView extends LiteElement {
       image="./img/full.png"
       headline="Aanbod"
       .content=${html`
-                <p>Onder de verschillende secties kan je specifiek kiezen tussen Fitness, Body&Balance, loopbandtraining en massage.<br>
-                  We hanteren één en dezelfde prijs per half uur voor alle onderdelen. De onderdelen kunnen ook gecombineerd worden tijdens een sessie
-                  €30/30 min onder begeleiding. De Ruimte kan ook zelfstandig afgehuurd worden, op voorwaarde dat er al minstens één sessie onder begeleiding heeft plaatsgevonden. De ruimte afhuren kost €12/30min. 
+                <p>Onder de verschillende secties kan je specifiek kiezen tussen Fitness, Body&Balance, loopbandtraining en massage.
+                  De praktijkruimte kan ook zelfstandig afgehuurd worden, op voorwaarde dat er al minstens één sessie onder begeleiding heeft plaatsgevonden.
                 </p>
+                <h3>Tarieven</h3>
+                <table>
+                  <tr><td>Fitness</td><td>€30/30min</td></tr>
+                  <tr><td>Body&Balance</td><td>€30/30min</td></tr>
+                  <tr><td>Loopbandtraining</td><td>€30/30min</td></tr>
+                  <tr><td>Massage</td><td>€30/30min</td></tr>
+                  <tr><td>Ruimte afhuren</td><td>€12/30min</td></tr>
+                  <tr><td>Privétraining</td><td>€45/h</td></tr>
+                </table>
+                <h3>Training aan huis</h3>
+                <p>Heb je een nieuwe puppy? Of een ouder hondje dat wat sturen nodig heeft? Of wil je jouw trouwe vriend iets specifieks aanleren? Hiervoor kom ik bij jou thuis om jullie samen op goede weg te zetten.<br />
+                Ik train op een positieve manier en hou het welzijn van de hond steeds in de gaten.</p>
             `}
       ></post-element>
       <post-element
