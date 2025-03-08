@@ -36,10 +36,21 @@ export class FooterElement extends LiteElement {
       flex-container {
         max-width: 1280px;
         flex-direction: row;
+        flex-wrap: wrap;
         width: 100%;
         justify-content: space-between;
         align-items: center;
       }
+      
+      @media (max-width: 625px) {
+        flex-container {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 16px;
+        }
+      }
+      
       flex-column {
         width: fit-content;
       }
