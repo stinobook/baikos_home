@@ -6,8 +6,7 @@ import { pipeline } from 'stream'
 import { open } from 'fs/promises'
 import { platform } from 'os'
 import { exec } from 'child_process'
-import WebSocketServer from './node_modules/websocket/lib/WebSocketServer.js'
-import { watch } from 'chokidar'
+
 const osPlatform = platform()
 const port = 8080
 
@@ -107,41 +106,3 @@ try {
     exec(`start microsoft-edge:${_url}`)
   } else throw error
 }
-
-const wsServer = new WebSocketServer({
-  httpServer: server,
-  autoAcceptConnections: false
-})
-
-let connection
-
-wsServer.on('request', function (request) {
-  connection = request.accept('reload-app', request.origin)
-  console.log(new Date() + ' Connection accepted.')
-  connection.on('close', function (reasonCode, description) {
-    console.log(new Date() + ' Peer ' + connection.remoteAddress + ' disconnected.')
-  })
-})
-
-const initWatcher = () => {
-  try {
-    const watcher = watch(['./www/**/*.js'])
-    let timeout
-
-    watcher.on('change', () => {
-      if (timeout) clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        // if (connection && connection.connected) {
-        connection && connection.send('reload')
-        // }
-      }, 100)
-    })
-
-    watcher.on('error', (error) => {
-      console.log(error)
-    })
-  } catch (error) {
-    initWatcher()
-  }
-}
-initWatcher()
