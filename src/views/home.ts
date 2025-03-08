@@ -9,6 +9,9 @@ export class HomeView extends LiteElement {
     css`
       :host {
         width: 100%;
+        overflow-y: auto;
+        padding-bottom: 12px;
+        flex-direction: column;
       }
       ::-webkit-scrollbar {
         width: 8px;
