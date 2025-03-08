@@ -15,11 +15,29 @@ export class PostElement extends LiteElement {
   @property()
   accessor content
 
+  @property({type: Boolean, reflect: true})  // Added reflect: true
+  accessor visible: boolean = false;
+
+  private observer: IntersectionObserver;
+
   static styles?: StyleList = [
     css`
       :host {
         width: 100%;
+        display: block;
       }
+
+      .card {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.6s ease-out;
+      }
+
+      :host([visible]) .card {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
       :host * {
         box-sizing: border-box;
       }
@@ -91,6 +109,30 @@ export class PostElement extends LiteElement {
       }
     `
   ]
+
+  connectedCallback(): void {
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          requestAnimationFrame(() => {
+            this.setAttribute('visible', '');
+          });
+          this.observer.unobserve(this);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px'
+    });
+
+    requestAnimationFrame(() => {
+      this.observer.observe(this);
+    });
+  }
+
+  disconnectedCallback(): void {
+    this.observer?.disconnect();
+  }
 
   _renderImage() {
     if (!this.image) return ''
