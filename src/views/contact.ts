@@ -1,4 +1,5 @@
-import { html, css, LiteElement, property, customElement } from '@vandeurenglenn/lite';
+import { html, css, LiteElement, property } from '@vandeurenglenn/lite';
+import { customElement } from 'lit/decorators.js'
 
 @customElement('contact-view')
 export class ContactView extends LiteElement {
@@ -140,47 +141,158 @@ export class ContactView extends LiteElement {
           flex-direction: column;
         }
       }
+
+      /* Add styles for the status messages */
+      .success-message {
+        background-color: rgba(76, 175, 80, 0.1);
+        border-left: 4px solid #4caf50;
+        padding: 12px;
+        margin: 16px 0;
+        color: #2e7d32;
+        border-radius: 4px;
+      }
+      
+      .error-message {
+        background-color: rgba(244, 67, 54, 0.1);
+        border-left: 4px solid #f44336;
+        padding: 12px;
+        margin: 16px 0;
+        color: #c62828;
+        border-radius: 4px;
+      }
+      
+      /* Loading indicator */
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        border: 3px solid rgba(255,255,255,.3);
+        border-radius: 50%;
+        border-top-color: var(--md-sys-color-on-primary);
+        animation: spin 1s ease-in-out infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      button:disabled {
+        background-color: var(--md-sys-color-outline);
+        cursor: not-allowed;
+      }
     `
   ];
 
-  @property({ type: String }) accessor subject = '';
-  @property({ type: String }) accessor email = '';
-  @property({ type: String }) accessor message = '';
-  @property({ type: String }) accessor successMessage = '';
-  @property({ type: String }) accessor errorMessage = '';
+  @property() accessor name: string = '';
+  @property() accessor email: string = '';
+  @property() accessor subject: string = '';
+  @property() accessor message: string = '';
+  @property() accessor successMessage: string = '';
+  @property() accessor errorMessage: string = '';
+  @property() accessor isSubmitting: boolean = false;
 
-  async handleSubmit(e: Event) {
+  /**
+   * Resets form fields
+   */
+  resetForm() {
+    console.log('Resetting form...');
+    
+    // Reset our property values
+    this.name = '';
+    this.email = '';
+    this.subject = '';
+    this.message = '';
+    
+    // Reset the actual form fields in the DOM
+    const nameInput = this.shadowRoot?.querySelector<HTMLInputElement>('#name');
+    const emailInput = this.shadowRoot?.querySelector<HTMLInputElement>('#email');
+    const subjectInput = this.shadowRoot?.querySelector<HTMLInputElement>('#subject');
+    const messageInput = this.shadowRoot?.querySelector<HTMLTextAreaElement>('#message');
+    
+    console.log('Form inputs:', { nameInput, emailInput, subjectInput, messageInput });
+    
+    if (nameInput) nameInput.value = '';
+    if (emailInput) emailInput.value = '';
+    if (subjectInput) subjectInput.value = '';
+    if (messageInput) messageInput.value = '';
+  }
+
+  onChange(propertyKey: string, value: any): void {
+    console.log('Property changed:', { propertyKey, value });
+  }
+
+  
+  /**
+   * Handles the form submission by sending data to Firebase Cloud Function
+   */
+  async handleSubmit(e: Event): Promise<void> {
     e.preventDefault();
-
-    if (!this.subject.value.trim() || !this.email.value.trim() || !this.message.value.trim()) {
+    
+    // Extract form data
+    const formElement = e.target as HTMLFormElement;
+    const formData = new FormData(formElement);
+    
+    // Get form field values
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const subject = formData.get('subject') as string;
+    const message = formData.get('message') as string;
+    
+    // Client-side validation
+    if (!name?.trim() || !email?.trim() || !subject?.trim() || !message?.trim()) {
       this.errorMessage = 'Alle velden zijn verplicht.';
       this.successMessage = '';
       return;
     }
-
-    const formData = new FormData();
-    formData.append("entry.1830700209", this.subject.value.trim());
-    formData.append("entry.1918043850", this.email.value.trim());
-    formData.append("entry.1135930811", this.message.value.trim());
-
+    
+    // Set loading state
+    this.isSubmitting = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+    
     try {
-      await fetch("https://docs.google.com/forms/d/e/1FAIpQLSfSii_KTjca2F8NIlTjTjB5irLXqJ79wQvFTwUGpUVR-3qCHg/formResponse", {
-        method: "POST",
-        body: formData,
-        mode: "no-cors"
+      console.log('Sending email via Firebase function...');
+      
+      // Updated URL to use Europe region
+      const response = await fetch('https://europe-west1-baikos-home.cloudfunctions.net/sendMail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          message
+        })
       });
-
-      this.successMessage = 'Bedankt voor je bericht!';
-      this.errorMessage = '';
-
-      this.subject = '';
-      this.email = '';
-      this.message = '';
+      
+      console.log('Response received:', response.status);
+      
+      if (response.ok) {
+        this.successMessage = 'Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.';
+    } else {
+        // Parse error response
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (e) {
+          errorData = { error: 'Er is een onbekende fout opgetreden.' };
+        }
+        
+        this.errorMessage = errorData.error || 'Er is een fout opgetreden bij het verzenden van je bericht.';
+        console.error('Form submission error:', errorData);
+      }
     } catch (error) {
-      this.errorMessage = 'Er liep iets mis, probeer later opnieuw.';
-      this.successMessage = '';
+      console.error('Error sending message:', error);
+      this.errorMessage = 'Er is een probleem opgetreden bij het verzenden van je bericht. Controleer je internetverbinding en probeer het later opnieuw.';
+    } finally {
+      // Always reset loading state
+      this.isSubmitting = false;
     }
   }
+
   render() {
     return html`
       <div class="contact-container">
@@ -210,25 +322,52 @@ export class ContactView extends LiteElement {
         </div>
 
         <div class="contact-form">
+          ${this.successMessage ? html`<div class="success-message">${this.successMessage}</div>` : ''}
+          ${this.errorMessage ? html`<div class="error-message">${this.errorMessage}</div>` : ''}
           <form @submit="${this.handleSubmit}">
-          <label for="subject">Onderwerp:</label>
-          <input
-            type="text"
-            name="subject"
-            required
-          />
-          <label for="email">Uw E-mail adres:</label>
-          <input
-            type="email"
-            name="email"
-            required
-          />
-          <label for="message">Uw vraag:</label>
-          <textarea
-            name="message"
-            required
-          ></textarea>
-            <button type="submit">Verzenden</button>
+            <label for="name">Naam:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              .value="${this.name}"
+              @input="${(e: Event) => this.name = (e.target as HTMLInputElement).value}"
+              required
+            />
+            
+            <label for="email">E-mailadres:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              .value="${this.email}"
+              @input="${(e: Event) => this.email = (e.target as HTMLInputElement).value}"
+              required
+            />
+            
+            <label for="subject">Onderwerp:</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              .value="${this.subject}"
+              @input="${(e: Event) => this.subject = (e.target as HTMLInputElement).value}"
+              required
+            />
+            
+            <label for="message">Bericht:</label>
+            <textarea
+              id="message"
+              name="message"
+              .value="${this.message}"
+              @input="${(e: Event) => this.message = (e.target as HTMLTextAreaElement).value}"
+              required
+            ></textarea>
+            
+            <button type="submit" ?disabled="${this.isSubmitting}">
+              ${this.isSubmitting ? 'Verzenden...' : 'Verzenden'} 
+              ${this.isSubmitting ? html`<span class="loading"></span>` : ''}
+            </button>
           </form>
         </div>
       </div>
