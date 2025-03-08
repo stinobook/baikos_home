@@ -1,4 +1,4 @@
-import { html, css, LiteElement, query } from '@vandeurenglenn/lite'
+import { html, css, LiteElement } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 import '@vandeurenglenn/flex-elements/container.js'
 import '../components/footer.js'
