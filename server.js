@@ -30,6 +30,7 @@ const server = createServer(async (request, response) => {
     '.css': 'text/css',
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
+    '.webp': 'image/webp',
     '.wav': 'audio/wav',
     '.mp3': 'audio/mpeg',
     '.svg': 'image/svg+xml',
@@ -44,7 +45,19 @@ const server = createServer(async (request, response) => {
     // Store both a compressed and an uncompressed version of the resource.
     response.setHeader('Vary', 'Accept-Encoding')
     response.setHeader('Content-type', map[ext] || 'text/plain')
-    // response.setHeader('Cache-Control', 'max-age=36000')
+    
+    // Set appropriate cache headers based on file type
+    if (ext === '.html' || ext === '.json') {
+      // HTML and JSON should be validated every time
+      response.setHeader('Cache-Control', 'no-cache, must-revalidate');
+    } else if (ext === '.js' || ext === '.css') {
+      // Script and style files - short cache time
+      response.setHeader('Cache-Control', 'public, max-age=3600'); // 1 hour
+    } else {
+      // Images and other static assets - longer cache time
+      response.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+    }
+
     let acceptEncoding = request.headers['accept-encoding']
     if (!acceptEncoding) {
       acceptEncoding = ''
