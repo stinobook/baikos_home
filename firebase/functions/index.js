@@ -47,9 +47,12 @@ exports.sendMail = functions
           return res.status(400).json({ error: 'Ongeldig e-mailadres.' });
         }
 
-        // Email content - Updated to use the forwarded email as the sender
+        // Email content - Updated to properly handle the from address
         const mailOptions = {
-          from: `"Baiko's Home" <${senderEmail}>`, // Using info@baikoshome.be as sender
+          from: {
+            name: "Baiko's Home",
+            address: senderEmail
+          },
           to: destinationEmail,
           replyTo: email,
           subject: `Website Contact: ${subject}`,
@@ -93,8 +96,12 @@ exports.sendMail = functions
         
         // Send confirmation email to sender - Also updated
         const confirmationOptions = {
-          from: `"Baiko's Home" <${senderEmail}>`, // Using info@baikoshome.be as sender
+          from: {
+            name: "Baiko's Home",
+            address: senderEmail
+          },
           to: email,
+          bcc: destinationEmail, // Add BCC to ensure a copy is sent to info@baikoshome.be
           subject: `Bedankt voor je bericht: ${subject}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

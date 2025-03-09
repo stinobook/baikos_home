@@ -217,16 +217,11 @@ export class ContactView extends LiteElement {
     if (subjectInput) subjectInput.value = '';
     if (messageInput) messageInput.value = '';
   }
-
-  onChange(propertyKey: string, value: any): void {
-    console.log('Property changed:', { propertyKey, value });
-  }
-
   
   /**
    * Handles the form submission by sending data to Firebase Cloud Function
    */
-  async handleSubmit(e: Event): Promise<void> {
+  handleSubmit = async (e: Event) => {
     e.preventDefault();
     
     // Extract form data
@@ -272,6 +267,7 @@ export class ContactView extends LiteElement {
       
       if (response.ok) {
         this.successMessage = 'Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.';
+        this.resetForm();
     } else {
         // Parse error response
         let errorData;
