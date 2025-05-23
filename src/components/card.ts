@@ -19,12 +19,13 @@ export class CardElement extends LiteElement {
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         overflow: hidden;
         transition: all 0.3s ease;
-        height: 100%;
+        height: auto;
+        min-height: 0;
         flex-direction: column;
         gap: 32px;
         margin: 6px;
         width: 100%;
-        max-width: 500px;
+        max-width: 620px;
         min-width: 300px;
         }
         :host(:hover) {
@@ -46,7 +47,7 @@ export class CardElement extends LiteElement {
         display: flex;
         flex-direction: column;
         flex: 1 1 auto;
-        min-height: 0px;
+        min-height: 0;
         }
         .service-title {
         font-size: 1.6rem;

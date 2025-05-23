@@ -20,15 +20,16 @@ static styles = [
         flex-container {
             max-width: 1280px;
             margin: 0 auto;
-            align-items: center;
             flex-direction: row;
             gap: 12px;
             justify-content: center;
+            align-items: stretch;
         }
 
       @media (max-width: 1280px) {
         flex-container {
             flex-direction: column;
+            align-items: center;
         }
       }
         
@@ -184,44 +185,6 @@ static styles = [
             `}
         ></post-element>
       
-      <!-- Testimonials Section -->
-      <section class="testimonials">
-        <h2 class="testimonials-title">Wat onze klanten zeggen</h2>
-        <div class="testimonial-grid">
-          <div class="testimonial-card">
-            <p class="testimonial-text">Een supergoede aanpak met veel kennis, respect en liefde! Chapeau voor deze dame. Een aanrader voor iedereen die van zijn/haar hond houdt.</p>
-            <div class="testimonial-author">
-              <img class="testimonial-author-image" src="/img/testimonials/cindy.jpg" alt="Cindy Van Bunder" onerror="this.src='/img/placeholder-user.jpg';">
-              <div>
-                <p class="testimonial-author-name">Cindy Van Bunder</p>
-                <p class="testimonial-author-dog">Baiko's Home klant</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="testimonial-card">
-            <p class="testimonial-text">Een hartelijke ontvangst, warme en professionele begeleiding! Elke training wordt afgestemd op de mogelijkheden van je hond, met aandacht voor balans en coördinatie.</p>
-            <div class="testimonial-author">
-              <img class="testimonial-author-image" src="/img/testimonials/joke.jpg" alt="Joke Linthout" onerror="this.src='/img/placeholder-user.jpg';">
-              <div>
-                <p class="testimonial-author-name">Joke Linthout</p>
-                <p class="testimonial-author-dog">Met Fino</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="testimonial-card">
-            <p class="testimonial-text">Zeer professioneel, geduldig en geruststellend voor zowel hond als baasje. Voor ons was het geweldig om op deze manier te kunnen starten met de fitness en balans training!</p>
-            <div class="testimonial-author">
-              <img class="testimonial-author-image" src="/img/testimonials/sarah.jpg" alt="Sarah Jacobs" onerror="this.src='/img/placeholder-user.jpg';">
-              <div>
-                <p class="testimonial-author-name">Sarah Jacobs</p>
-                <p class="testimonial-author-dog">Baiko's Home klant</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       </flex-container>
       <footer-element></footer-element>
     `;
