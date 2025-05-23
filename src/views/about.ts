@@ -23,14 +23,8 @@ export class AboutView extends LiteElement {
         box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
       }
       flex-container {
-        flex-direction: column;
         max-width: 1280px;
-        gap:12px;
-        height:fit-content;
         margin: 0 auto;
-        background-color: var(--md-sys-color-surface);
-        color: var(--md-sys-color-on-surface);
-        border-radius: 30px;
       }
       @media (max-width: 1280px) {
         :host {

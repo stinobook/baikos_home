@@ -34,12 +34,13 @@ export class PostElement extends LiteElement {
       :host {
         width: 100%;
         display: block;
-      }
-
-      .card {
-        opacity: 0;
-        transform: translateY(50px);
-        transition: all 0.6s ease-out;
+        max-width: 1280px;
+        height: fit-content;
+        margin: 6px auto;
+        background-color: var(--md-sys-color-surface);
+        color: var(--md-sys-color-on-surface);
+        border-radius: var(--md-sys-shape-corner-large);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
       }
 
       :host([visible]) .card {
@@ -51,6 +52,9 @@ export class PostElement extends LiteElement {
         box-sizing: border-box;
       }
       .card {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.6s ease-out;
         display: flex;
         margin: 1rem auto;
         box-shadow: 0 3px 7px -1px rgba(#000, .1);
@@ -76,13 +80,12 @@ export class PostElement extends LiteElement {
         border-radius: 5px;
       }
       .content {
-        padding: 1rem;
         position: relative;
         flex: 3 0 65%;
       }
       h1 {
         line-height: 1;
-        margin: 0;
+        margin: 24px 0;
         font-size: 1.7rem;
       }
       h2 {
@@ -94,6 +97,47 @@ export class PostElement extends LiteElement {
         position: relative;
         margin-bottom: 12px;
       }
+      .ul {
+        margin: 0 0 24px 20px;
+        padding: 0;
+        color: var(--md-sys-color-on-surface-variant);
+      }
+      
+      li {
+        margin-bottom: 8px;
+        position: relative;
+        line-height: 1.5;
+      }
+      
+      li::before {
+        content: "•";
+        color: var(--md-sys-color-primary);
+        font-weight: bold;
+        display: inline-block;
+        width: 20px;
+        margin-left: -20px;
+      }
+      a {
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
+        padding: 16px 38px;
+        border: none;
+        border-radius: var(--md-sys-shape-corner-medium);
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        letter-spacing: 0.5px;
+      }
+      a:hover {
+        background-color: var(--md-sys-color-primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      }
+
       custom-icon {
         --custom-icon-color: var(--md-sys-color-on-primary);
       }
@@ -120,54 +164,44 @@ export class PostElement extends LiteElement {
       .image-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-        grid-auto-rows: 90px;
+        grid-auto-rows: 1fr;
         grid-auto-flow: dense;
         gap: 8px;
         flex: 1 1 30%;
         min-height: 150px;
-        max-height: 350px;
-        align-items: center;
-        overflow: hidden; /* Hide scrollbar */
-      }
-
-      /* Make some images span 2 columns or rows for interest */
-      .image-grid img:nth-child(3n+1) {
-        grid-column: span 2;
-        grid-row: span 2;
-        height: 100%;
-      }
-
-      .image-grid img:nth-child(5n) {
-        grid-row: span 2;
-        height: 100%;
-      }
-
-      .image-grid img:nth-child(7n) {
-        grid-column: span 2;
-        height: 100%;
+        align-items: stretch;
+        overflow: hidden;
       }
 
       .image-grid img {
-        cursor: pointer;
         width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 5px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
       }
 
-      .image-grid img:hover {
-        transform: scale(1.03);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 1;
+      /* Prefer spanning rows over columns for larger images */
+      .image-grid img:nth-child(3n+1) {
+        grid-row: span 2;
+        grid-column: span 1;
+      }
+      .image-grid img:nth-child(5n) {
+        grid-row: span 2;
+      }
+      .image-grid img:nth-child(7n) {
+        grid-row: span 3;
+      }
+      .image-grid img:nth-child(1) {
+        grid-column: 1 / -1;
+        grid-row: span 2;
+        height: 100%;
       }
 
-      /* Mobile view - simpler grid layout */
       @media (max-width: 640px) {
         .image-grid {
           grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-          grid-auto-rows: 80px;
-          max-height: none;
         }
       }
 
@@ -608,7 +642,7 @@ export class PostElement extends LiteElement {
 
   _renderContent() {
     if (!this.content) return ''
-    return html`<p>${this.content}</p>`
+    return html`${this.content}`
   }
 
   render() {

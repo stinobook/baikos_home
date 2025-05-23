@@ -99,6 +99,7 @@ export class ContactView extends LiteElement {
       textarea {
         width: 100%;
         padding: 12px;
+        margin: 4px 8px;
         font-size: 16px;
         border: 1px solid var(--md-sys-color-outline);
         border-radius: var(--md-sys-shape-corner-medium);
@@ -123,16 +124,24 @@ export class ContactView extends LiteElement {
       button {
         background-color: var(--md-sys-color-primary);
         color: var(--md-sys-color-on-primary);
-        padding: 14px;
-        font-size: 16px;
+        margin: 16px auto;
+        padding: 16px 38px;
         border: none;
         border-radius: var(--md-sys-shape-corner-medium);
         cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        letter-spacing: 0.5px;
       }
 
       button:hover {
         background-color: var(--md-sys-color-primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
       }
 
       /* Responsive Layout */
@@ -293,7 +302,10 @@ export class ContactView extends LiteElement {
     return html`
       <div class="contact-container">
         <div class="header-container">
-          <h2 class="title">Neem contact met ons op</h2>
+            <div class='left'>
+                <h2 class="title">Neem contact met ons op</h2>
+                <small><p>Baiko's Home<br />Bosstraat 136<br />9420 Mere<br />BE0730642897</p></small>
+            </div>
           <div class="social-icons">
             <a href="https://maps.google.com/?q=Baiko's Home Bosstraat, Erpe-Mere" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">

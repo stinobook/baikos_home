@@ -23,14 +23,8 @@ export class ServicesView extends LiteElement {
         box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
       }
       flex-container {
-        flex-direction: column;
         max-width: 1280px;
-        gap:12px;
-        height:fit-content;
         margin: 0 auto;
-        background-color: var(--md-sys-color-surface);
-        color: var(--md-sys-color-on-surface);
-        border-radius: 30px;
       }
       @media (max-width: 1280px) {
         :host {
@@ -70,7 +64,7 @@ export class ServicesView extends LiteElement {
                   <tr><td>Privétraining</td><td>€45/h</td></tr>
                 </table>
                 <h3>Training aan huis</h3>
-                <p>Heb je een nieuwe puppy? Of een ouder hondje dat wat sturen nodig heeft? Of wil je jouw trouwe vriend iets specifieks aanleren? Hiervoor kom ik bij jou thuis om jullie samen op goede weg te zetten.<br />
+                <p>Heb je een nieuwe puppy? Of een ouder hondje dat wat sturing nodig heeft? Of wil je jouw trouwe vriend iets specifieks aanleren? Hiervoor kom ik bij jou thuis om jullie samen op goede weg te zetten.<br />
                 Ik train op een positieve manier en hou het welzijn van de hond steeds in de gaten.</p>
             `}
       ></post-element>

@@ -23,14 +23,8 @@ export class StudsView extends LiteElement {
         box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
       }
       flex-container {
-        flex-direction: column;
         max-width: 1280px;
-        gap:12px;
-        height:fit-content;
         margin: 0 auto;
-        background-color: var(--md-sys-color-surface);
-        color: var(--md-sys-color-on-surface);
-        border-radius: 30px;
       }
       @media (max-width: 1280px) {
         :host {
@@ -54,7 +48,14 @@ export class StudsView extends LiteElement {
     return html`
     <flex-container>
       <post-element
-        image="./img/studs/roylu1.webp"
+      .images=${[
+          './img/studs/roylu1.webp',
+          './img/studs/roylu2.webp',
+          './img/studs/roylu3.webp',
+          './img/studs/roylu4.webp',
+          './img/studs/roylu5.webp',
+          './img/studs/roylu6.webp'
+      ]}
         headline="Roylu - Baiko's Home Roaring Roylu"
         subline="06/03/2018"
         .content=${html`
@@ -62,19 +63,7 @@ export class StudsView extends LiteElement {
           <p>Over het algemeen is Roylu ok met andere honden, behalve in de hondenschool vlak voor de training reageert hij geagiteerd op andere honden en met nerveuze honden kan hij ook problemen hebben. Verder is Roylu een hond dat je overal mee naartoe kan nemen, zo ging hij tijdens mijn postgraduaat heel vaak mee naar de les en liet hem met veel plezier door iedereen overpampelen. Hij is ook de hond waar je makkelijk verschillende disciplines mee kan uittesten.</p>
           <p>Roylu traint nog recreatief in de gehoorzaamheid. Vroeger hebben we agility gedaan, maar hiermee zijn we gestopt door omstandigheden, al zou ik dit graag terug opnemen met hem. Ook heb ik al enkele keren detectie met hem gedaan en dit concept heeft hij enorm snel door.</p>
           <p>Roylu heeft een contactallergie aan de pootjes, dit valt goed te managen. Vooral in augustus tem oktober heeft hij hier last van. Hij is de enige van zijn nest die hier last van heeft.</p>
-        `}
-      ></post-element>
-
-      <post-element
-        .images=${[
-            './img/studs/roylu2.webp',
-            './img/studs/roylu3.webp',
-            './img/studs/roylu4.webp',
-            './img/studs/roylu5.webp',
-            './img/studs/roylu6.webp'
-        ]}
-        headline="Gezondheidsresultaten"
-        .content=${html`
+        <h1>Gezondheidsresultaten</h1>
           <table>
             <tr><td>Kleur</td><td>Lilac tricolor</td></tr>
             <tr><td>Merle</td><td>Geen merle (m/m)</td></tr>

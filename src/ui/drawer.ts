@@ -31,7 +31,7 @@ export class DrawerElement extends LiteElement {
       }
 
       .header {
-        height: 76px;
+        height: 60px;
         padding: 12px 0px;
         display: flex;
         align-items: center;

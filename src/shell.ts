@@ -80,6 +80,7 @@ export class BaikoShell extends LiteElement {
       @media (max-width: 1280px) {
         header-element {
           min-width: 100%;
+          max-height: 60px;
         }
       }
 
@@ -181,6 +182,7 @@ export class BaikoShell extends LiteElement {
               <custom-hover-menu-item slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
               <custom-hover-menu-item slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
               <custom-hover-menu-item slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
+              <custom-hover-menu-item slot="sub-menu" name="Koda x Siyala" route="kodaxsiyala"></custom-hover-menu-item>
             </custom-hover-menu>
             <custom-hover-menu-item name="Contact" route="contact"></custom-hover-menu-item>
           </flex-row>
@@ -194,6 +196,7 @@ export class BaikoShell extends LiteElement {
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Koda x Siyala" route="kodaxsiyala"></custom-hover-menu-item>
         </custom-hover-menu>
         <custom-hover-menu-item type="drawer" name="Contact" route="contact"></custom-hover-menu-item>
         </drawer-element>
@@ -205,6 +208,7 @@ export class BaikoShell extends LiteElement {
             <vision-view route="vision"> </vision-view>
             <studs-view route="studs"> </studs-view>
             <bitches-view route="bitches"> </bitches-view>
+            <kodaxsiyala-view route="kodaxsiyala"> </kodaxsiyala-view>
             <contact-view route="contact"> </contact-view>
         </custom-pages>
       </div>
