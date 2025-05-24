@@ -119,6 +119,21 @@ static styles = [
 
   render() {
     return html`
+    <flex-container>
+      
+      <post-element
+        image="./img/full.png"
+        headline="Wat kan Baiko's Home betekenen voor jouw hond?"
+        .content=${html`
+            <p>Baiko's Home is gespecialiseerd in het begeleiden van honden en hun eigenaren naar een sterkere band en betere gezondheid door gerichte training en zorg.</p>
+            <p>Onze trainingen zijn gebaseerd op positieve bekrachtiging en wetenschappelijk onderbouwde methoden, met respect voor zowel de fysieke als de mentale gezondheid van jouw hond.</p>
+            <p>Met een persoonlijke benadering voor elke hond geven we een training dat perfect aansluit bij zijn of haar specifieke behoeften, of het nu gaat om revalidatie, conditieverbetering of plezierige activiteiten.</p>
+            <p>Ontdek wat ons aanbod kan betekenen voor jouw hond. Neem contact op voor al je vragen of een afspraak te maken.</p>
+            <a href="#!/contact" class="cta-button">Contacteer ons</a>
+            `}
+        ></post-element>
+      
+      </flex-container>
      <flex-container>
           <card-element
             image="./img/services/loopband.webp"
@@ -171,21 +186,7 @@ static styles = [
             price="€30 / 30min"
             link="#!/services"
             linkLabel="Meer info"></card-element>
-            </flex-container><flex-container>
-      
-      <post-element
-        image="./img/full.png"
-        headline="Wat kan Baiko's Home betekenen voor jouw hond."
-        .content=${html`
-            <p>Baiko's Home is gespecialiseerd in het begeleiden van honden en hun eigenaren naar een sterkere band en betere gezondheid door gerichte training en zorg.</p>
-            <p>Onze trainingen zijn gebaseerd op positieve bekrachtiging en wetenschappelijk onderbouwde methoden, met respect voor zowel de fysieke als de mentale gezondheid van jouw hond.</p>
-            <p>Met een persoonlijke benadering voor elke hond geven we een training dat perfect aansluit bij zijn of haar specifieke behoeften, of het nu gaat om revalidatie, conditieverbetering of plezierige activiteiten.</p>
-            <p>Ontdek wat ons aanbod kan betekenen voor jouw hond. Neem contact op voor al je vragen of een afspraak te maken.</p>
-            <a href="#!/contact" class="cta-button">Contacteer ons</a>
-            `}
-        ></post-element>
-      
-      </flex-container>
+            </flex-container>
       <footer-element></footer-element>
     `;
   }

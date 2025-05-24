@@ -29,6 +29,7 @@
     "@vandeurenglenn/lit-elements": "^0.3.19",
     "@vandeurenglenn/lite": "^0.2.7",
     "@vandeurenglenn/lite-elements": "^0.3.20",
+    "chart.js": "^4.4.9",
     "lit": "^3.1.1",
     "rollup-plugin-copy": "^3.5.0"
   }
