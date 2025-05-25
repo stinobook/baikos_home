@@ -93,37 +93,37 @@ export class KodaxsiyalaView extends LiteElement {
         datasets: [
           {
             label: 'Teef 1',
-            data: [412, 410],
+            data: [412, 410, 430],
             borderColor: 'rgba(255, 99, 132, 1)',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
           },
           {
             label: 'Reu 1',
-            data: [334, 350],
+            data: [334, 350, 374],
             borderColor: 'rgba(54, 162, 235, 1)',
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
           },
           {
             label: 'Teef 2',
-            data: [330, 340],
+            data: [330, 340, 366],
             borderColor: 'rgba(255, 206, 86, 1)',
             backgroundColor: 'rgba(255, 206, 86, 0.2)',
           },
           {
             label: 'Reu 2',
-            data: [260, 272],
+            data: [260, 272, 308],
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
           },
           {
             label: 'Reu 3',
-            data: [398, 418],
+            data: [398, 418, 448],
             borderColor: 'rgba(153, 102, 255, 1)',
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
           },
           {
             label: 'Teef 3',
-            data: [300, 308],
+            data: [300, 308, 334],
             borderColor: 'rgba(255, 159, 64, 1)',
             backgroundColor: 'rgba(255, 159, 64, 0.2)',
           },
@@ -141,7 +141,7 @@ export class KodaxsiyalaView extends LiteElement {
                 size: isMobile ? 10 : 12
                 }
             }
-            }
+            },
             title: {
             display: true,
             text: isMobile ? 'Growth Chart (g)' : 'Puppy Growth Chart (Weight in grams)',
