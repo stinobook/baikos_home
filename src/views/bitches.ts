@@ -60,7 +60,7 @@ export class BitchesView extends LiteElement {
             <tr><td>HD</td><td>C</td></tr>
             <tr><td>ED</td><td>0/0</td></tr>
             <tr><td>Combibreed</td><td>CEA drager, verder vrij</td></tr>
-            <tr><td>Gonioscopie</td><td>Affected</td></tr>
+            <tr><td>Gonioscopie</td><td>ICAA:PLA = moderate</td></tr>
             <tr><td>ECVO</td><td>Vrij</td></tr>
           </table>
           <h3>Certificaten</h3>
@@ -95,7 +95,7 @@ export class BitchesView extends LiteElement {
             <tr><td>ED</td><td>0/0</td></tr>
             <tr><td>Laxiteit</td><td>0,31 beide kanten</td></tr>
             <tr><td>MY dog DNA</td><td>GG carrier (deleted test), vrij op al de rest</td></tr>
-            <tr><td>Gonioscopie</td><td>Affected (ICAA:PLA = moderate)</td></tr>
+            <tr><td>Gonioscopie</td><td>ICAA:PLA = moderate</td></tr>
             <tr><td>ECVO</td><td>Vrij</td></tr>
           </table>
           <h3>Certificaten</h3>
