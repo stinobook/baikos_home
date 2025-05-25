@@ -25,6 +25,7 @@ export class KodaxsiyalaView extends LiteElement {
       flex-container {
         max-width: 1280px;
         margin: 0 auto;
+        gap: 12px;
       }
       @media (max-width: 1280px) {
         :host {
@@ -44,8 +45,7 @@ export class KodaxsiyalaView extends LiteElement {
         max-width: 100%;
         width: 100%;
         height: 100%;
-        margin: 24px auto 0 auto;
-        background-color: var(--md-sys-color-surface);
+        background-color: var(--md-sys-color-surface) !important;
         color: var(--md-sys-color-on-surface);
         border-radius: var(--md-sys-shape-corner-large);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
@@ -158,7 +158,10 @@ export class KodaxsiyalaView extends LiteElement {
     return html`
     <flex-container>
       <post-element
-        image="./img/litters/kodaxsiyala.webp"
+      .images=${[
+          './img/litters/kodaxsiyala.webp',
+          './img/litters/kodaxsiyala/1.webp',
+      ]}
         headline="Koda x Siyala"
         subline="23 Mei 2025"
         .content=${html`
@@ -172,8 +175,37 @@ export class KodaxsiyalaView extends LiteElement {
         </ul>
             `}
       ></post-element>
-      </flex-container><flex-container>
       <canvas id="growthChart"></canvas>
+      <post-element
+      .images=${['./img/litters/kodaxsiyala/teef1a.webp', './img/litters/kodaxsiyala/teef1b.webp', './img/litters/kodaxsiyala/teef1c.webp']}
+        headline="Teef 1"
+        subline="Brown Sable Merle"
+      ></post-element>
+      <post-element
+        .images=${['./img/litters/kodaxsiyala/reu1a.webp', './img/litters/kodaxsiyala/reu1b.webp']}
+        headline="Reu 1"
+        subline="Brown Sable"
+      ></post-element>
+      <post-element
+        .images=${['./img/litters/kodaxsiyala/teef2a.webp', './img/litters/kodaxsiyala/teef2b.webp', './img/litters/kodaxsiyala/teef2c.webp']}
+        headline="Teef 2"
+        subline="Brown Tricolor"
+      ></post-element>
+      <post-element
+        .images=${['./img/litters/kodaxsiyala/reu2a.webp', './img/litters/kodaxsiyala/reu2b.webp']}
+        headline="Reu 2"
+        subline="Brown Sable"
+      ></post-element>
+      <post-element
+        .images=${['./img/litters/kodaxsiyala/reu3a.webp', './img/litters/kodaxsiyala/reu3b.webp']}
+        headline="Reu 3"
+        subline="Brown Sable Merle"
+      ></post-element>
+      <post-element
+        .images=${['./img/litters/kodaxsiyala/teef3a.webp', './img/litters/kodaxsiyala/teef3b.webp']}
+        headline="Teef 3"
+        subline="Brown (Possibly Tricolor)"
+      ></post-element>
       </flex-container>
     `
   }
