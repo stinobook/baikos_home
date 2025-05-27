@@ -93,37 +93,37 @@ export class KodaxsiyalaView extends LiteElement {
         datasets: [
           {
             label: 'Teef 1',
-            data: [412, 410, 430, 470],
+            data: [412, 410, 430, 470, 522],
             borderColor: 'rgba(255, 99, 132, 1)',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
           },
           {
             label: 'Reu 1',
-            data: [334, 350, 374, 402],
+            data: [334, 350, 374, 402, 450],
             borderColor: 'rgba(54, 162, 235, 1)',
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
           },
           {
             label: 'Teef 2',
-            data: [330, 340, 366, 398],
+            data: [330, 340, 366, 398, 442],
             borderColor: 'rgba(255, 206, 86, 1)',
             backgroundColor: 'rgba(255, 206, 86, 0.2)',
           },
           {
             label: 'Reu 2',
-            data: [260, 272, 308, 338],
+            data: [260, 272, 308, 338, 380],
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
           },
           {
             label: 'Reu 3',
-            data: [398, 418, 448, 490],
+            data: [398, 418, 448, 490, 556],
             borderColor: 'rgba(153, 102, 255, 1)',
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
           },
           {
             label: 'Teef 3',
-            data: [300, 308, 334, 364],
+            data: [300, 308, 334, 364, 420],
             borderColor: 'rgba(255, 159, 64, 1)',
             backgroundColor: 'rgba(255, 159, 64, 0.2)',
           },
