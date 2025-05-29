@@ -93,37 +93,37 @@ export class KodaxsiyalaView extends LiteElement {
         datasets: [
           {
             label: 'Teef 1',
-            data: [412, 410, 430, 470, 522],
+            data: [412, 410, 430, 470, 522, 572],
             borderColor: 'rgba(255, 99, 132, 1)',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
           },
           {
             label: 'Reu 1',
-            data: [334, 350, 374, 402, 450],
+            data: [334, 350, 374, 402, 450, 506],
             borderColor: 'rgba(54, 162, 235, 1)',
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
           },
           {
             label: 'Teef 2',
-            data: [330, 340, 366, 398, 442],
+            data: [330, 340, 366, 398, 442, 504],
             borderColor: 'rgba(255, 206, 86, 1)',
             backgroundColor: 'rgba(255, 206, 86, 0.2)',
           },
           {
             label: 'Reu 2',
-            data: [260, 272, 308, 338, 380],
+            data: [260, 272, 308, 338, 380, 434],
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
           },
           {
             label: 'Reu 3',
-            data: [398, 418, 448, 490, 556],
+            data: [398, 418, 448, 490, 556, 622],
             borderColor: 'rgba(153, 102, 255, 1)',
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
           },
           {
             label: 'Teef 3',
-            data: [300, 308, 334, 364, 420],
+            data: [300, 308, 334, 364, 420, 476],
             borderColor: 'rgba(255, 159, 64, 1)',
             backgroundColor: 'rgba(255, 159, 64, 0.2)',
           },
