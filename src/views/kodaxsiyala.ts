@@ -177,32 +177,67 @@ export class KodaxsiyalaView extends LiteElement {
       ></post-element>
       <canvas id="growthChart"></canvas>
       <post-element
-      .images=${['./img/litters/kodaxsiyala/teef1a.webp', './img/litters/kodaxsiyala/teef1b.webp', './img/litters/kodaxsiyala/teef1c.webp']}
+      .images=${[
+        './img/litters/kodaxsiyala/teef1a.webp',
+        './img/litters/kodaxsiyala/teef1b.webp',
+        './img/litters/kodaxsiyala/teef1c.webp',
+        './img/litters/kodaxsiyala/teef1d.webp',
+        './img/litters/kodaxsiyala/teef1e.webp'
+      ]}
         headline="Teef 1"
         subline="Brown Sable Merle"
       ></post-element>
       <post-element
-        .images=${['./img/litters/kodaxsiyala/reu1a.webp', './img/litters/kodaxsiyala/reu1b.webp']}
+        .images=${[
+          './img/litters/kodaxsiyala/reu1a.webp',
+          './img/litters/kodaxsiyala/reu1b.webp',
+          './img/litters/kodaxsiyala/reu1c.jpeg',
+          './img/litters/kodaxsiyala/reu1d.jpeg'
+        ]}
         headline="Reu 1"
         subline="Brown Sable"
       ></post-element>
       <post-element
-        .images=${['./img/litters/kodaxsiyala/teef2a.webp', './img/litters/kodaxsiyala/teef2b.webp', './img/litters/kodaxsiyala/teef2c.webp']}
+        .images=${[
+          './img/litters/kodaxsiyala/teef2a.webp',
+          './img/litters/kodaxsiyala/teef2b.webp',
+          './img/litters/kodaxsiyala/teef2c.webp',
+          './img/litters/kodaxsiyala/teef2d.webp',
+          './img/litters/kodaxsiyala/teef2e.webp',
+          './img/litters/kodaxsiyala/teef2f.webp'
+        ]}
         headline="Teef 2"
         subline="Brown Tricolor"
       ></post-element>
       <post-element
-        .images=${['./img/litters/kodaxsiyala/reu2a.webp', './img/litters/kodaxsiyala/reu2b.webp']}
+        .images=${[
+          './img/litters/kodaxsiyala/reu2a.webp',
+          './img/litters/kodaxsiyala/reu2b.webp',
+          './img/litters/kodaxsiyala/reu2c.webp',
+          './img/litters/kodaxsiyala/reu2d.webp'
+        ]}
         headline="Reu 2"
         subline="Brown Sable"
       ></post-element>
       <post-element
-        .images=${['./img/litters/kodaxsiyala/reu3a.webp', './img/litters/kodaxsiyala/reu3b.webp']}
+        .images=${[
+          './img/litters/kodaxsiyala/reu3a.webp',
+          './img/litters/kodaxsiyala/reu3b.webp',
+          './img/litters/kodaxsiyala/reu3c.webp',
+          './img/litters/kodaxsiyala/reu3d.webp',
+          './img/litters/kodaxsiyala/reu3e.webp'
+        ]}
         headline="Reu 3"
         subline="Brown Sable Merle"
       ></post-element>
       <post-element
-        .images=${['./img/litters/kodaxsiyala/teef3a.webp', './img/litters/kodaxsiyala/teef3b.webp']}
+        .images=${[
+          './img/litters/kodaxsiyala/teef3a.webp',
+          './img/litters/kodaxsiyala/teef3b.webp',
+          './img/litters/kodaxsiyala/teef3c.webp',
+          './img/litters/kodaxsiyala/teef3d.webp',
+          './img/litters/kodaxsiyala/teef3e.webp'
+        ]}
         headline="Teef 3"
         subline="Brown (Possibly Tricolor)"
       ></post-element>

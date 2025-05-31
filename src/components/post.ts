@@ -67,6 +67,24 @@ export class PostElement extends LiteElement {
         gap: 12px;
         padding: 12px;
       }
+      
+      /* When no content, make it full width */
+      .card.no-content {
+        flex-direction: column;
+      }
+      
+      .card.no-content .image-grid,
+      .card.no-content .img {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+      
+      .card.no-content .image-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        min-height: 300px;
+        grid-auto-rows: minmax(140px, 200px);
+      }
+      
       .img {
         flex: 1 1 30%;
         min-height:150px;
@@ -163,40 +181,74 @@ export class PostElement extends LiteElement {
 
       .image-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-        grid-auto-rows: 1fr;
-        grid-auto-flow: dense;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-auto-rows: minmax(120px, auto);
         gap: 8px;
         flex: 1 1 30%;
         min-height: 150px;
         align-items: stretch;
         overflow: hidden;
+        grid-auto-flow: row dense;
+      }
+      
+      /* Adjust content area when no content */
+      .content.has-only-titles {
+        flex: 1 0 100%;
+        text-align: center;
       }
 
       .image-grid img {
         width: 100%;
         height: 100%;
+        min-height: 120px;
+        max-height: 200px;
         object-fit: cover;
+        object-position: center;
         border-radius: 5px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         cursor: pointer;
+        display: block;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
       }
 
-      /* Prefer spanning rows over columns for larger images */
-      .image-grid img:nth-child(3n+1) {
+      /* Better aspect ratio preservation */
+      .image-grid > img:first-child {
+        grid-column: span 2;
         grid-row: span 2;
-        grid-column: span 1;
+        min-height: 240px;
+        max-height: 280px;
+        object-fit: cover; /* Changed back to cover to avoid bands */
+        object-position: center 25%; /* Slightly adjusted to show more important parts */
       }
-      .image-grid img:nth-child(5n) {
+      
+      /* Mixed sizing for visual interest */
+      .image-grid img:nth-child(3n+2):not(:first-child) {
         grid-row: span 2;
+        min-height: 240px;
+        max-height: 280px;
       }
-      .image-grid img:nth-child(7n) {
-        grid-row: span 3;
-      }
-      .image-grid img:nth-child(1) {
-        grid-column: 1 / -1;
-        grid-row: span 2;
-        height: 100%;
+      
+      /* Ensure no overlapping in Safari */
+      @media not all and (min-resolution:.001dpcm) { 
+        @supports (-webkit-appearance:none) {
+          .image-grid {
+            grid-auto-flow: row;
+            grid-auto-rows: minmax(120px, 180px);
+          }
+          
+          .image-grid img {
+            height: 100%;
+            min-height: unset;
+            max-height: unset;
+            object-fit: cover;
+          }
+          
+          .image-grid img:first-child {
+            min-height: unset;
+            max-height: unset;
+          }
+        }
       }
 
       @media (max-width: 640px) {
@@ -646,10 +698,13 @@ export class PostElement extends LiteElement {
   }
 
   render() {
+    const hasContent = this.content || this.shadowRoot?.querySelector('slot')?.assignedNodes().length;
+    const hasOnlyTitles = !hasContent && (this.headline || this.subline);
+    
     return html`
-    <div class="card">
+    <div class="card ${hasOnlyTitles ? 'no-content' : ''}">
         ${this._renderImages()}
-      <div class="content">
+      <div class="content ${hasOnlyTitles ? 'has-only-titles' : ''}">
         ${this._renderHeadline()} 
         ${this._renderSubline()}
         ${this._renderContent()}
