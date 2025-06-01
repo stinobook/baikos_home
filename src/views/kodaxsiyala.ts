@@ -86,48 +86,41 @@ export class KodaxsiyalaView extends LiteElement {
 
   private getChartConfig() {
     const isMobile = window.innerWidth <= 640;
+    const legendPosition: 'top' | 'bottom' = isMobile ? 'bottom' : 'top';
+    // Automatically generate labels based on the longest dataset
+    const datasets = [
+      { label: 'Teef 1', data: [412, 410, 430, 470, 522, 572, 648, 684, 722] },
+      { label: 'Reu 1', data: [334, 350, 374, 402, 450, 506, 542, 580, 642] },
+      { label: 'Teef 2', data: [330, 340, 366, 398, 442, 504, 560, 620, 676] },
+      { label: 'Reu 2', data: [260, 272, 308, 338, 380, 434, 472, 518, 566] },
+      { label: 'Reu 3', data: [398, 418, 448, 490, 556, 622, 676, 720, 768] },
+      { label: 'Teef 3', data: [300, 308, 334, 364, 420, 476, 520, 560, 612] },
+    ];
+    const maxLength = Math.max(...datasets.map(ds => ds.data.length));
+    const labels = Array.from({ length: maxLength }, (_, i) => `Day ${i}`);
     return {
       type: 'line' as const,
       data: {
-        labels: ['Day 0', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-        datasets: [
-          {
-            label: 'Teef 1',
-            data: [412, 410, 430, 470, 522, 572, 648, 684],
-            borderColor: 'rgba(255, 99, 132, 1)',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          },
-          {
-            label: 'Reu 1',
-            data: [334, 350, 374, 402, 450, 506, 542, 580],
-            borderColor: 'rgba(54, 162, 235, 1)',
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          },
-          {
-            label: 'Teef 2',
-            data: [330, 340, 366, 398, 442, 504, 560, 620],
-            borderColor: 'rgba(255, 206, 86, 1)',
-            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-          },
-          {
-            label: 'Reu 2',
-            data: [260, 272, 308, 338, 380, 434, 472, 518],
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          },
-          {
-            label: 'Reu 3',
-            data: [398, 418, 448, 490, 556, 622, 676, 720],
-            borderColor: 'rgba(153, 102, 255, 1)',
-            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          },
-          {
-            label: 'Teef 3',
-            data: [300, 308, 334, 364, 420, 476, 520, 560],
-            borderColor: 'rgba(255, 159, 64, 1)',
-            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-          },
-        ]
+        labels,
+        datasets: datasets.map((ds, i) => ({
+          ...ds,
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+          ][i],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+          ][i],
+        })),
       },
       options: {
         responsive: true,
@@ -135,7 +128,7 @@ export class KodaxsiyalaView extends LiteElement {
         aspectRatio: 16 / 9,
         plugins: {
             legend: {
-            position: isMobile ? 'bottom' : 'top',
+            position: legendPosition,
             labels: {
                 font: {
                 size: isMobile ? 10 : 12
