@@ -89,12 +89,12 @@ export class KodaxsiyalaView extends LiteElement {
     const legendPosition: 'top' | 'bottom' = isMobile ? 'bottom' : 'top';
     // Automatically generate labels based on the longest dataset
     const datasets = [
-      { label: 'Teef 1', data: [412, 410, 430, 470, 522, 572, 648, 684, 722] },
-      { label: 'Reu 1', data: [334, 350, 374, 402, 450, 506, 542, 580, 642] },
-      { label: 'Teef 2', data: [330, 340, 366, 398, 442, 504, 560, 620, 676] },
-      { label: 'Reu 2', data: [260, 272, 308, 338, 380, 434, 472, 518, 566] },
-      { label: 'Reu 3', data: [398, 418, 448, 490, 556, 622, 676, 720, 768] },
-      { label: 'Teef 3', data: [300, 308, 334, 364, 420, 476, 520, 560, 612] },
+      { label: 'Teef 1', data: [412, 410, 430, 470, 522, 572, 648, 684, 722, 792] },
+      { label: 'Reu 1', data: [334, 350, 374, 402, 450, 506, 542, 580, 642, 716] },
+      { label: 'Teef 2', data: [330, 340, 366, 398, 442, 504, 560, 620, 676, 730] },
+      { label: 'Reu 2', data: [260, 272, 308, 338, 380, 434, 472, 518, 566, 602] },
+      { label: 'Reu 3', data: [398, 418, 448, 490, 556, 622, 676, 720, 768, 834] },
+      { label: 'Teef 3', data: [300, 308, 334, 364, 420, 476, 520, 560, 612, 674] },
     ];
     const maxLength = Math.max(...datasets.map(ds => ds.data.length));
     const labels = Array.from({ length: maxLength }, (_, i) => `Day ${i}`);
