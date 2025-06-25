@@ -89,23 +89,23 @@ export class KodaxsiyalaView extends LiteElement {
     const legendPosition: 'top' | 'bottom' = isMobile ? 'bottom' : 'top';
     // Automatically generate labels based on the longest dataset
     const datasets = [
-      { label: 'Teef 1', data: [412, 410, 430, 470, 522, 572, 648, 684, 722, 792, 816, 854, 884, 908, 935, 962, 1010, 1035, 1070, 1100, 1130, 1190, 1245, 1270, 1290, 1385, 1500,
-        1595, 1690, 1780, 1905
+      { label: 'Yira', data: [412, 410, 430, 470, 522, 572, 648, 684, 722, 792, 816, 854, 884, 908, 935, 962, 1010, 1035, 1070, 1100, 1130, 1190, 1245, 1270, 1290, 1385, 1500,
+        1595, 1690, 1780, 1905, 2005, 2105
       ] },
-      { label: 'Reu 1', data: [334, 350, 374, 402, 450, 506, 542, 580, 642, 716, 744, 786, 848, 890, 930, 970, 1030, 1080, 1145, 1190, 1235, 1300, 1335, 1365, 1390, 1530, 1615,
-        1712, 1810, 1895, 2025
-      ] },
-      { label: 'Teef 2', data: [330, 340, 366, 398, 442, 504, 560, 620, 676, 730, 760, 796, 840, 874, 889, 934, 970, 1015, 1075, 1120, 1150, 1200, 1275, 1320, 1350, 1460, 1580,
-        1675 ,1770, 1850, 1925
-      ] },
-      { label: 'Reu 2', data: [260, 272, 308, 338, 380, 434, 472, 518, 566, 602, 632, 672, 702, 734, 764, 794, 824, 866, 902, 942, 970, 1025, 1045, 1075, 1105, 1215, 1305,
-        1391, 1480, 1560, 1680
+      { label: 'Izumi', data: [300, 308, 334, 364, 420, 476, 520, 560, 612, 674, 690, 756, 800, 820, 841, 862, 914, 962, 1045, 1100, 1160, 1180, 1210, 1245, 1280, 1355, 1475,
+        1547, 1620, 1675, 1740, 1827, 1915
       ] },
       { label: 'Reu 3', data: [398, 418, 448, 490, 556, 622, 676, 720, 768, 834, 858, 908, 932, 968, 998, 1035, 1075, 1105, 1140, 1150, 1165, 1245, 1295, 1345, 1355, 1480, 1600,
-        1687, 1775, 1860, 2010
+        1687, 1775, 1860, 2010, 2125, 2240
       ] },
-      { label: 'Teef 3', data: [300, 308, 334, 364, 420, 476, 520, 560, 612, 674, 690, 756, 800, 820, 841, 862, 914, 962, 1045, 1100, 1160, 1180, 1210, 1245, 1280, 1355, 1475,
-        1547, 1620, 1675, 1740
+      { label: 'Reu 2', data: [260, 272, 308, 338, 380, 434, 472, 518, 566, 602, 632, 672, 702, 734, 764, 794, 824, 866, 902, 942, 970, 1025, 1045, 1075, 1105, 1215, 1305,
+        1391, 1480, 1560, 1680, 1802, 1925
+      ] },
+      { label: 'Teef 2', data: [330, 340, 366, 398, 442, 504, 560, 620, 676, 730, 760, 796, 840, 874, 889, 934, 970, 1015, 1075, 1120, 1150, 1200, 1275, 1320, 1350, 1460, 1580,
+        1675 ,1770, 1850, 1925, 2017, 2110
+      ] },
+      { label: 'Reu 1', data: [334, 350, 374, 402, 450, 506, 542, 580, 642, 716, 744, 786, 848, 890, 930, 970, 1030, 1080, 1145, 1190, 1235, 1300, 1335, 1365, 1390, 1530, 1615,
+        1712, 1810, 1895, 2025, 2145, 2265
       ] },
     ];
     const maxLength = Math.max(...datasets.map(ds => ds.data.length));
@@ -171,12 +171,12 @@ export class KodaxsiyalaView extends LiteElement {
         subline="23 Mei 2025"
         .content=${html`
         <ul>
-            <li>Teef 1 - 16:35 - 412g - Brown Sable Merle</li>
+            <li>Yipping Yira - 16:35 - 412g - Brown Sable Merle</li>
             <li>Reu&nbsp;&nbsp;1 - 16:41 - 334g - Brown Sable</li>
             <li>Teef 2 - 17:10 - 330g - Brown Tricolor</li>
             <li>Reu&nbsp;&nbsp;2 - 17:16 - 260g - Brown Sable</li>
             <li>Reu&nbsp;&nbsp;3 - 17:40 - 398g - Brown Sable Merle</li>
-            <li>Teef 3 - 17:53 - 300g - Brown (Possibly Tricolor)</li>
+            <li>Yipping Izumi - 17:53 - 300g - Brown (Possibly Tricolor)</li>
         </ul>
             `}
       ></post-element>
@@ -194,7 +194,7 @@ export class KodaxsiyalaView extends LiteElement {
         './img/litters/kodaxsiyala/teef1i.webp',
         './img/litters/kodaxsiyala/teef1j.webp'
       ]}
-        headline="Teef 1"
+        headline="Yipping Yira"
         subline="Brown Sable Merle"
       ></post-element>
       <post-element
@@ -273,7 +273,7 @@ export class KodaxsiyalaView extends LiteElement {
           './img/litters/kodaxsiyala/teef3i.webp',
           './img/litters/kodaxsiyala/teef3j.webp'
         ]}
-        headline="Teef 3"
+        headline="Yipping Izumi"
         subline="Brown (Possibly Tricolor)"
       ></post-element>
       </flex-container>
