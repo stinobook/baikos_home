@@ -29,6 +29,12 @@ export class PostElement extends LiteElement {
   private static currentIndex: number = 0;
   private static isAnimating: boolean = false;
 
+  @property({type: Boolean})
+  accessor mainImage: boolean = true;
+
+  @property({type: Number})
+  accessor mainImageRows: number = 2;
+
   static styles?: StyleList = [
     css`
       :host {
@@ -190,6 +196,16 @@ export class PostElement extends LiteElement {
         overflow: hidden;
         grid-auto-flow: row dense;
       }
+
+      .main-image {
+        grid-column: 1 / -1 !important;
+        grid-row: span var(--main-image-rows, 2) !important;
+        min-height: calc(120px * var(--main-image-rows, 2)) !important;
+        max-height: calc(200px * var(--main-image-rows, 2)) !important;
+        object-fit: contain !important;
+        object-position: center 25%;
+        border-radius: 5px;
+      }
       
       /* Adjust content area when no content */
       .content.has-only-titles {
@@ -212,16 +228,6 @@ export class PostElement extends LiteElement {
         backface-visibility: hidden;
       }
 
-      /* Better aspect ratio preservation */
-      .image-grid > img:first-child {
-        grid-column: span 2;
-        grid-row: span 2;
-        min-height: 240px;
-        max-height: 280px;
-        object-fit: cover; /* Changed back to cover to avoid bands */
-        object-position: center 25%; /* Slightly adjusted to show more important parts */
-      }
-      
       /* Mixed sizing for visual interest */
       .image-grid img:nth-child(3n+2):not(:first-child) {
         grid-row: span 2;
@@ -644,11 +650,23 @@ export class PostElement extends LiteElement {
 
   _renderImages() {
     if (this.images?.length) {
-      // Check if there's only one image, render as a single image
       if (this.images.length === 1) {
         return this._renderSingleImage(this.images[0]);
       }
-      // Always show all images, no limit
+      // Determine if this post has content
+      const hasContent = this.content || this.shadowRoot?.querySelector('slot')?.assignedNodes().length;
+      // Use main image style by default if there is content
+      if (hasContent) {
+        return html`
+          <div class="image-grid" style="--main-image-rows: ${this.mainImageRows}">
+            <img class="main-image" loading="lazy" src=${this.images[0]} style="grid-row: span ${this.mainImageRows}; grid-column: 1 / -1;" @click=${() => this.openImage(0)} />
+            ${this.images.slice(1).map((img, i) => html`
+              <img loading="lazy" src=${img} @click=${() => this.openImage(i+1)} />
+            `)}
+          </div>
+        `;
+      }
+      // No content: show all images normal
       return html`
         <div class="image-grid">
           ${this.images.map((img, i) => html`

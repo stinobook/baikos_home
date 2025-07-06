@@ -49,13 +49,15 @@ export class StudsView extends LiteElement {
     <flex-container>
       <post-element
       .images=${[
-          './img/studs/roylu1.webp',
+          './img/studs/roylu.webp',
           './img/studs/roylu2.webp',
           './img/studs/roylu3.webp',
           './img/studs/roylu4.webp',
           './img/studs/roylu5.webp',
           './img/studs/roylu6.webp'
       ]}
+        .mainImage=${true}
+        .mainImageRows=${5}
         headline="Roylu - Baiko's Home Roaring Roylu"
         subline="06/03/2018"
         .content=${html`
