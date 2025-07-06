@@ -197,14 +197,34 @@ export class PostElement extends LiteElement {
         grid-auto-flow: row dense;
       }
 
-      .main-image {
+      .main-image-wrapper {
+        width: 100%;
         grid-column: 1 / -1 !important;
-        grid-row: span var(--main-image-rows, 2) !important;
-        min-height: calc(120px * var(--main-image-rows, 2)) !important;
-        max-height: calc(200px * var(--main-image-rows, 2)) !important;
+        grid-row: 1 / span 2 !important;
+      }
+      .main-image {
+        min-height: 240px !important;
+        max-height: 400px !important;
         object-fit: contain !important;
         object-position: center 25%;
         border-radius: 5px;
+        width: 100% !important;
+        display: block !important;
+      }
+      /* Extra Safari fix for grid image spanning */
+      @media not all and (min-resolution:.001dpcm) {
+        @supports (-webkit-appearance:none) {
+          .main-image-wrapper {
+            grid-column: 1 / -1 !important;
+            grid-row: 1 / span 2 !important;
+          }
+          .main-image {
+            min-height: 240px !important;
+            max-height: 400px !important;
+            width: 100% !important;
+            display: block !important;
+          }
+        }
       }
       
       /* Adjust content area when no content */
@@ -658,10 +678,12 @@ export class PostElement extends LiteElement {
       // Use main image style by default if there is content
       if (hasContent) {
         return html`
-          <div class="image-grid" style="--main-image-rows: ${this.mainImageRows}">
-            <img class="main-image" loading="lazy" src=${this.images[0]} style="grid-row: span ${this.mainImageRows}; grid-column: 1 / -1;" @click=${() => this.openImage(0)} />
+          <div class="image-grid">
+            <div class="main-image-wrapper">
+              <img class="main-image" loading="lazy" src=${this.images[0]} @click=${() => this.openImage(0)} />
+            </div>
             ${this.images.slice(1).map((img, i) => html`
-              <img loading="lazy" src=${img} @click=${() => this.openImage(i+1)} />
+              <img class="after-main-image" loading="lazy" src=${img} @click=${() => this.openImage(i+1)} />
             `)}
           </div>
         `;
