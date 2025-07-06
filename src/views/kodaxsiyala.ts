@@ -194,7 +194,8 @@ export class KodaxsiyalaView extends LiteElement {
         './img/litters/kodaxsiyala/teef1i.webp',
         './img/litters/kodaxsiyala/teef1j.webp',
         './img/litters/kodaxsiyala/teef1k.webp',
-        './img/litters/kodaxsiyala/teef1l.webp'
+        './img/litters/kodaxsiyala/teef1l.webp',
+        './img/litters/kodaxsiyala/teef1m.webp'
       ]}
         headline="Yipping Yira"
         subline="Brown Sable Merle"
@@ -211,7 +212,8 @@ export class KodaxsiyalaView extends LiteElement {
           './img/litters/kodaxsiyala/reu1h.webp',
           './img/litters/kodaxsiyala/reu1i.webp',
           './img/litters/kodaxsiyala/reu1j.webp',
-          './img/litters/kodaxsiyala/reu1k.webp'
+          './img/litters/kodaxsiyala/reu1k.webp',
+          './img/litters/kodaxsiyala/reu1l.webp'
         ]}
         headline="Yipping Valko"
         subline="Brown Sable"
@@ -230,7 +232,8 @@ export class KodaxsiyalaView extends LiteElement {
           './img/litters/kodaxsiyala/teef2j.webp',
           './img/litters/kodaxsiyala/teef2k.webp',
           './img/litters/kodaxsiyala/teef2l.webp',
-          './img/litters/kodaxsiyala/teef2m.webp'
+          './img/litters/kodaxsiyala/teef2m.webp',
+          './img/litters/kodaxsiyala/teef2n.webp'
         ]}
         headline="Teef 2"
         subline="Brown Tricolor"
@@ -247,7 +250,8 @@ export class KodaxsiyalaView extends LiteElement {
           './img/litters/kodaxsiyala/reu2h.webp',
           './img/litters/kodaxsiyala/reu2i.webp',
           './img/litters/kodaxsiyala/reu2j.webp',
-          './img/litters/kodaxsiyala/reu2k.webp'
+          './img/litters/kodaxsiyala/reu2k.webp',
+          './img/litters/kodaxsiyala/reu2l.webp'
         ]}
         headline="Yipping Aiko"
         subline="Brown Sable"
@@ -265,7 +269,8 @@ export class KodaxsiyalaView extends LiteElement {
           './img/litters/kodaxsiyala/reu3i.webp',
           './img/litters/kodaxsiyala/reu3j.webp',
           './img/litters/kodaxsiyala/reu3k.webp',
-          './img/litters/kodaxsiyala/reu3l.webp'
+          './img/litters/kodaxsiyala/reu3l.webp',
+          './img/litters/kodaxsiyala/reu3m.webp'
         ]}
         headline="Reu 3"
         subline="Brown Sable Merle"
@@ -283,7 +288,8 @@ export class KodaxsiyalaView extends LiteElement {
           './img/litters/kodaxsiyala/teef3i.webp',
           './img/litters/kodaxsiyala/teef3j.webp',
           './img/litters/kodaxsiyala/teef3k.webp',
-          './img/litters/kodaxsiyala/teef3l.webp'
+          './img/litters/kodaxsiyala/teef3l.webp',
+          './img/litters/kodaxsiyala/teef3m.webp'
         ]}
         headline="Yipping Izumi"
         subline="Brown (Possibly Tricolor)"
