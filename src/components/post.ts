@@ -648,21 +648,12 @@ export class PostElement extends LiteElement {
       if (this.images.length === 1) {
         return this._renderSingleImage(this.images[0]);
       }
-      
-      // Ensure we're not displaying too many small thumbnails
-      const displayImages = this.images.slice(0, Math.min(this.images.length, 12));
-      const hasMore = this.images.length > 12;
-      
+      // Always show all images, no limit
       return html`
         <div class="image-grid">
-          ${displayImages.map((img, i) => html`
+          ${this.images.map((img, i) => html`
             <img loading="lazy" src=${img} @click=${() => this.openImage(i)} />
           `)}
-          ${hasMore ? html`
-            <div class="more-images" @click=${() => this.openImage(0)}>
-              +${this.images.length - 12} more
-            </div>
-          ` : ''}
         </div>
       `;
     }
