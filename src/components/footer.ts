@@ -13,25 +13,8 @@ export class FooterElement extends LiteElement {
         align-self: center;
         width: 100%;
         height: auto;
-        margin: 6px;
-        justify-content: flex-end;
+        margin: 8px 8px 16px;
         display: flex;
-      }
-      ::-webkit-scrollbar {
-        width: 8px;
-        border-radius: var(--md-sys-shape-corner-extra-large);
-        background-color: var(--md-sys-color-surface-container-highest);
-      }
-      ::-webkit-scrollbar-thumb {
-        background: var(--md-sys-color-on-surface-container-highest);
-        border-radius: var(--md-sys-shape-corner-extra-large);
-        box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
-      }
-      img {
-        height: 100px;
-        width: auto;
-        margin: 0 6px;
-        object-fit: contain;
       }
       flex-container {
         max-width: 1280px;
@@ -40,29 +23,34 @@ export class FooterElement extends LiteElement {
         width: 100%;
         justify-content: space-between;
         align-items: center;
+        gap: 16px;
       }
-      
+
       @media (max-width: 625px) {
+        :host {
+          margin: 4px 4px 12px;
+        }
         flex-container {
           flex-direction: column;
           justify-content: center;
-          align-items: center;
-          gap: 16px;
+          align-items: flex-start;
+          gap: 12px;
         }
       }
-      
+
       flex-column {
         width: fit-content;
       }
-        flex-column:first-child {
+      flex-column:first-child {
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* Align content to the left */
-        justify-content: flex-start; /* Push everything to the top */
+        align-items: flex-start;
+        justify-content: flex-start;
       }
       flex-row {
         width: 100%;
         justify-content: space-between;
+        gap: 8px;
       }
     `
   ]

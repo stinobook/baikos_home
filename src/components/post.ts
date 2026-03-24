@@ -42,11 +42,23 @@ export class PostElement extends LiteElement {
         display: block;
         max-width: 1280px;
         height: fit-content;
-        margin: 6px auto;
-        background-color: var(--md-sys-color-surface);
+        margin: 8px auto;
+        background-color: color-mix(in srgb, var(--md-sys-color-surface) 97%, transparent);
         color: var(--md-sys-color-on-surface);
         border-radius: var(--md-sys-shape-corner-large);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.06),
+          0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 10%, transparent);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      :host(:hover) {
+        box-shadow:
+          0 4px 16px rgba(0, 0, 0, 0.08),
+          0 16px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
       }
 
       :host([visible]) .card {
@@ -59,19 +71,18 @@ export class PostElement extends LiteElement {
       }
       .card {
         opacity: 0;
-        transform: translateY(50px);
-        transition: all 0.6s ease-out;
+        transform: translateY(32px);
+        transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
-        margin: 1rem auto;
-        box-shadow: 0 3px 7px -1px rgba(#000, .1);
+        margin: 0;
         line-height: 1.4;
         justify-content: center;
         flex-wrap: wrap;
         flex-direction: var(--flex-direction);
         align-items: stretch;
         align-content: stretch;
-        gap: 12px;
-        padding: 12px;
+        gap: 0;
+        padding: 0;
       }
       
       /* When no content, make it full width */
@@ -93,46 +104,77 @@ export class PostElement extends LiteElement {
       
       .img {
         flex: 1 1 30%;
-        min-height:150px;
+        min-height: 150px;
         align-items: center;
         display: flex;
+        overflow: hidden;
       }
       img {
         width: 100%;
-        max-height:300px;
+        max-height: 340px;
         object-fit: contain;
-        border-radius: 5px;
+        border-radius: 4px;
+        display: block;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .img img:hover {
+        transform: scale(1.03);
       }
       .content {
         position: relative;
         flex: 3 0 65%;
+        padding: 28px 32px;
       }
       h1 {
-        line-height: 1;
-        margin: 24px 0;
-        font-size: 1.7rem;
+        line-height: 1.15;
+        margin: 0 0 16px 0;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--md-sys-color-on-surface);
+        position: relative;
+        padding-bottom: 14px;
+      }
+      h1::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 48px;
+        height: 3px;
+        background: var(--md-sys-color-primary);
+        border-radius: 2px;
       }
       h2 {
         font-size: 1rem;
-        font-weight: 300;
-        margin-top: 5px;
+        font-weight: 400;
+        color: var(--md-sys-color-on-surface-variant);
+        margin: 0 0 16px 0;
+      }
+      h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 20px 0 10px;
+        color: var(--md-sys-color-on-surface);
       }
       p {
         position: relative;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
+        line-height: 1.7;
+        color: var(--md-sys-color-on-surface-variant);
       }
       .ul {
         margin: 0 0 24px 20px;
         padding: 0;
         color: var(--md-sys-color-on-surface-variant);
       }
-      
+
       li {
         margin-bottom: 8px;
         position: relative;
-        line-height: 1.5;
+        line-height: 1.6;
+        color: var(--md-sys-color-on-surface-variant);
       }
-      
+
       li::before {
         content: "•";
         color: var(--md-sys-color-primary);
@@ -141,25 +183,66 @@ export class PostElement extends LiteElement {
         width: 20px;
         margin-left: -20px;
       }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 16px;
+      }
+
+      tr {
+        border-bottom: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 15%, transparent);
+      }
+
+      tr:last-child {
+        border-bottom: none;
+      }
+
+      td, th {
+        padding: 10px 12px;
+        color: var(--md-sys-color-on-surface-variant);
+      }
+
+      th {
+        text-align: left;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+      }
+
+      td:first-child {
+        font-weight: 500;
+        color: var(--md-sys-color-on-surface);
+      }
+
       a {
         background-color: var(--md-sys-color-primary);
         color: var(--md-sys-color-on-primary);
-        padding: 16px 38px;
+        padding: 14px 32px;
         border: none;
-        border-radius: var(--md-sys-shape-corner-medium);
+        border-radius: 40px;
         cursor: pointer;
         text-decoration: none;
-        display: inline-block;
-        font-size: 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
         font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        letter-spacing: 0.5px;
+        transition:
+          background-color 0.25s ease,
+          transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+          box-shadow 0.25s ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        letter-spacing: 0.3px;
+        margin-top: 8px;
       }
       a:hover {
-        background-color: var(--md-sys-color-primary-dark);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        background-color: color-mix(in srgb, var(--md-sys-color-primary) 85%, black);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      }
+      a:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
 
       custom-icon {
@@ -174,14 +257,23 @@ export class PostElement extends LiteElement {
       tr, td, th {
         padding: 0 12px;
       }
-      @media (max-width: 640px) {
+      @media (max-width: 768px) {
         .card {
-          flex-direction: column;
+          flex-direction: column !important;
+        }
+        .img {
+          min-height: 0;
         }
         img {
-          margin: 0 auto;
-          width: auto;
-          max-width: 100%;
+          width: 100%;
+          max-height: 300px;
+          object-fit: contain;
+        }
+        .content {
+          padding: 20px 20px;
+        }
+        h1 {
+          font-size: 1.4rem;
         }
       }
 
@@ -189,7 +281,7 @@ export class PostElement extends LiteElement {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         grid-auto-rows: minmax(120px, auto);
-        gap: 8px;
+        gap: 4px;
         flex: 1 1 30%;
         min-height: 150px;
         align-items: stretch;
@@ -231,6 +323,10 @@ export class PostElement extends LiteElement {
       .content.has-only-titles {
         flex: 1 0 100%;
         text-align: center;
+      }
+
+      .content.has-only-titles h1::after {
+        display: none;
       }
 
       .image-grid img {
@@ -377,13 +473,15 @@ export class PostElement extends LiteElement {
         font-size: 16px;
       }
 
-      .img img, .image-grid img {
+      .image-grid img {
         cursor: pointer;
-        transition: transform 0.2s ease;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
+        filter: brightness(1);
       }
 
-      .img img:hover, .image-grid img:hover {
-        transform: scale(1.03);
+      .image-grid img:hover {
+        transform: scale(1.06);
+        filter: brightness(1.08);
       }
 
       @keyframes fadeIn {

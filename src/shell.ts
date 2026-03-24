@@ -22,9 +22,12 @@ export class BaikoShell extends LiteElement {
   static styles = [
     css`
       :host {
-        background: linear-gradient(135deg, 
-            var(--md-sys-color-primary), 
-            color-mix(in srgb, var(--md-sys-color-primary) 50%, black 40%)
+        background:
+          radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--md-sys-color-primary) 30%, transparent) 0%, transparent 60%),
+          radial-gradient(ellipse at 80% 20%, color-mix(in srgb, var(--md-sys-color-tertiary, var(--md-sys-color-primary)) 20%, transparent) 0%, transparent 50%),
+          linear-gradient(160deg,
+            color-mix(in srgb, var(--md-sys-color-primary) 85%, black 15%),
+            color-mix(in srgb, var(--md-sys-color-primary) 40%, black 50%)
           );
         display: flex;
         flex-direction: row;
@@ -32,14 +35,16 @@ export class BaikoShell extends LiteElement {
         color: var(--md-sys-color-on-primary);
       }
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
         border-radius: var(--md-sys-shape-corner-extra-large);
-        background-color: var(--md-sys-color-surface-container-highest);
+        background-color: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: var(--md-sys-color-on-surface-container-highest);
+        background: color-mix(in srgb, var(--md-sys-color-on-surface-container-highest) 60%, transparent);
         border-radius: var(--md-sys-shape-corner-extra-large);
-        box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--md-sys-color-on-surface-container-highest);
       }
       #container {
         display: flex;
@@ -51,21 +56,27 @@ export class BaikoShell extends LiteElement {
       }
       header-element {
         max-width: fit-content;
+        z-index: 100;
       }
       header-element flex-row {
         height: unset !important;
       }
       .logo {
         background: url("./img/full.png") no-repeat;
+        background-size: contain;
         cursor: pointer;
       }
       .logo h1 {
-        font-size: 20px;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
         white-space: nowrap;
         min-width: fit-content;
         margin: 0 0 0 44px;
         height: 32px;
         cursor: pointer;
+        color: var(--md-sys-color-on-primary);
+        text-shadow: 0 1px 4px rgba(0,0,0,0.3);
       }
       drawer-element custom-hover-menu {
         align-items: flex-start;
@@ -75,12 +86,12 @@ export class BaikoShell extends LiteElement {
         right: 0;
         top: 0;
         margin: 5px;
-        z-index: 1000;
+        z-index: 1100;
       }
       @media (max-width: 1280px) {
         header-element {
           min-width: 100%;
-          max-height: 60px;
+          max-height: 64px;
         }
       }
 
@@ -92,9 +103,9 @@ export class BaikoShell extends LiteElement {
         .logo {
           opacity: 0;
           width: 0px;
-          position:fixed;
-          left:-100px;
-          top:-100px;
+          position: fixed;
+          left: -100px;
+          top: -100px;
         }
       }
     `
@@ -130,19 +141,28 @@ export class BaikoShell extends LiteElement {
         item.classList.add('custom-selected')
         if (item.getAttribute('slot') === 'sub-menu') {
           item.parentElement.classList.add('custom-selected')
-          item && this.drawer.open === true ? this.drawer.open = false : '' 
+          if (item && this.drawer.open === true) {
+            this.drawer.open = false
+            this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.remove('visible')
+          }
         } else {
-          this.drawer.open === true ? this.drawer.open = false : '' 
+          if (this.drawer.open === true) {
+            this.drawer.open = false
+            this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.remove('visible')
+          }
         }
       }
     }
   }
 
   _drawerOpen = ({ detail }) => {
-    console.log(detail)
-
-    if (detail) this.drawer.open = true
-    else this.drawer.open = false
+    if (detail) {
+      this.drawer.open = true
+      this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.add('visible')
+    } else {
+      this.drawer.open = false
+      this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.remove('visible')
+    }
   }
 
   async connectedCallback() {
@@ -165,12 +185,29 @@ export class BaikoShell extends LiteElement {
         height: 100%;
         display: flex;
       }
+      [slot='logoname'] h1 {
+        color: var(--md-sys-color-on-surface) !important;
+        text-shadow: none;
+      }
+      #drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        z-index: 999;
+        pointer-events: none;
+        transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      #drawer-backdrop.visible {
+        background: rgba(0,0,0,0.45);
+        pointer-events: auto;
+      }
     </style>
       <!-- just cleaner -->
       ${icons}
       <!-- see https://vandeurenglenn.github.io/custom-elements/ -->
       <custom-theme .loadFont=${false}></custom-theme>
       <lang-element></lang-element>
+      <div id="drawer-backdrop" @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))}></div>
       <div id="container">
       <header-element>
           <div class="logo" @click=${() => location.hash = '!/home'} ><h1>Baiko's Home</h1></div>

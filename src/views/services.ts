@@ -9,29 +9,34 @@ export class ServicesView extends LiteElement {
     css`
       :host {
         overflow-y: auto;
-        padding-bottom: 12px;
+        padding-bottom: 16px;
         flex-direction: column;
       }
       ::-webkit-scrollbar {
-        width: 8px;
-        border-radius: var(--md-sys-shape-corner-extra-large);
-        background-color: var(--md-sys-color-surface-container-highest);
+        width: 6px;
+        background-color: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: var(--md-sys-color-on-surface-container-highest);
-        border-radius: var(--md-sys-shape-corner-extra-large);
-        box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.5) inset;
+        background: color-mix(in srgb, var(--md-sys-color-on-surface-container-highest) 60%, transparent);
+        border-radius: 4px;
       }
       flex-container {
         max-width: 1280px;
         margin: 0 auto;
+        padding: 4px 8px 0;
       }
       @media (max-width: 1280px) {
         :host {
-          padding-bottom: 0px;
+          padding-bottom: 4px;
         }
         flex-container {
-          border-radius: 0px;
+          border-radius: 0;
+          padding: 4px 4px 0;
+        }
+      }
+      @media (max-width: 600px) {
+        flex-container {
+          padding: 2px 2px 0;
         }
       }
       post-element:nth-of-type(even) {
@@ -40,7 +45,6 @@ export class ServicesView extends LiteElement {
       post-element:nth-of-type(odd) {
         --flex-direction: row-reverse;
       }
-
     `
   ]
 

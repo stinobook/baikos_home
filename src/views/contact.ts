@@ -8,186 +8,270 @@ export class ContactView extends LiteElement {
       :host {
         display: flex;
         justify-content: center;
-        align-items: center;
-        padding: 16px;
+        align-items: flex-start;
+        padding: 16px 12px;
+        overflow-y: auto;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--md-sys-color-on-surface-container-highest) 50%, transparent);
+        border-radius: 4px;
       }
 
       .contact-container {
         display: flex;
         flex-direction: row;
-        gap: 32px;
-        max-width: 1000px;
+        gap: 0;
+        max-width: 960px;
         width: 100%;
         flex-wrap: wrap;
-        padding: 24px;
-        border-radius: var(--md-sys-shape-corner-small);
-        background-color: var(--md-sys-color-surface);
+        border-radius: 20px;
+        background-color: color-mix(in srgb, var(--md-sys-color-surface) 97%, transparent);
         color: var(--md-sys-color-on-surface);
-        box-shadow: 0 3px 7px -1px rgba(#000, .1);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.1);
+        border: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 12%, transparent);
+        overflow: hidden;
+        animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      @keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
 
       .contact-info {
-        flex: 1;
+        flex: 0 0 260px;
         display: flex;
         flex-direction: column;
         gap: 16px;
-        padding: 24px;
-        background-color: var(--md-sys-color-surface-variant);
-        border-radius: var(--md-sys-shape-corner-medium);
+        padding: 32px 24px;
+        background-color: color-mix(in srgb, var(--md-sys-color-primary) 15%, var(--md-sys-color-surface));
+        border-right: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 10%, transparent);
       }
+
       .header-container {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 8px;
         width: 100%;
+        padding-bottom: 20px;
+        border-bottom: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 15%, transparent);
+        margin-bottom: 4px;
       }
-      
+
       .title {
-        font-size: 20px;
-        font-weight: bold;
+        font-size: 1.3rem;
+        font-weight: 700;
         color: var(--md-sys-color-on-surface);
+        line-height: 1.3;
+        letter-spacing: -0.2px;
       }
-      
-      .social-icons {
-        display: flex;
-        gap: 16px;
-        margin-left: auto; /* Push to right */
+
+      .contact-address {
+        font-size: 0.88rem;
+        color: var(--md-sys-color-on-surface-variant);
+        line-height: 1.6;
+        margin: 0;
       }
 
       .social-icons {
         display: flex;
-        gap: 16px;
-        margin-top: 16px;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 4px;
       }
 
       .social-icons a {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
         background-color: var(--md-sys-color-primary);
         border-radius: 50%;
         text-decoration: none;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition:
+          background-color 0.25s ease,
+          transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+          box-shadow 0.25s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       }
 
       .social-icons a:hover {
-        background-color: var(--md-sys-color-primary-dark);
-        transform: scale(1.1);
+        background-color: color-mix(in srgb, var(--md-sys-color-primary) 85%, black);
+        transform: translateY(-2px) scale(1.08);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+      }
+
+      .social-icons a:active {
+        transform: scale(0.95);
       }
 
       .social-icons svg {
-        width: 24px;
-        height: 24px;
+        width: 18px;
+        height: 18px;
         fill: var(--md-sys-color-on-primary);
       }
 
       .contact-form {
-        flex: 2;
+        flex: 1;
+        min-width: 280px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 0;
+        padding: 32px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
       }
 
       label {
-        font-weight: bold;
-        font-size: 14px;
-        color: var(--md-sys-color-on-surface);
+        font-weight: 600;
+        font-size: 0.83rem;
+        color: var(--md-sys-color-on-surface-variant);
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        margin-top: 12px;
+        margin-bottom: 4px;
+        display: block;
       }
 
       input,
       textarea {
         width: 100%;
-        padding: 12px;
-        margin: 4px 8px;
-        font-size: 16px;
-        border: 1px solid var(--md-sys-color-outline);
-        border-radius: var(--md-sys-shape-corner-medium);
-        background-color: var(--md-sys-color-surface-variant);
+        padding: 11px 14px;
+        font-size: 0.97rem;
+        border: 1.5px solid color-mix(in srgb, var(--md-sys-color-outline) 50%, transparent);
+        border-radius: 12px;
+        background-color: color-mix(in srgb, var(--md-sys-color-surface-variant) 60%, transparent);
         color: var(--md-sys-color-on-surface);
         outline: none;
-        transition: border-color 0.3s ease-in-out;
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.2s ease;
         box-sizing: border-box;
+        font-family: inherit;
+      }
+
+      input:hover,
+      textarea:hover {
+        border-color: color-mix(in srgb, var(--md-sys-color-outline) 80%, transparent);
       }
 
       input:focus,
       textarea:focus {
         border-color: var(--md-sys-color-primary);
-        box-shadow: 0 0 5px var(--md-sys-color-primary-light);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-sys-color-primary) 20%, transparent);
+        background-color: var(--md-sys-color-surface);
       }
 
       textarea {
         resize: vertical;
-        min-height: 150px;
+        min-height: 130px;
       }
 
       button {
         background-color: var(--md-sys-color-primary);
         color: var(--md-sys-color-on-primary);
-        margin: 16px auto;
-        padding: 16px 38px;
+        margin-top: 20px;
+        padding: 13px 32px;
         border: none;
-        border-radius: var(--md-sys-shape-corner-medium);
+        border-radius: 40px;
         cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.95rem;
         font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
+        transition:
+          background-color 0.25s ease,
+          transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+          box-shadow 0.25s ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        align-self: flex-start;
       }
 
-      button:hover {
-        background-color: var(--md-sys-color-primary-dark);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      button:hover:not(:disabled) {
+        background-color: color-mix(in srgb, var(--md-sys-color-primary) 85%, black);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      }
+
+      button:active:not(:disabled) {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
 
       /* Responsive Layout */
-      @media (max-width: 768px) {
+      @media (max-width: 680px) {
+        :host {
+          padding: 8px 6px;
+          align-items: stretch;
+        }
         .contact-container {
+          border-radius: 16px;
           flex-direction: column;
+        }
+        .contact-info {
+          flex: none;
+          border-right: none;
+          border-bottom: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 10%, transparent);
+          padding: 24px 20px;
+        }
+        .contact-form {
+          padding: 24px 20px;
         }
       }
 
-      /* Add styles for the status messages */
+      /* Status messages */
       .success-message {
         background-color: rgba(76, 175, 80, 0.1);
-        border-left: 4px solid #4caf50;
-        padding: 12px;
-        margin: 16px 0;
+        border-left: 3px solid #4caf50;
+        padding: 12px 16px;
+        margin-bottom: 16px;
         color: #2e7d32;
-        border-radius: 4px;
+        border-radius: 0 10px 10px 0;
+        font-size: 0.92rem;
+        animation: fadeSlideUp 0.3s ease;
       }
-      
+
       .error-message {
-        background-color: rgba(244, 67, 54, 0.1);
-        border-left: 4px solid #f44336;
-        padding: 12px;
-        margin: 16px 0;
-        color: #c62828;
-        border-radius: 4px;
+        background-color: color-mix(in srgb, var(--md-sys-color-error) 10%, transparent);
+        border-left: 3px solid var(--md-sys-color-error);
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        color: var(--md-sys-color-error);
+        border-radius: 0 10px 10px 0;
+        font-size: 0.92rem;
+        animation: fadeSlideUp 0.3s ease;
       }
-      
+
       /* Loading indicator */
       .loading {
         display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin-left: 10px;
-        border: 3px solid rgba(255,255,255,.3);
+        width: 16px;
+        height: 16px;
+        border: 2.5px solid rgba(255,255,255,.3);
         border-radius: 50%;
         border-top-color: var(--md-sys-color-on-primary);
-        animation: spin 1s ease-in-out infinite;
+        animation: spin 0.8s linear infinite;
       }
-      
+
       @keyframes spin {
         to { transform: rotate(360deg); }
       }
-      
+
       button:disabled {
-        background-color: var(--md-sys-color-outline);
+        opacity: 0.65;
         cursor: not-allowed;
       }
     `
@@ -301,11 +385,11 @@ export class ContactView extends LiteElement {
   render() {
     return html`
       <div class="contact-container">
-        <div class="header-container">
-            <div class='left'>
-                <h2 class="title">Neem contact met ons op</h2>
-                <small><p>Baiko's Home<br />Bosstraat 136<br />9420 Mere<br />BE0730642897</p></small>
-            </div>
+        <div class="contact-info">
+          <div class="header-container">
+            <h2 class="title">Neem contact met ons op</h2>
+            <p class="contact-address">Baiko's Home<br />Bosstraat 136<br />9420 Mere<br />BE0730642897</p>
+          </div>
           <div class="social-icons">
             <a href="https://maps.google.com/?q=Baiko's Home Bosstraat, Erpe-Mere" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">

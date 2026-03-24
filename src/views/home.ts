@@ -21,15 +21,29 @@ static styles = [
             max-width: 1280px;
             margin: 0 auto;
             flex-direction: row;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
             align-items: stretch;
+            padding: 0 8px;
+        }
+
+        /* First post (hero) gets slightly more top margin */
+        flex-container:first-of-type {
+            margin-top: 8px;
         }
 
       @media (max-width: 1280px) {
         flex-container {
             flex-direction: column;
             align-items: center;
+            padding: 0 4px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        flex-container {
+          padding: 0 2px;
+          gap: 6px;
         }
       }
         
