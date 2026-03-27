@@ -1,20 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl-BE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+
+    <!-- Primary meta -->
+    <title>Baiko's Home | Hondentraining & Border Collie Fokker – Mere, België</title>
+    <meta name="description" content="Baiko's Home in Mere (Erpe-Mere) biedt professionele hondentraining: fitness, body & balance, loopband en massage. Ook erkend Border Collie fokker met focus op gezondheid en karakter. Neem contact op voor een afspraak." />
+    <meta name="keywords" content="hondentraining, hondenfitness, Border Collie fokker, loopband hond, massage hond, body balance hond, privétraining hond, Mere, Erpe-Mere, Oost-Vlaanderen, België, Baiko's Home, Madeline" />
+    <meta name="author" content="Baiko's Home – Madeline" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://www.baikoshome.be/" />
+
+    <!-- Geo / local -->
+    <meta name="geo.region" content="BE-VOV" />
+    <meta name="geo.placename" content="Mere, Erpe-Mere" />
+    <meta name="geo.position" content="50.9077;3.9501" />
+    <meta name="ICBM" content="50.9077, 3.9501" />
+
+    <!-- Language -->
+    <link rel="alternate" hreflang="nl-BE" href="https://www.baikoshome.be/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Baiko's Home" />
+    <meta property="og:title" content="Baiko's Home | Hondentraining & Border Collie Fokker" />
+    <meta property="og:description" content="Professionele hondentraining (fitness, loopband, massage) en Border Collie fokkerij in Mere, België. Persoonlijke begeleiding voor elke hond." />
+    <meta property="og:url" content="https://www.baikoshome.be/" />
+    <meta property="og:image" content="https://www.baikoshome.be/img/full.png" />
+    <meta property="og:image:alt" content="Baiko's Home logo – hondentraining en Border Collie fokkerij" />
+    <meta property="og:locale" content="nl_BE" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Baiko's Home | Hondentraining & Border Collie Fokker" />
+    <meta name="twitter:description" content="Professionele hondentraining en Border Collie fokkerij in Mere, België." />
+    <meta name="twitter:image" content="https://www.baikoshome.be/img/full.png" />
+
+    <!-- Favicons & PWA -->
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
     <link rel="manifest" href="./assets/site.webmanifest">
-    <link rel="mask-icon" href="./assets/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="mask-icon" href="./assets/safari-pinned-tab.svg" color="#9c4143">
     <link rel="shortcut icon" href="./assets/favicon.ico">
+    <meta name="theme-color" content="#9c4143" />
     <meta name="msapplication-TileColor" content="#9c4143">
     <meta name="msapplication-config" content="./assets/browserconfig.xml">
-    <meta name="theme-color" content="#9c4143">
-    <title>Baiko's Home</title>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["LocalBusiness", "HealthAndBeautyBusiness"],
+          "@id": "https://www.baikoshome.be/#business",
+          "name": "Baiko's Home",
+          "legalName": "Baiko's Home",
+          "description": "Professioneel hondentrainingscentrum en Border Collie fokkerij. Gespecialiseerd in fitness, body & balance, loopbandtraining, massage en privétraining voor honden.",
+          "url": "https://www.baikoshome.be/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.baikoshome.be/img/full.png"
+          },
+          "image": "https://www.baikoshome.be/img/full.png",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Bosstraat 136",
+            "addressLocality": "Mere",
+            "addressRegion": "Oost-Vlaanderen",
+            "postalCode": "9420",
+            "addressCountry": "BE"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 50.9077,
+            "longitude": 3.9501
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          },
+          "sameAs": [
+            "https://www.facebook.com/BaikosHome",
+            "https://www.instagram.com/baikos_home"
+          ],
+          "priceRange": "€€",
+          "currenciesAccepted": "EUR",
+          "areaServed": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+              "@type": "GeoCoordinates",
+              "latitude": 50.9077,
+              "longitude": 3.9501
+            },
+            "geoRadius": "30000"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Hondentraining Diensten",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Hondenfitness",
+                  "description": "Gerichte spierversterkende oefeningen voor honden. Ideaal als revalidatie na een operatie of voor sporthonden.",
+                  "provider": { "@id": "https://www.baikoshome.be/#business" }
+                },
+                "price": "30",
+                "priceCurrency": "EUR",
+                "priceSpecification": { "@type": "UnitPriceSpecification", "price": 30, "priceCurrency": "EUR", "unitText": "30 min" }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Body & Balance",
+                  "description": "Lichaamsbewustheid vergroten via toestellen en ondergronden. Geschikt voor onzekere honden, pups en sporthonden.",
+                  "provider": { "@id": "https://www.baikoshome.be/#business" }
+                },
+                "price": "30",
+                "priceCurrency": "EUR",
+                "priceSpecification": { "@type": "UnitPriceSpecification", "price": 30, "priceCurrency": "EUR", "unitText": "30 min" }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Loopbandtraining",
+                  "description": "Gecontroleerde loopbandtraining voor beweging bij donker of slecht weer. Verbetert de gangenanalyse van de hond.",
+                  "provider": { "@id": "https://www.baikoshome.be/#business" }
+                },
+                "price": "30",
+                "priceCurrency": "EUR",
+                "priceSpecification": { "@type": "UnitPriceSpecification", "price": 30, "priceCurrency": "EUR", "unitText": "30 min" }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Hondenmassage",
+                  "description": "Ontspannende massage die stramme spieren loswerkt en gewrichten soepel houdt.",
+                  "provider": { "@id": "https://www.baikoshome.be/#business" }
+                },
+                "price": "30",
+                "priceCurrency": "EUR",
+                "priceSpecification": { "@type": "UnitPriceSpecification", "price": 30, "priceCurrency": "EUR", "unitText": "30 min" }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Privétraining aan huis",
+                  "description": "Individuele trainingssessies aan huis voor pups, volwassen honden of specifieke gedragsproblemen.",
+                  "provider": { "@id": "https://www.baikoshome.be/#business" }
+                },
+                "price": "45",
+                "priceCurrency": "EUR",
+                "priceSpecification": { "@type": "UnitPriceSpecification", "price": 45, "priceCurrency": "EUR", "unitText": "uur" }
+              }
+            ]
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://www.baikoshome.be/#founder",
+          "name": "Madeline",
+          "jobTitle": "Hondentrainer & Border Collie Fokker",
+          "worksFor": { "@id": "https://www.baikoshome.be/#business" },
+          "hasCredential": [
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "Agro- en biotechnologie – dierenzorg",
+              "dateCreated": "2016"
+            },
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "Animal Rehab Assistant and Sports Coaching",
+              "dateCreated": "2021",
+              "description": "Afgestudeerd met grote onderscheiding"
+            }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.baikoshome.be/#website",
+          "url": "https://www.baikoshome.be/",
+          "name": "Baiko's Home",
+          "description": "Hondentraining en Border Collie fokkerij in Mere, België",
+          "publisher": { "@id": "https://www.baikoshome.be/#business" },
+          "inLanguage": "nl-BE"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Wat kost een trainingssessie bij Baiko's Home?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Fitness, Body & Balance, loopbandtraining en massage kosten elk €30 per 30 minuten. Privétraining aan huis kost €45 per uur. De praktijkruimte kan zelfstandig afgehuurd worden voor €12 per 30 minuten."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Waar is Baiko's Home gevestigd?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Baiko's Home is gevestigd op Bosstraat 136, 9420 Mere (Erpe-Mere), België."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Fokt Baiko's Home Border Collies?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja, Baiko's Home is een erkende Border Collie fokker met focus op lage inteeltpercentages, gezondheid en karakter. Levenslange opvolging voor elke pup wordt geboden."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is hondenfitness geschikt als revalidatie na een operatie?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja, hondenfitness bij Baiko's Home kan ingezet worden als revalidatie na een operatie, mits verslag van de dierenarts."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <!-- service-worker-placeholder -->
     <style>
       :root {
@@ -27,7 +248,6 @@
         -moz-osx-font-smoothing: grayscale;
         overflow: auto;
       }
-      
     </style>
   </head>
   <body>

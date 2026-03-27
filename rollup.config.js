@@ -49,7 +49,12 @@ export default [
       resolve(),
       typescript(),
       copy({
-        targets: [{ src: 'src/img/**/*', dest: './www/' }],
+        targets: [
+          { src: 'src/img/**/*', dest: './www/', flatten: false },
+          { src: 'src/robots.txt', dest: './www/' },
+          { src: 'src/sitemap.xml', dest: './www/' },
+          { src: 'src/llms.txt', dest: './www/' }
+        ],
         flatten: false
       })
     ]
