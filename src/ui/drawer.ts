@@ -16,7 +16,7 @@ export class DrawerElement extends LiteElement {
         -webkit-backdrop-filter: blur(20px) saturate(1.5);
         color: var(--md-sys-color-on-surface);
         height: 100%;
-        width: min(320px, 85vw);
+        width: 100%;
         position: fixed;
         left: 0;
         top: 0;

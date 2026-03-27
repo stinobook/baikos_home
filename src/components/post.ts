@@ -23,11 +23,7 @@ export class PostElement extends LiteElement {
 
   private observer: IntersectionObserver;
 
-  // New properties for image viewer
   private static imageViewer: HTMLDivElement | null = null;
-  private static currentImages: string[] = [];
-  private static currentIndex: number = 0;
-  private static isAnimating: boolean = false;
 
   @property({type: Boolean})
   accessor mainImage: boolean = true;
@@ -38,7 +34,7 @@ export class PostElement extends LiteElement {
   static styles?: StyleList = [
     css`
       :host {
-        width: 100%;
+        width: calc(100% - 24px);
         display: block;
         max-width: 1280px;
         height: fit-content;
@@ -107,15 +103,12 @@ export class PostElement extends LiteElement {
         min-height: 150px;
         align-items: center;
         display: flex;
-        overflow: hidden;
       }
       img {
         width: 100%;
-        max-height: 340px;
+        max-height: 300px;
         object-fit: contain;
-        border-radius: 4px;
-        display: block;
-        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 5px;
       }
       .img img:hover {
         transform: scale(1.03);
@@ -262,12 +255,8 @@ export class PostElement extends LiteElement {
           flex-direction: column !important;
         }
         .img {
-          min-height: 0;
-        }
-        img {
-          width: 100%;
-          max-height: 300px;
-          object-fit: contain;
+          min-height: 220px;
+          max-height: 320px;
         }
         .content {
           padding: 20px 20px;

@@ -48,6 +48,13 @@ static styles = [
             height: 24px;
             fill: var(--md-sys-color-on-primary);
         }
+
+        ::slotted(p) {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--md-sys-color-on-primary);
+            line-height: 1.4;
+        }
     `
 ]
   _generatePaths() {
