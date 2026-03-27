@@ -59,7 +59,7 @@ export class AboutView extends LiteElement {
                   Dat ben ik, en mijn hondenverhaal begint al van jongs af aan. Maar het startte pas echt toen ik op mijn 15 jaar mijn eerste hond mocht kopen. Mijn eerste eigen hond, een border collie genaamd Bailey. En in dat zelfde jaar kwam ook Koda in mijn leven.
                   Bailey en Koda, waar het allemaal mee begon. Vandaar ook de keuze om dit alles Baiko’s Home te noemen.
                 </p>
-                <p>Met hen heb ik vooral in de gehoorzaamheid gezeten. We zijn blijven plakken en werden zo in 2014 instructeur op de hondenschool. Tot op de dag van vandaag geef ik daar nog steeds twee keer per week les, voornamelijk aan de hoogste groep maar ik heb in het verleden al elke groep op mij genomen.</p>
+                <p>Met hen heb ik vooral in de gehoorzaamheid gezeten. We zijn blijven plakken en werden zo in 2014 instructeur op de hondenschool. Tot de lente van 2025 gaf ik daar twee keer per week les, voornamelijk aan de hoogste groep maar ik heb in het verleden al elke groep op mij genomen. Sindsdien heb ik de hondenschool vaarwel gezegd en sloeg ik een nieuwe weg in.</p>
             `}
       ></post-element>
       <post-element
