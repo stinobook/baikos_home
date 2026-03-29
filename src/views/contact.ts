@@ -11,6 +11,8 @@ export class ContactView extends LiteElement {
         align-items: flex-start;
         padding: 16px 12px;
         overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-x: none;
         width: 100%;
         height: 100%;
         box-sizing: border-box;

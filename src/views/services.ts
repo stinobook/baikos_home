@@ -9,6 +9,8 @@ export class ServicesView extends LiteElement {
     css`
       :host {
         overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-x: none;
         padding-bottom: 16px;
         flex-direction: column;
       }

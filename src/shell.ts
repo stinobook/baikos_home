@@ -178,6 +178,7 @@ export class BaikoShell extends LiteElement {
       width: 100%;
       height: 100%;
       overflow: hidden;
+      overscroll-behavior: none;
     }
       custom-pages {
         width: 100%;
