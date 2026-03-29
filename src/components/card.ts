@@ -29,7 +29,7 @@ export class CardElement extends LiteElement {
           flex-direction: column;
           gap: 0;
           margin: 6px;
-          width: 100%;
+          width: calc(100% - 12px);
           max-width: 620px;
           min-width: 280px;
         }
