@@ -177,12 +177,13 @@ export class BaikoShell extends LiteElement {
       display: block;
       inset: 0;
       position: relative;
-      height: 100%;
+      height: 100dvh;
       width: 100%;
     }
       custom-pages {
         width: 100%;
-        height: 100%;
+        flex: 1;
+        min-height: 0;
         display: flex;
       }
       [slot='logoname'] h1 {
