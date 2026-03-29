@@ -10,13 +10,15 @@ export class FooterElement extends LiteElement {
     css`
       :host {
         max-width: 1280px;
-        align-self: center;
         width: 100%;
         height: auto;
-        margin: 8px 8px 20px;
+        margin: auto auto 20px;
         display: flex;
         justify-content: center;
+        box-sizing: border-box;
       }
+
+
 
       flex-container {
         flex-direction: row;

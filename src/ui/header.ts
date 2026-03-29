@@ -40,10 +40,7 @@ export class HeaderElement extends LiteElement {
       }
 
       custom-icon-button {
-        opacity: 0;
-        pointer-events: none;
-        position: absolute;
-        z-index: 1;
+        display: none;
       }
 
       @media (max-width: 1280px) {
@@ -52,6 +49,7 @@ export class HeaderElement extends LiteElement {
           padding: 8px 16px;
         }
         custom-icon-button {
+          display: flex;
           position: initial;
           opacity: 1;
           pointer-events: auto;

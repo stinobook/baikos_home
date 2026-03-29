@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js'
 import '@vandeurenglenn/lite-elements/icon-set.js'
 import '@vandeurenglenn/lite-elements/theme.js'
 import '@vandeurenglenn/lite-elements/selector.js'
-import '@vandeurenglenn/lite-elements/pages.js'
+import './ui/pages.js'
 import '@vandeurenglenn/lite-elements/icon.js'
 import './ui/header.js'
 import './ui/drawer.js'
@@ -29,8 +29,7 @@ export class BaikoShell extends LiteElement {
             color-mix(in srgb, var(--md-sys-color-primary) 85%, black 15%),
             color-mix(in srgb, var(--md-sys-color-primary) 40%, black 50%)
           );
-        display: flex;
-        flex-direction: row;
+        display: block;
         box-sizing: border-box;
         color: var(--md-sys-color-on-primary);
       }
@@ -49,9 +48,8 @@ export class BaikoShell extends LiteElement {
       #container {
         display: flex;
         align-items: center;
-        justify-content: center;
         width: 100%;
-        height: 100%;
+        height: 100dvh;
         flex-direction: column;
       }
       header-element {
@@ -80,6 +78,9 @@ export class BaikoShell extends LiteElement {
       }
       drawer-element custom-hover-menu {
         align-items: flex-start;
+      }
+      custom-hover-menu.no-hover {
+        pointer-events: none;
       }
       lang-element {
         position: fixed;
@@ -114,8 +115,8 @@ export class BaikoShell extends LiteElement {
   selectorSelected({ detail }: CustomEvent) {
     location.hash = Router.bang(detail)
   }
-  @query('custom-pages')
-  accessor pages: CustomPages
+  @query('baiko-pages')
+  accessor pages
   @query('drawer-element')
   accessor drawer
   @queryAll('custom-hover-menu')
@@ -128,9 +129,12 @@ export class BaikoShell extends LiteElement {
     this.pages.select(selected)
     for (const item of this.customHoverMenus) {
       if (item.classList.contains('custom-selected')) item.classList.remove('custom-selected')
+      item.open = false
+      item.classList.add('no-hover')
+      setTimeout(() => item.classList.remove('no-hover'), 300)
       const menuItem = item.shadowRoot.querySelector('custom-hover-menu-item')
       const _selected = item.getAttribute('route') ?? item.getAttribute('name')
-      if (menuItem.classList.contains('custom-selected') && _selected !== selected)
+      if (menuItem && menuItem.classList.contains('custom-selected') && _selected !== selected)
         menuItem.classList.remove('custom-selected')
     }
     for (const item of this.customHoverMenuItems) {
@@ -176,15 +180,35 @@ export class BaikoShell extends LiteElement {
     :host {
       display: block;
       width: 100%;
-      height: 100%;
+      height: 100dvh;
       overflow: hidden;
       overscroll-behavior: none;
     }
-      custom-pages {
+      baiko-pages {
         width: 100%;
+        align-self: stretch;
         flex: 1;
         min-height: 0;
-        display: flex;
+        position: relative;
+        overflow: hidden;
+      }
+      baiko-pages > * {
+        position: absolute;
+        inset: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-x: none;
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      baiko-pages > *:not(.custom-selected) {
+        display: none !important;
+      }
+      baiko-pages > .custom-selected {
+        animation: page-fade-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes page-fade-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
       }
       [slot='logoname'] h1 {
         color: var(--md-sys-color-on-surface) !important;
@@ -216,7 +240,7 @@ export class BaikoShell extends LiteElement {
             <custom-hover-menu-item name="Home" route="home"></custom-hover-menu-item>
             <custom-hover-menu-item name="Over ons" route="about"></custom-hover-menu-item>
             <custom-hover-menu-item name="Aanbod" route="services"></custom-hover-menu-item>
-            <custom-hover-menu name="Border Collie">
+            <custom-hover-menu name="Border Collie" route="vision">
               <custom-hover-menu-item slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
               <custom-hover-menu-item slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
               <custom-hover-menu-item slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
@@ -230,7 +254,7 @@ export class BaikoShell extends LiteElement {
         <custom-hover-menu-item type="drawer" name="Home" route="home"></custom-hover-menu-item>
         <custom-hover-menu-item type="drawer" name="Over ons" route="about"></custom-hover-menu-item>
         <custom-hover-menu-item type="drawer" name="Aanbod" route="services"></custom-hover-menu-item>
-        <custom-hover-menu type="drawer" name="Border Collie">
+        <custom-hover-menu type="drawer" name="Border Collie" route="vision">
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
           <custom-hover-menu-item type="drawer" slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
@@ -238,7 +262,7 @@ export class BaikoShell extends LiteElement {
         </custom-hover-menu>
         <custom-hover-menu-item type="drawer" name="Contact" route="contact"></custom-hover-menu-item>
         </drawer-element>
-        <custom-pages attr-for-selected="route">
+        <baiko-pages attr-for-selected="route">
             <loading-view route="loading"> </loading-view>
             <home-view route="home"> </home-view>
             <about-view route="about"> </about-view>
@@ -248,7 +272,7 @@ export class BaikoShell extends LiteElement {
             <bitches-view route="bitches"> </bitches-view>
             <kodaxsiyala-view route="kodaxsiyala"> </kodaxsiyala-view>
             <contact-view route="contact"> </contact-view>
-        </custom-pages>
+        </baiko-pages>
       </div>
     `
   }

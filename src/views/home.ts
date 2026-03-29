@@ -1,6 +1,6 @@
+import '../components/footer.js'
 import { html, css, LiteElement } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
-import '../components/footer.js'
 import '../components/post.js'
 import '../components/card.js'
 import { scrollbar } from '../mixins/styles.js'
@@ -11,12 +11,10 @@ static styles = [
     scrollbar,
     css`
         :host {
+            display: flex;
+        flex-direction: column;
             width: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-            overscroll-behavior-x: none;
             padding-bottom: 24px;
-            flex-direction: column;
         }
 
         flex-container {
@@ -228,7 +226,7 @@ static styles = [
             link="#!/services"
             linkLabel="Meer info"></card-element>
             </flex-container>
-      <footer-element></footer-element>
+    <footer-element></footer-element>
     `;
   }
 }

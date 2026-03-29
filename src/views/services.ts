@@ -1,18 +1,17 @@
+import '../components/footer.js'
 import { html, css, LiteElement } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
-import '../components/footer.js'
 
 @customElement('services-view')
 export class ServicesView extends LiteElement {
   static styles = [
     css`
       :host {
-        overflow-y: auto;
-        overflow-x: hidden;
-        overscroll-behavior-x: none;
-        padding-bottom: 16px;
+        display: flex;
         flex-direction: column;
+        width: 100%;
+        padding-bottom: 16px;
       }
       ::-webkit-scrollbar {
         width: 6px;

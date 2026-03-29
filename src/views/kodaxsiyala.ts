@@ -1,3 +1,4 @@
+import '../components/footer.js'
 import { html, css, LiteElement } from '@vandeurenglenn/lite'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
@@ -8,11 +9,10 @@ export class KodaxsiyalaView extends LiteElement {
   static styles = [
     css`
       :host {
-        overflow-y: auto;
-        overflow-x: hidden;
-        overscroll-behavior-x: none;
-        padding-bottom: 16px;
+        display: flex;
         flex-direction: column;
+        width: 100%;
+        padding-bottom: 16px;
       }
       ::-webkit-scrollbar {
         width: 6px;
@@ -46,7 +46,8 @@ export class KodaxsiyalaView extends LiteElement {
         border-radius: 16px;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         padding: 24px 12px 12px 12px;
-        display: block;
+        display: flex;
+        flex-direction: column;
         min-height: 460px;
         background: white;
         box-shadow: 0 3px 7px -1px rgba(0,0,0,.1);
@@ -303,6 +304,7 @@ export class KodaxsiyalaView extends LiteElement {
         subline="Brown (Possibly Tricolor)"
       ></post-element>
       </flex-container>
+    <footer-element></footer-element>
     `
   }
 }

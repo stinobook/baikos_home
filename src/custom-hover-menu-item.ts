@@ -7,6 +7,9 @@ export class CustomHoverMenuItem extends LiteElement {
   @property({ attribute: true })
   accessor name: String
 
+  @property({ attribute: true })
+  accessor route: string
+
   _click(event) {
     const target = event.target
     const selected = target.getAttribute('route') ?? target.getAttribute('name')
