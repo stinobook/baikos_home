@@ -11,6 +11,9 @@ export class ContactView extends LiteElement {
         align-items: flex-start;
         padding: 16px 12px;
         overflow-y: auto;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
       }
 
       ::-webkit-scrollbar {
@@ -215,7 +218,6 @@ export class ContactView extends LiteElement {
       @media (max-width: 680px) {
         :host {
           padding: 8px 6px;
-          align-items: stretch;
         }
         .contact-container {
           border-radius: 16px;
@@ -223,11 +225,16 @@ export class ContactView extends LiteElement {
         }
         .contact-info {
           flex: none;
+          width: 100%;
+          box-sizing: border-box;
           border-right: none;
           border-bottom: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 10%, transparent);
           padding: 24px 20px;
         }
         .contact-form {
+          flex: none;
+          width: 100%;
+          box-sizing: border-box;
           padding: 24px 20px;
         }
       }

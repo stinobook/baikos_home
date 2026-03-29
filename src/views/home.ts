@@ -24,7 +24,10 @@ static styles = [
             gap: 10px;
             justify-content: center;
             align-items: stretch;
-            padding: 0 8px;
+            padding: 0 20px;
+            --flex-display-min-width: 0;
+            --flex-display-padding: 0;
+            --flex-display-max-width: 1280px;
         }
 
         /* First post (hero) gets slightly more top margin */
@@ -32,11 +35,29 @@ static styles = [
             margin-top: 8px;
         }
 
+        post-element {
+            width: 100%;
+            margin: 8px 0;
+        }
+
+      @media (min-width: 1281px) {
+        card-element {
+            max-width: 620px;
+            flex: 1;
+            width: auto;
+            margin: 8px 0;
+        }
+      }
+
       @media (max-width: 1280px) {
         flex-container {
             flex-direction: column;
             align-items: center;
             padding: 0 4px;
+        }
+        post-element, card-element {
+            width: calc(100% - 24px);
+            margin: 8px auto;
         }
       }
 
@@ -44,6 +65,10 @@ static styles = [
         flex-container {
           padding: 0 2px;
           gap: 6px;
+        }
+        post-element, card-element {
+            width: calc(100% - 24px);
+            margin: 8px auto;
         }
       }
         

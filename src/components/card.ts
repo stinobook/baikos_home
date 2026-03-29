@@ -28,10 +28,8 @@ export class CardElement extends LiteElement {
           min-height: 0;
           flex-direction: column;
           gap: 0;
-          margin: 6px;
-          width: calc(100% - 12px);
-          max-width: 620px;
-          min-width: 280px;
+          margin: 8px auto;
+          width: calc(100% - 24px);
         }
         :host(:hover) {
           transform: translateY(-6px);
