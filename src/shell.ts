@@ -175,10 +175,9 @@ export class BaikoShell extends LiteElement {
     <style>
     :host {
       display: block;
-      inset: 0;
-      position: relative;
-      height: 100dvh;
       width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
       custom-pages {
         width: 100%;
