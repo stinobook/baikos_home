@@ -7,7 +7,6 @@ export class HeaderElement extends LiteElement {
     css`
       :host {
         display: flex;
-        width: 100%;
         height: 72px;
         box-sizing: border-box;
         padding: 10px 20px;
@@ -77,6 +76,7 @@ export class HeaderElement extends LiteElement {
       <slot></slot>
       <flex-it></flex-it>
       <slot name="nav-bar"></slot>
+      <flex-it></flex-it>
     `
   }
 }

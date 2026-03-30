@@ -65,6 +65,12 @@ export class CustomHoverMenu extends LiteElement {
           opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
+      :host(.submenu-closed) .sub-menu-container {
+        max-height: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
       :host(:hover) custom-hover-menu-item,
       :host(.custom-selected) custom-hover-menu-item {
         background-color: var(--md-sys-color-primary);
@@ -127,6 +133,11 @@ export class CustomHoverMenu extends LiteElement {
     `
   ]
 
+  firstRender() {
+    this.addEventListener('touchstart', () => this.classList.remove('submenu-closed'), { passive: true })
+    this.addEventListener('mouseenter', () => this.classList.remove('submenu-closed'))
+  }
+
   render() {
     const isDrawer = this.getAttribute('type') === 'drawer'
     return html`
@@ -134,7 +145,7 @@ export class CustomHoverMenu extends LiteElement {
         ? html`<div class="drawer-trigger" @click=${() => { this.open = !this.open }}>${this.name}</div>`
         : html`<custom-hover-menu-item .name=${this.name} .route=${this.route ?? null}></custom-hover-menu-item>`
       }
-      <div class="sub-menu-container">
+      <div class="sub-menu-container" @click=${() => { this.classList.add('submenu-closed') }}>
         <div class="sub-menu">
           <slot name="sub-menu"></slot>
         </div>
