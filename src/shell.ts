@@ -35,12 +35,6 @@ export class BaikoShell extends LitElement {
       #container {
         display: block;
         width: 100%;
-        min-height: 100%;
-      }
-      header-element {
-        position: sticky;
-        top: 0;
-        z-index: 100;
       }
       .logo {
         background: url("./img/full.png") no-repeat;
@@ -186,7 +180,6 @@ export class BaikoShell extends LitElement {
       }
       baiko-pages > *.custom-selected {
         display: block;
-        min-height: 100%;
       }
 [slot='logoname'] h1 {
         color: var(--md-sys-color-on-surface) !important;
