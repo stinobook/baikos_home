@@ -1,34 +1,21 @@
-import { html, css, LiteElement, query, property, queryAll } from '@vandeurenglenn/lite'
-import { customElement } from 'lit/decorators.js'
-import '@vandeurenglenn/lite-elements/icon-set.js'
-import '@vandeurenglenn/lite-elements/theme.js'
-import '@vandeurenglenn/lite-elements/selector.js'
+import { html, css, LitElement } from 'lit'
+import { customElement, query, queryAll } from 'lit/decorators.js'
 import './ui/pages.js'
-import '@vandeurenglenn/lite-elements/icon.js'
 import './ui/header.js'
 import './ui/drawer.js'
 import './custom-hover-menu.js'
-import icons from './icons.js'
 import Router from './routing.js'
-import type { CustomPages, CustomSelector } from './component-types.js'
 // import default page
 import './views/loading.js'
 import './components/lang.js'
 import './components/footer.js'
 
 @customElement('baiko-shell')
-export class BaikoShell extends LiteElement {
+export class BaikoShell extends LitElement {
   router: Router
   static styles = [
     css`
       :host {
-        background:
-          radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--md-sys-color-primary) 30%, transparent) 0%, transparent 60%),
-          radial-gradient(ellipse at 80% 20%, color-mix(in srgb, var(--md-sys-color-tertiary, var(--md-sys-color-primary)) 20%, transparent) 0%, transparent 50%),
-          linear-gradient(160deg,
-            color-mix(in srgb, var(--md-sys-color-primary) 85%, black 15%),
-            color-mix(in srgb, var(--md-sys-color-primary) 40%, black 50%)
-          );
         display: block;
         box-sizing: border-box;
         color: var(--md-sys-color-on-primary);
@@ -46,19 +33,15 @@ export class BaikoShell extends LiteElement {
         background: var(--md-sys-color-on-surface-container-highest);
       }
       #container {
-        display: flex;
-        align-items: center;
+      #container {
+        display: block;
         width: 100%;
-        min-height: 100dvh;
-        flex-direction: column;
+        min-height: 100%;
       }
       header-element {
         position: sticky;
         top: 0;
         z-index: 100;
-      }
-      header-element flex-row {
-        height: unset !important;
       }
       .logo {
         background: url("./img/full.png") no-repeat;
@@ -116,12 +99,16 @@ export class BaikoShell extends LiteElement {
   selectorSelected({ detail }: CustomEvent) {
     location.hash = Router.bang(detail)
   }
+
   @query('baiko-pages')
   accessor pages
+
   @query('drawer-element')
   accessor drawer
+
   @queryAll('custom-hover-menu')
   accessor customHoverMenus
+
   @queryAll('custom-hover-menu-item')
   accessor customHoverMenuItems
 
@@ -160,7 +147,8 @@ export class BaikoShell extends LiteElement {
     }
   }
 
-  _drawerOpen = ({ detail }) => {
+  _drawerOpen = (e: Event) => {
+    const { detail } = e as CustomEvent
     if (detail) {
       this.drawer.open = true
       this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.add('visible')
@@ -170,9 +158,13 @@ export class BaikoShell extends LiteElement {
     }
   }
 
-  async connectedCallback() {
-    this.router = new Router(this)
+  connectedCallback() {
+    super.connectedCallback()
     document.addEventListener('drawer-open', this._drawerOpen)
+  }
+
+  firstUpdated() {
+    this.router = new Router(this)
   }
 
   render() {
@@ -189,24 +181,12 @@ export class BaikoShell extends LiteElement {
       }
       baiko-pages > * {
         overscroll-behavior-x: none;
-        min-height: calc(100vh - 72px);
-      }
-      @media (max-width: 1280px) {
-        baiko-pages > * {
-          min-height: calc(100vh - 64px);
-        }
+        min-height: 0;
       }
       baiko-pages > *:not(.custom-selected) {
         display: none !important;
       }
-      baiko-pages > .custom-selected {
-        animation: page-fade-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      @keyframes page-fade-in {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-      }
-      [slot='logoname'] h1 {
+[slot='logoname'] h1 {
         color: var(--md-sys-color-on-surface) !important;
         text-shadow: none;
       }
@@ -223,16 +203,12 @@ export class BaikoShell extends LiteElement {
         pointer-events: auto;
       }
     </style>
-      <!-- just cleaner -->
-      ${icons}
-      <!-- see https://vandeurenglenn.github.io/custom-elements/ -->
-      <custom-theme .loadFont=${false}></custom-theme>
       <lang-element></lang-element>
       <div id="drawer-backdrop" @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))}></div>
       <div id="container">
       <header-element>
           <div class="logo" @click=${() => location.hash = '!/home'} ><h1>Baiko's Home</h1></div>
-          <flex-row slot="nav-bar">
+          <div slot="nav-bar">
             <custom-hover-menu-item name="Home" route="home"></custom-hover-menu-item>
             <custom-hover-menu-item name="Over ons" route="about"></custom-hover-menu-item>
             <custom-hover-menu-item name="Aanbod" route="services"></custom-hover-menu-item>
@@ -243,7 +219,7 @@ export class BaikoShell extends LiteElement {
               <custom-hover-menu-item slot="sub-menu" name="Koda x Siyala" route="kodaxsiyala"></custom-hover-menu-item>
             </custom-hover-menu>
             <custom-hover-menu-item name="Contact" route="contact"></custom-hover-menu-item>
-          </flex-row>
+          </div>
         </header-element>
         <drawer-element>
         <div slot="logoname" class="logo" @click=${() => location.hash = '!/home'}><h1>Baiko's Home</h1></div>

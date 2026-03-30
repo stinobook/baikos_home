@@ -1,17 +1,19 @@
 import '../components/footer.js'
-import { html, css, LiteElement } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
 
 @customElement('vision-view')
-export class VisionView extends LiteElement {
+export class VisionView extends LitElement {
   static styles = [
     css`
       :host {
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding-bottom: 16px;
+        padding-bottom: 24px;
+        gap: 16px;
+        box-sizing: border-box;
       }
       ::-webkit-scrollbar {
         width: 6px;
@@ -21,23 +23,49 @@ export class VisionView extends LiteElement {
         background: color-mix(in srgb, var(--md-sys-color-on-surface-container-highest) 60%, transparent);
         border-radius: 4px;
       }
-      flex-container {
+      .flex-container {
         max-width: 1280px;
         margin: 0 auto;
-        padding: 4px 8px 0;
+        padding: 0 20px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      post-element {
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
       }
       @media (max-width: 1280px) {
         :host {
-          padding-bottom: 4px;
+          padding-bottom: 24px;
+          gap: 16px;
+          box-sizing: border-box;
         }
-        flex-container {
+        .flex-container {
           border-radius: 0;
-          padding: 4px 4px 0;
+          padding: 0 16px;
+          gap: 16px;
+          box-sizing: border-box;
+        }
+        post-element {
+          margin: 0;
+          width: 100%;
+          box-sizing: border-box;
         }
       }
       @media (max-width: 600px) {
-        flex-container {
-          padding: 2px 2px 0;
+        .flex-container {
+          padding: 0 12px;
+          gap: 12px;
+          box-sizing: border-box;
+        }
+        post-element {
+          margin: 0;
+          width: 100%;
+          box-sizing: border-box;
         }
       }
       post-element:nth-of-type(even) {
@@ -51,7 +79,7 @@ export class VisionView extends LiteElement {
 
   render() {
     return html`
-    <flex-container>
+    <div class="flex-container">
       <post-element
         image="./img/litters/litter1.webp"
         headline="Visie"
@@ -61,7 +89,7 @@ export class VisionView extends LiteElement {
                 Moest er om de één of andere reden een pup die hier gefokt werd niet meer in zijn huidige gezin kunnen blijven dan kunnen we steeds helpen in de zoektocht naar een nieuwe thuis.
                 `}
       ></post-element>
-    </flex-container>
+    </div>
     <footer-element></footer-element>
     `
   }

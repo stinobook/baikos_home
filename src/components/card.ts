@@ -1,8 +1,8 @@
-import { LiteElement, customElement, html, property } from '@vandeurenglenn/lite'
-import { css, StyleList } from '@vandeurenglenn/lite/element'
+import { LitElement, html, css } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
 
 @customElement('card-element')
-export class CardElement extends LiteElement {
+export class CardElement extends LitElement {
   @property() accessor image: string
   @property() accessor title: string
   @property() accessor description
@@ -10,7 +10,7 @@ export class CardElement extends LiteElement {
   @property() accessor link: string
   @property() accessor linkLabel: string = 'Meer info'
 
-  static styles?: StyleList = [
+  static styles = [
     css`
         :host {
           display: flex;
@@ -28,8 +28,8 @@ export class CardElement extends LiteElement {
           min-height: 0;
           flex-direction: column;
           gap: 0;
-          margin: 8px auto;
-          width: calc(100% - 24px);
+          margin: 0;
+          width: 100%;
         }
         :host(:hover) {
           transform: translateY(-6px);
@@ -117,6 +117,7 @@ export class CardElement extends LiteElement {
             box-shadow 0.25s ease;
           box-shadow: 0 3px 12px rgba(0,0,0,0.18);
           align-self: flex-start;
+          margin-top: auto;
         }
         .service-button:hover {
           background-color: color-mix(in srgb, var(--md-sys-color-primary) 85%, black);
@@ -170,7 +171,6 @@ export class CardElement extends LiteElement {
         ${this.title ? html`<h3 class="service-title">${this.title}</h3>` : ''}
         ${this.description ? html`<p class="service-description">${this.description}</p>` : ''}
         ${this.price ? html`<p class="service-price">${this.price}</p>` : ''}
-        <flex-it></flex-it>
         ${this.link ? html`
           <a class="service-button" href=${this.link}>${this.linkLabel}</a>
         ` : ''}

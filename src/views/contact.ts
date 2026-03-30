@@ -1,17 +1,19 @@
-import { html, css, LiteElement, property } from '@vandeurenglenn/lite';
-import { customElement } from 'lit/decorators.js'
+import { html, css, LitElement } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
 
 @customElement('contact-view')
-export class ContactView extends LiteElement {
+export class ContactView extends LitElement {
   static styles = [
     css`
       :host {
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        padding: 16px 12px;
+        padding: 24px 20px;
         width: 100%;
         box-sizing: border-box;
+        gap: 16px;
+        flex-direction: column;
       }
 
       ::-webkit-scrollbar {
@@ -28,6 +30,7 @@ export class ContactView extends LiteElement {
         gap: 0;
         max-width: 960px;
         width: 100%;
+        margin: 0 auto;
         flex-wrap: wrap;
         border-radius: 20px;
         background-color: color-mix(in srgb, var(--md-sys-color-surface) 97%, transparent);
@@ -212,10 +215,9 @@ export class ContactView extends LiteElement {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
 
-      /* Responsive Layout */
       @media (max-width: 680px) {
         :host {
-          padding: 8px 6px;
+          padding: 16px 12px;
         }
         .contact-container {
           border-radius: 16px;
@@ -237,7 +239,18 @@ export class ContactView extends LiteElement {
         }
       }
 
-      /* Status messages */
+      @media (max-width: 600px) {
+        :host {
+          padding: 16px 12px;
+        }
+        .contact-info {
+          padding: 20px 16px;
+        }
+        .contact-form {
+          padding: 20px 16px;
+        }
+      }
+
       .success-message {
         background-color: rgba(76, 175, 80, 0.1);
         border-left: 3px solid #4caf50;
@@ -260,7 +273,6 @@ export class ContactView extends LiteElement {
         animation: fadeSlideUp 0.3s ease;
       }
 
-      /* Loading indicator */
       .loading {
         display: inline-block;
         width: 16px;
@@ -290,99 +302,66 @@ export class ContactView extends LiteElement {
   @property() accessor errorMessage: string = '';
   @property() accessor isSubmitting: boolean = false;
 
-  /**
-   * Resets form fields
-   */
   resetForm() {
-    console.log('Resetting form...');
-    
-    // Reset our property values
     this.name = '';
     this.email = '';
     this.subject = '';
     this.message = '';
-    
-    // Reset the actual form fields in the DOM
+
     const nameInput = this.shadowRoot?.querySelector<HTMLInputElement>('#name');
     const emailInput = this.shadowRoot?.querySelector<HTMLInputElement>('#email');
     const subjectInput = this.shadowRoot?.querySelector<HTMLInputElement>('#subject');
     const messageInput = this.shadowRoot?.querySelector<HTMLTextAreaElement>('#message');
-    
-    console.log('Form inputs:', { nameInput, emailInput, subjectInput, messageInput });
-    
+
     if (nameInput) nameInput.value = '';
     if (emailInput) emailInput.value = '';
     if (subjectInput) subjectInput.value = '';
     if (messageInput) messageInput.value = '';
   }
-  
-  /**
-   * Handles the form submission by sending data to Firebase Cloud Function
-   */
+
   handleSubmit = async (e: Event) => {
     e.preventDefault();
-    
-    // Extract form data
+
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
-    
-    // Get form field values
+
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const subject = formData.get('subject') as string;
     const message = formData.get('message') as string;
-    
-    // Client-side validation
+
     if (!name?.trim() || !email?.trim() || !subject?.trim() || !message?.trim()) {
       this.errorMessage = 'Alle velden zijn verplicht.';
       this.successMessage = '';
       return;
     }
-    
-    // Set loading state
+
     this.isSubmitting = true;
     this.errorMessage = '';
     this.successMessage = '';
-    
+
     try {
-      console.log('Sending email via Firebase function...');
-      
-      // Updated URL to use Europe region
       const response = await fetch('https://europe-west1-baikos-home.cloudfunctions.net/sendMail', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          subject,
-          message
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message })
       });
-      
-      console.log('Response received:', response.status);
-      
+
       if (response.ok) {
         this.successMessage = 'Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.';
         this.resetForm();
-    } else {
-        // Parse error response
+      } else {
         let errorData;
         try {
           errorData = await response.json();
-        } catch (e) {
+        } catch (_e) {
           errorData = { error: 'Er is een onbekende fout opgetreden.' };
         }
-        
         this.errorMessage = errorData.error || 'Er is een fout opgetreden bij het verzenden van je bericht.';
-        console.error('Form submission error:', errorData);
       }
-    } catch (error) {
-      console.error('Error sending message:', error);
+    } catch (_error) {
       this.errorMessage = 'Er is een probleem opgetreden bij het verzenden van je bericht. Controleer je internetverbinding en probeer het later opnieuw.';
     } finally {
-      // Always reset loading state
       this.isSubmitting = false;
     }
   }
@@ -397,24 +376,26 @@ export class ContactView extends LiteElement {
           </div>
           <div class="social-icons">
             <a href="https://maps.google.com/?q=Baiko's Home Bosstraat, Erpe-Mere" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
-            <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
-          </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
+                <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
+              </svg>
             </a>
             <a href="tel:+32486295339">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
-          </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+              </svg>
             </a>
             <a href="https://www.facebook.com/BaikosHome" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
-          </svg>          </a>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+              </svg>
+            </a>
             <a href="https://www.instagram.com/baikos_home" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-          </svg>          </a>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -431,7 +412,7 @@ export class ContactView extends LiteElement {
               @input="${(e: Event) => this.name = (e.target as HTMLInputElement).value}"
               required
             />
-            
+
             <label for="email">E-mailadres:</label>
             <input
               type="email"
@@ -441,7 +422,7 @@ export class ContactView extends LiteElement {
               @input="${(e: Event) => this.email = (e.target as HTMLInputElement).value}"
               required
             />
-            
+
             <label for="subject">Onderwerp:</label>
             <input
               type="text"
@@ -451,7 +432,7 @@ export class ContactView extends LiteElement {
               @input="${(e: Event) => this.subject = (e.target as HTMLInputElement).value}"
               required
             />
-            
+
             <label for="message">Bericht:</label>
             <textarea
               id="message"
@@ -460,9 +441,9 @@ export class ContactView extends LiteElement {
               @input="${(e: Event) => this.message = (e.target as HTMLTextAreaElement).value}"
               required
             ></textarea>
-            
+
             <button type="submit" ?disabled="${this.isSubmitting}">
-              ${this.isSubmitting ? 'Verzenden...' : 'Verzenden'} 
+              ${this.isSubmitting ? 'Verzenden...' : 'Verzenden'}
               ${this.isSubmitting ? html`<span class="loading"></span>` : ''}
             </button>
           </form>

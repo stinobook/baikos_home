@@ -1,9 +1,10 @@
-import { LiteElement, html, css, customElement, property } from '@vandeurenglenn/lite'
-import '@vandeurenglenn/lite-elements/icon-button.js'
+import { LitElement, html, css } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
 
 @customElement('drawer-element')
-export class DrawerElement extends LiteElement {
+export class DrawerElement extends LitElement {
   @property({ type: Boolean, reflect: true }) accessor open
+
   static styles = [
     css`
       :host {
@@ -48,13 +49,30 @@ export class DrawerElement extends LiteElement {
         margin-bottom: 8px;
       }
 
-      custom-icon-button {
-        pointer-events: none !important;
-        z-index: 0;
+      .close-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border: none;
+        cursor: pointer;
+        background: transparent;
+        color: var(--md-sys-color-on-surface);
+        border-radius: 50%;
+        padding: 0;
+        transition: background-color 0.2s ease;
       }
 
-      :host([open]) custom-icon-button {
-        pointer-events: auto;
+      .close-button:hover {
+        background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent);
+      }
+
+      .close-button svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
       }
 
       ::-webkit-scrollbar {
@@ -68,10 +86,18 @@ export class DrawerElement extends LiteElement {
   ]
 
   render() {
-    return html`<div class="header"><custom-icon-button
-        icon="menu_open"
-        @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))}></custom-icon-button>
+    return html`
+      <div class="header">
+        <button
+          class="close-button"
+          @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
         <slot name="logoname"></slot>
-        </div><slot></slot> `
+      </div>
+      <slot></slot>
+    `
   }
 }

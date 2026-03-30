@@ -1,8 +1,8 @@
-import { LiteElement, html, css, customElement, property } from '@vandeurenglenn/lite'
-import '@vandeurenglenn/lite-elements/icon-button.js'
+import { LitElement, html, css } from 'lit'
+import { customElement } from 'lit/decorators.js'
 
 @customElement('header-element')
-export class HeaderElement extends LiteElement {
+export class HeaderElement extends LitElement {
   static styles = [
     css`
       :host {
@@ -12,6 +12,9 @@ export class HeaderElement extends LiteElement {
         padding: 10px 20px;
         align-items: center;
         gap: 12px;
+        margin: 16px auto;
+        max-width: 1280px;
+        width: 100%;
       }
 
       [name='nav-bar']::slotted(*) {
@@ -38,26 +41,42 @@ export class HeaderElement extends LiteElement {
           0 1px 0 rgba(255, 255, 255, 0.10) inset;
       }
 
-      custom-icon-button {
+      .flex-it {
+        flex: 1;
+      }
+
+      .menu-button {
         display: none;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border: none;
+        cursor: pointer;
+        background-color: color-mix(in srgb, var(--md-sys-color-surface) 90%, transparent);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        color: var(--md-sys-color-on-surface);
+        border-radius: 50%;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        padding: 0;
+      }
+
+      .menu-button svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
       }
 
       @media (max-width: 1280px) {
         :host {
           height: 64px;
           padding: 8px 16px;
+          margin: 12px auto;
         }
-        custom-icon-button {
+        .menu-button {
           display: flex;
-          position: initial;
-          opacity: 1;
-          pointer-events: auto;
-          background-color: color-mix(in srgb, var(--md-sys-color-surface) 90%, transparent);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          color: var(--md-sys-color-on-surface);
-          border-radius: 50%;
-          box-shadow: 0 2px 12px rgba(0,0,0,0.15);
         }
         [name='nav-bar']::slotted(*) {
           opacity: 0;
@@ -70,13 +89,17 @@ export class HeaderElement extends LiteElement {
 
   render() {
     return html`
-      <custom-icon-button
-        icon="menu"
-        @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: true }))}></custom-icon-button>
+      <button
+        class="menu-button"
+        @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: true }))}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+      </button>
       <slot></slot>
-      <flex-it></flex-it>
+      <div class="flex-it"></div>
       <slot name="nav-bar"></slot>
-      <flex-it></flex-it>
+      <div class="flex-it"></div>
     `
   }
 }

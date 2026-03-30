@@ -1,8 +1,8 @@
-import { html, css, LiteElement } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
 import { customElement } from 'lit/decorators.js'
 
 @customElement('loading-view')
-export class LoadingView extends LiteElement {
+export class LoadingView extends LitElement {
   static styles = [
     css`
       :host {
@@ -35,7 +35,7 @@ export class LoadingView extends LiteElement {
       @keyframes l12 {
         100% {clip-path: inset(0 -30px 0 0)}
       }
-        
+
     `
   ]
 

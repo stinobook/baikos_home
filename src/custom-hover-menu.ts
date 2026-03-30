@@ -1,8 +1,9 @@
-import { LiteElement, html, css, customElement, property } from '@vandeurenglenn/lite'
+import { LitElement, html, css } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
 import './custom-hover-menu-item.js'
 
 @customElement('custom-hover-menu')
-export class CustomHoverMenu extends LiteElement {
+export class CustomHoverMenu extends LitElement {
   @property({ attribute: true })
   accessor name: string
 
@@ -86,22 +87,28 @@ export class CustomHoverMenu extends LiteElement {
         border-radius: 20px;
         border: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 12%, transparent);
         margin-top: 6px;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       :host([type='drawer']) .sub-menu-container {
         left: 0;
         transform: translateX(0);
+        position: static !important;
+        top: auto !important;
+        padding-top: 8px;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       :host([type='drawer'][open]) .sub-menu-container {
-        position: relative;
-        top: 0;
         max-height: 1000px;
         opacity: 1;
         pointer-events: auto;
         left: 0;
         transform: translateX(0);
         width: 100%;
+        box-sizing: border-box;
         transition:
           max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
           opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -133,7 +140,7 @@ export class CustomHoverMenu extends LiteElement {
     `
   ]
 
-  firstRender() {
+  firstUpdated() {
     this.addEventListener('touchstart', () => this.classList.remove('submenu-closed'), { passive: true })
     this.addEventListener('mouseenter', () => this.classList.remove('submenu-closed'))
   }

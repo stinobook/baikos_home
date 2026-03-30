@@ -1,18 +1,20 @@
 import '../components/footer.js'
-import { html, css, LiteElement } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
 import Chart from 'chart.js/auto'
 
 @customElement('kodaxsiyala-view')
-export class KodaxsiyalaView extends LiteElement {
+export class KodaxsiyalaView extends LitElement {
   static styles = [
     css`
       :host {
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding-bottom: 16px;
+        padding-bottom: 24px;
+        gap: 16px;
+        box-sizing: border-box;
       }
       ::-webkit-scrollbar {
         width: 6px;
@@ -22,18 +24,29 @@ export class KodaxsiyalaView extends LiteElement {
         background: color-mix(in srgb, var(--md-sys-color-on-surface-container-highest) 60%, transparent);
         border-radius: 4px;
       }
-      flex-container {
+      .flex-container {
         max-width: 1280px;
         margin: 0 auto;
-        gap: 8px;
-        padding: 4px 8px 0;
+        gap: 16px;
+        padding: 0 20px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+      }
+      post-element {
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
       }
       @media (max-width: 1280px) {
-        :host { padding-bottom: 4px; }
-        flex-container { border-radius: 0; padding: 4px 4px 0; }
+        :host { padding-bottom: 24px; gap: 16px; box-sizing: border-box; }
+        .flex-container { border-radius: 0; padding: 0 16px; gap: 16px; box-sizing: border-box; }
+        post-element { margin: 0; width: 100%; box-sizing: border-box; }
       }
       @media (max-width: 600px) {
-        flex-container { padding: 2px 2px 0; }
+        .flex-container { padding: 0 12px; gap: 12px; box-sizing: border-box; }
+        post-element { margin: 0; width: 100%; box-sizing: border-box; }
       }
       post-element:nth-of-type(even) { --flex-direction: row; }
       post-element:nth-of-type(odd) { --flex-direction: row-reverse; }
@@ -58,6 +71,7 @@ export class KodaxsiyalaView extends LiteElement {
   chartInstance?: Chart;
 
   connectedCallback(): void {
+    super.connectedCallback();
     requestAnimationFrame(() => {
       const ctx = (this.shadowRoot?.querySelector('#growthChart') as HTMLCanvasElement | null)?.getContext('2d');
       if (ctx) {
@@ -68,6 +82,7 @@ export class KodaxsiyalaView extends LiteElement {
   }
 
   disconnectedCallback(): void {
+    super.disconnectedCallback();
     window.removeEventListener('resize', this.handleResize);
   }
 
@@ -84,7 +99,6 @@ export class KodaxsiyalaView extends LiteElement {
   private getChartConfig() {
     const isMobile = window.innerWidth <= 640;
     const legendPosition: 'top' | 'bottom' = isMobile ? 'bottom' : 'top';
-    // Automatically generate labels based on the longest dataset
     const datasets = [
       { label: 'Yevee', data: [330, 340, 366, 398, 442, 504, 560, 620, 676, 730, 760, 796, 840, 874, 889, 934, 970, 1015, 1075, 1120, 1150, 1200, 1275, 1320, 1350, 1460, 1580,
         1675 ,1770, 1850, 1925, 2017, 2110, 2277, 2445, 2555, 2645, 2795, 2925, 3055, 3185, 3311, 3437, 3563, 3690
@@ -136,21 +150,15 @@ export class KodaxsiyalaView extends LiteElement {
         maintainAspectRatio: true,
         aspectRatio: 16 / 9,
         plugins: {
-            legend: {
+          legend: {
             position: legendPosition,
-            labels: {
-                font: {
-                size: isMobile ? 10 : 12
-                }
-            }
-            },
-            title: {
+            labels: { font: { size: isMobile ? 10 : 12 } }
+          },
+          title: {
             display: true,
             text: isMobile ? 'Growth Chart (g)' : 'Puppy Growth Chart (Weight in grams)',
-            font: {
-                size: isMobile ? 12 : 18
-            }
-            }
+            font: { size: isMobile ? 12 : 18 }
+          }
         }
       }
     };
@@ -158,7 +166,7 @@ export class KodaxsiyalaView extends LiteElement {
 
   render() {
     return html`
-    <flex-container>
+    <div class="flex-container">
       <post-element
       .images=${[
           './img/litters/kodaxsiyala.webp',
@@ -303,7 +311,7 @@ export class KodaxsiyalaView extends LiteElement {
         headline="Yipping Izumi"
         subline="Brown (Possibly Tricolor)"
       ></post-element>
-      </flex-container>
+      </div>
     <footer-element></footer-element>
     `
   }

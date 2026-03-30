@@ -1,165 +1,102 @@
 import '../components/footer.js'
-import { html, css, LiteElement } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
 import '../components/card.js'
 import { scrollbar } from '../mixins/styles.js'
 
 @customElement('home-view')
-export class HomeView extends LiteElement {
+export class HomeView extends LitElement {
 static styles = [
     scrollbar,
     css`
         :host {
             display: flex;
-        flex-direction: column;
+            flex-direction: column;
             width: 100%;
+            gap: 16px;
             padding-bottom: 24px;
+            box-sizing: border-box;
         }
 
-        flex-container {
+        .flex-container {
             max-width: 1280px;
             margin: 0 auto;
+            display: flex;
             flex-direction: row;
-            gap: 10px;
+            gap: 0;
             justify-content: center;
             align-items: stretch;
             padding: 0 20px;
-            --flex-display-min-width: 0;
-            --flex-display-padding: 0;
-            --flex-display-max-width: 1280px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* First post (hero) gets slightly more top margin */
-        flex-container:first-of-type {
-            margin-top: 8px;
+        /* Card rows use grid so cells in the same row always share height */
+        .cards-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
         }
 
         post-element {
             width: 100%;
-            margin: 8px 0;
+            margin: 0;
         }
 
-      @media (min-width: 1281px) {
         card-element {
-            max-width: 620px;
-            flex: 1;
-            width: auto;
-            margin: 8px 0;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
         }
-      }
 
       @media (max-width: 1280px) {
-        flex-container {
+        .flex-container {
             flex-direction: column;
-            align-items: center;
-            padding: 0 4px;
+            align-items: stretch;
+            padding: 0 16px;
+            box-sizing: border-box;
         }
-        post-element, card-element {
-            width: calc(100% - 24px);
-            margin: 8px auto;
+        .cards-row {
+            grid-template-columns: 1fr;
+            gap: 16px;
+            box-sizing: border-box;
+        }
+        post-element {
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        card-element {
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
         }
       }
 
       @media (max-width: 600px) {
-        flex-container {
-          padding: 0 2px;
-          gap: 6px;
+        .flex-container {
+          padding: 0 12px;
+          gap: 0;
+          box-sizing: border-box;
         }
-        post-element, card-element {
-            width: calc(100% - 24px);
-            margin: 8px auto;
+        .cards-row {
+          gap: 12px;
+          box-sizing: border-box;
+        }
+        card-element {
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
         }
       }
-        
-        /* Testimonials section */
-        .testimonials {
-            display: none;
-            padding: 80px 24px;
-            text-align: center;
-        }
-        
-        .testimonials-title {
-            font-size: 2.4rem;
-            font-weight: 600;
-            margin-bottom: 48px;
-            color: var(--md-sys-color-on-surface);
-        }
-        
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .testimonial-card {
-            background-color: var(--md-sys-color-surface);
-            border-radius: var(--md-sys-shape-corner-large);
-            padding: 32px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-        
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .testimonial-card:before {
-            content: '"';
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 5rem;
-            color: var(--md-sys-color-primary);
-            opacity: 0.2;
-            line-height: 1;
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-            padding-left: 16px;
-            color: var(--md-sys-color-on-surface);
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .testimonial-author-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 16px;
-        }
-        
-        .testimonial-author-name {
-            font-weight: 600;
-            color: var(--md-sys-color-on-surface);
-        }
-        
-        .testimonial-author-dog {
-            font-size: 0.9rem;
-            color: var(--md-sys-color-on-surface-variant);
-        }
-
     `
 ];
 
   render() {
     return html`
-    <flex-container>
-      
+    <div class="flex-container">
       <post-element
         image="./img/full.png"
         headline="Wat kan Baiko's Home betekenen voor jouw hond?"
@@ -171,9 +108,8 @@ static styles = [
             <a href="#!/contact" class="cta-button">Contacteer ons</a>
             `}
         ></post-element>
-      
-      </flex-container>
-     <flex-container>
+      </div>
+     <div class="flex-container cards-row">
           <card-element
             image="./img/services/loopband.webp"
             title="Hondentraining"
@@ -205,8 +141,7 @@ static styles = [
               `}
             link="#!/kodaxsiyala"
             linkLabel="Nestplanning"></card-element>
-
-            </flex-container><flex-container>
+            </div><div class="flex-container cards-row">
           <card-element
             image="/img/services/fitness.webp"
             title="Fitness"
@@ -225,7 +160,7 @@ static styles = [
             price="€30 / 30min"
             link="#!/services"
             linkLabel="Meer info"></card-element>
-            </flex-container>
+            </div>
     <footer-element></footer-element>
     `;
   }

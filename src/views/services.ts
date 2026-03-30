@@ -1,17 +1,19 @@
 import '../components/footer.js'
-import { html, css, LiteElement } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import '../components/post.js'
 
 @customElement('services-view')
-export class ServicesView extends LiteElement {
+export class ServicesView extends LitElement {
   static styles = [
     css`
       :host {
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding-bottom: 16px;
+        padding-bottom: 24px;
+        gap: 16px;
+        box-sizing: border-box;
       }
       ::-webkit-scrollbar {
         width: 6px;
@@ -21,23 +23,49 @@ export class ServicesView extends LiteElement {
         background: color-mix(in srgb, var(--md-sys-color-on-surface-container-highest) 60%, transparent);
         border-radius: 4px;
       }
-      flex-container {
+      .flex-container {
         max-width: 1280px;
         margin: 0 auto;
-        padding: 4px 8px 0;
+        padding: 0 20px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      post-element {
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
       }
       @media (max-width: 1280px) {
         :host {
-          padding-bottom: 4px;
+          padding-bottom: 24px;
+          gap: 16px;
+          box-sizing: border-box;
         }
-        flex-container {
+        .flex-container {
           border-radius: 0;
-          padding: 4px 4px 0;
+          padding: 0 16px;
+          gap: 16px;
+          box-sizing: border-box;
+        }
+        post-element {
+          margin: 0;
+          width: 100%;
+          box-sizing: border-box;
         }
       }
       @media (max-width: 600px) {
-        flex-container {
-          padding: 2px 2px 0;
+        .flex-container {
+          padding: 0 12px;
+          gap: 12px;
+          box-sizing: border-box;
+        }
+        post-element {
+          margin: 0;
+          width: 100%;
+          box-sizing: border-box;
         }
       }
       post-element:nth-of-type(even) {
@@ -51,7 +79,7 @@ export class ServicesView extends LiteElement {
 
   render() {
     return html`
-    <flex-container>
+    <div class="flex-container">
       <post-element
       image="./img/full.png"
       headline="Aanbod"
@@ -77,7 +105,7 @@ export class ServicesView extends LiteElement {
       image="./img/services/fitness.webp"
       headline="Fitness"
       .content=${html`
-                <p>Tijdens de fitness fixeren we ons om bepaalde spiergroepen aan te sterken door oefeningen te herhalen. Fitness kan m’n ook doen als revalidatie na een operatie, dit mits verslag van de dierenarts.<br>
+                <p>Tijdens de fitness fixeren we ons om bepaalde spiergroepen aan te sterken door oefeningen te herhalen. Fitness kan m'n ook doen als revalidatie na een operatie, dit mits verslag van de dierenarts.<br>
                 Ook sporthonden kunnen baat hebben bij Fitness, naast de techniektraining kunnen ze er ook baat bij hebben door hun spieren te versterken
                 </p>
             `}
@@ -87,7 +115,7 @@ export class ServicesView extends LiteElement {
       headline="Body & Balance"
       .content=${html`
                 <p>Tijdens Body&Balance worden verschillende toestellen en ondergronden klaargezet zodat de hond hier gewoon kan aan worden en zich bewust leert worden van zijn poten en eigen lichaam. <br>
-Body&Balance kan interessant zijn voor onzekere hondjes of voor de socialisatie van pups. Maar ook andere honden kunnen hier nut en plezier van hebben. 
+Body&Balance kan interessant zijn voor onzekere hondjes of voor de socialisatie van pups. Maar ook andere honden kunnen hier nut en plezier van hebben.
 Voor onze sporthonden kan dit ook heel belangrijk zijn, hoe beter bewust ze zijn van hun lichaam, hoe makkelijker ze zichzelf kunnen corrigeren wanneer ze hun lichaam of poot verkeerd positioneren.
                 </p>
             `}
@@ -108,7 +136,7 @@ Voor onze sporthonden kan dit ook heel belangrijk zijn, hoe beter bewust ze zijn
                 </p>
             `}
       ></post-element>
-    </flex-container>
+    </div>
     <footer-element></footer-element>
     `
   }

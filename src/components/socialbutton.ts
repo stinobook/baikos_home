@@ -1,8 +1,9 @@
-import { html, css, LiteElement, customElement, property } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
 import { svg } from 'lit'
 
 @customElement('socialbutton-element')
-export class SocialbuttonElement extends LiteElement {
+export class SocialbuttonElement extends LitElement {
   @property() accessor href
   @property() accessor path
 static styles = [
@@ -36,7 +37,7 @@ static styles = [
         a:hover {
             transform: scale(1.05);
         }
-        
+
         a:hover span {
             background-color: color-mix(in srgb, var(--md-sys-color-surface) 50%, var(--md-sys-color-primary));
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
@@ -70,7 +71,7 @@ static styles = [
     const fillRuleAttr = fillRule ? `fill-rule="${fillRule}"` : '';
     return svg`<path d="${d}" ${fillRuleAttr} />`
   }
-  
+
   render() {
     return html`
     <a href="${this.href}" target="_blank">

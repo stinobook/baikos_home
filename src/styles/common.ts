@@ -1,4 +1,4 @@
-import { css } from '@vandeurenglenn/lite';
+import { css } from 'lit';
 
 export const commonStyles = css`
   /* Typography */

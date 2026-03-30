@@ -1,9 +1,9 @@
-import { LiteElement, html, css } from '@vandeurenglenn/lite'
-import { customElement, property } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
 import Router from './routing.js'
 
 @customElement('custom-hover-menu-item')
-export class CustomHoverMenuItem extends LiteElement {
+export class CustomHoverMenuItem extends LitElement {
   @property({ attribute: true })
   accessor name: String
 
@@ -12,12 +12,21 @@ export class CustomHoverMenuItem extends LiteElement {
 
   _click(event) {
     const target = event.target
-    const selected = target.getAttribute('route') ?? target.getAttribute('name')
+    const route = target.getAttribute('route')
+    
+    // Don't navigate if this is a parent menu item (no route attribute)
+    if (!route) {
+      event.preventDefault()
+      event.stopPropagation()
+      return
+    }
+    
+    const selected = route ?? target.getAttribute('name')
     target.classList.add('custom-selected')
     location.hash = Router.bang(selected)
   }
 
-  firstRender(): void {
+  firstUpdated(): void {
     this.addEventListener('click', this._click)
   }
 

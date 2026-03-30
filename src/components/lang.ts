@@ -1,8 +1,8 @@
-import { html, css, LiteElement } from '@vandeurenglenn/lite'
+import { html, css, LitElement } from 'lit'
 import { customElement } from 'lit/decorators.js'
 
 @customElement('lang-element')
-export class LangElement extends LiteElement {
+export class LangElement extends LitElement {
   static styles = [
     css`
     :host {
@@ -14,7 +14,7 @@ export class LangElement extends LiteElement {
   render() {
     return html`
     <div>
-    <form>  
+    <form>
       <select name="language-picker-select" id="language-picker-select">
         <option lang="nl" value="dutch">NL</option>
         <option lang="en" value="english" selected>ENG</option>

@@ -1,8 +1,8 @@
-import { LiteElement, customElement, html, property } from '@vandeurenglenn/lite'
-import { StyleList, css } from '@vandeurenglenn/lite/element'
+import { LitElement, html, css } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
 
 @customElement('post-element')
-export class PostElement extends LiteElement {
+export class PostElement extends LitElement {
   @property()
   accessor image: string;
 
@@ -18,7 +18,7 @@ export class PostElement extends LiteElement {
   @property()
   accessor content
 
-  @property({type: Boolean, reflect: true})  // Added reflect: true
+  @property({type: Boolean, reflect: true})
   accessor visible: boolean = false;
 
   private observer: IntersectionObserver;
@@ -31,14 +31,14 @@ export class PostElement extends LiteElement {
   @property({type: Number})
   accessor mainImageRows: number = 2;
 
-  static styles?: StyleList = [
+  static styles = [
     css`
       :host {
-        width: calc(100% - 24px);
+        width: 100%;
         display: block;
-        max-width: 1280px;
+        max-width: 100%;
         height: fit-content;
-        margin: 8px auto;
+        margin: 0;
         background-color: color-mix(in srgb, var(--md-sys-color-surface) 97%, transparent);
         color: var(--md-sys-color-on-surface);
         border-radius: var(--md-sys-shape-corner-large);
@@ -80,24 +80,24 @@ export class PostElement extends LiteElement {
         gap: 0;
         padding: 0;
       }
-      
+
       /* When no content, make it full width */
       .card.no-content {
         flex-direction: column;
       }
-      
+
       .card.no-content .image-grid,
       .card.no-content .img {
         flex: 1 1 100%;
         max-width: 100%;
       }
-      
+
       .card.no-content .image-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         min-height: 300px;
         grid-auto-rows: minmax(140px, 200px);
       }
-      
+
       .img {
         flex: 1 1 30%;
         min-height: 150px;
@@ -238,12 +238,6 @@ export class PostElement extends LiteElement {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
 
-      custom-icon {
-        --custom-icon-color: var(--md-sys-color-on-primary);
-      }
-      custom-button {
-        margin-bottom: 12px;
-      }
       th {
         text-align: left;
       }
@@ -307,7 +301,7 @@ export class PostElement extends LiteElement {
           }
         }
       }
-      
+
       /* Adjust content area when no content */
       .content.has-only-titles {
         flex: 1 0 100%;
@@ -339,22 +333,22 @@ export class PostElement extends LiteElement {
         min-height: 240px;
         max-height: 280px;
       }
-      
+
       /* Ensure no overlapping in Safari */
-      @media not all and (min-resolution:.001dpcm) { 
+      @media not all and (min-resolution:.001dpcm) {
         @supports (-webkit-appearance:none) {
           .image-grid {
             grid-auto-flow: row;
             grid-auto-rows: minmax(120px, 180px);
           }
-          
+
           .image-grid img {
             height: 100%;
             min-height: unset;
             max-height: unset;
             object-fit: cover;
           }
-          
+
           .image-grid img:first-child {
             min-height: unset;
             max-height: unset;
@@ -486,13 +480,16 @@ export class PostElement extends LiteElement {
   ]
 
   connectedCallback(): void {
+    super.connectedCallback()
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           requestAnimationFrame(() => {
             this.setAttribute('visible', '');
           });
-          this.observer.unobserve(this);
+        } else {
+          // Remove visible attribute when not intersecting so animation replays on next intersection
+          this.removeAttribute('visible');
         }
       });
     }, {
@@ -511,6 +508,7 @@ export class PostElement extends LiteElement {
   }
 
   disconnectedCallback(): void {
+    super.disconnectedCallback()
     this.observer?.disconnect();
   }
 
@@ -521,7 +519,7 @@ export class PostElement extends LiteElement {
     if (existingViewer) {
       existingViewer.remove();
     }
-    
+
     // Create a fresh viewer element
     const viewer = document.createElement('div');
     viewer.id = 'global-image-viewer';
@@ -536,7 +534,7 @@ export class PostElement extends LiteElement {
     viewer.style.opacity = '0';
     viewer.style.transition = 'opacity 0.3s ease';
     viewer.style.overflow = 'hidden';
-    
+
     // Add HTML content with improved UI layout
     viewer.innerHTML = `
       <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
@@ -544,23 +542,23 @@ export class PostElement extends LiteElement {
         <div style="position: relative; max-width: 85vw; max-height: 80vh; display: flex; align-items: center; justify-content: center;">
           <img src="" alt="Fullscreen view" style="max-width: 85vw; max-height: 80vh; object-fit: contain; box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);">
         </div>
-        
+
         <!-- Fixed position UI controls -->
         <!-- Close button at top right -->
         <button style="position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 28px; transition: background 0.2s ease;">&times;</button>
-        
+
         <!-- Navigation buttons at sides -->
         <button class="prev-btn" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 30px; transition: background 0.2s ease;">&#10094;</button>
-        
+
         <button class="next-btn" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 30px; transition: background 0.2s ease;">&#10095;</button>
-        
+
         <!-- Counter at bottom center -->
         <div style="position: absolute; bottom: 20px; left: 0; width: 100%; display: flex; justify-content: center; align-items: center;">
           <span style="color: white; font-size: 18px; background: rgba(0, 0, 0, 0.5); padding: 8px 16px; border-radius: 20px;">1 / 1</span>
         </div>
       </div>
     `;
-    
+
     // Add hover effects for buttons
     const buttons = viewer.querySelectorAll('button');
     buttons.forEach(button => {
@@ -571,84 +569,82 @@ export class PostElement extends LiteElement {
         button.style.background = 'rgba(255, 255, 255, 0.2)';
       });
     });
-    
+
     // Append to body outside any shadow DOM
     document.body.appendChild(viewer);
-    
+
     // Add event listeners directly
     viewer.addEventListener('click', (e) => {
       if (e.target === viewer) {
         PostElement.closeViewer(viewer);
       }
     });
-    
+
     const closeBtn = viewer.querySelector('button');
     closeBtn?.addEventListener('click', () => {
       PostElement.closeViewer(viewer);
     });
-    
+
     const prevBtn = viewer.querySelector('.prev-btn');
     prevBtn?.addEventListener('click', () => {
       PostElement.showPrevImage(viewer);
     });
-    
+
     const nextBtn = viewer.querySelector('.next-btn');
     nextBtn?.addEventListener('click', () => {
       PostElement.showNextImage(viewer);
     });
-    
+
     // Add global keyboard events
     const keyHandler = (e: KeyboardEvent) => {
       if (viewer.style.display !== 'flex') return;
-      
+
       switch (e.key) {
-        case 'Escape': 
+        case 'Escape':
           PostElement.closeViewer(viewer);
           break;
-        case 'ArrowLeft': 
+        case 'ArrowLeft':
           PostElement.showPrevImage(viewer);
           break;
-        case 'ArrowRight': 
+        case 'ArrowRight':
           PostElement.showNextImage(viewer);
           break;
       }
     };
-    
+
     document.addEventListener('keydown', keyHandler);
-    
+
     return viewer;
   }
-  
-  // Replace initializeImageViewer with this
+
   private initializeImageViewer() {
     // No need to store in a class property - we'll get it from the DOM
   }
 
-  // Completely rewritten openImage method with improved UI visibility
   openImage(index: number) {
     const imagesToShow = this.images?.length ? this.images : [this.image];
     if (!imagesToShow.length) return;
-    
+
     // Create or get the viewer
     const viewer = PostElement.createOrUpdateImageViewer();
-    
+
     // Store data in the viewer's dataset (HTML5 data attributes)
     viewer.dataset.currentIndex = index.toString();
     viewer.dataset.images = JSON.stringify(imagesToShow);
-    
+
     // Update image and counter
     const img = viewer.querySelector('img');
     const counter = viewer.querySelector('span');
-    
+
     if (img) {
       (img as HTMLImageElement).src = imagesToShow[index];
     }
-    
+
     // Show/hide navigation buttons and counter based on number of images
     const prevBtn = viewer.querySelector('.prev-btn');
     const nextBtn = viewer.querySelector('.next-btn');
     const counterContainer = counter?.parentElement;
-    
+
     if (imagesToShow.length <= 1) {
       // Hide navigation buttons and counter for single images
       if (prevBtn) (prevBtn as HTMLElement).style.display = 'none';
@@ -659,61 +655,59 @@ export class PostElement extends LiteElement {
       if (prevBtn) (prevBtn as HTMLElement).style.display = 'flex';
       if (nextBtn) (nextBtn as HTMLElement).style.display = 'flex';
       if (counterContainer) (counterContainer as HTMLElement).style.display = 'flex';
-      
+
       // Update counter text
       if (counter) {
         counter.textContent = `${index + 1} / ${imagesToShow.length}`;
       }
-      
+
       // Update prev/next button state based on current position
       if (prevBtn) (prevBtn as HTMLElement).style.opacity = index === 0 ? '0.5' : '1';
       if (nextBtn) (nextBtn as HTMLElement).style.opacity = index === imagesToShow.length - 1 ? '0.5' : '1';
     }
-    
+
     // Show the viewer with direct style manipulation
     viewer.style.display = 'flex';
-    
+
     // Force reflow
     void viewer.offsetWidth;
-    
+
     // Fade in
     viewer.style.opacity = '1';
   }
-  
+
   // Static methods for navigation
   private static closeViewer(viewer: HTMLElement) {
     viewer.style.opacity = '0';
-    
+
     setTimeout(() => {
       viewer.style.display = 'none';
     }, 300);
   }
-  
-  // Update showPrevImage with improved navigation state
+
   private static showPrevImage(viewer: HTMLElement) {
     const currentIndex = parseInt(viewer.dataset.currentIndex || '0');
     const images = JSON.parse(viewer.dataset.images || '[]');
-    
+
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
       viewer.dataset.currentIndex = newIndex.toString();
-      
+
       const img = viewer.querySelector('img');
       const counter = viewer.querySelector('span');
       const prevBtn = viewer.querySelector('.prev-btn');
       const nextBtn = viewer.querySelector('.next-btn');
-      
-      // Update navigation button states
+
       if (prevBtn) (prevBtn as HTMLElement).style.opacity = newIndex === 0 ? '0.5' : '1';
-      if (nextBtn) (nextBtn as HTMLElement).style.opacity = '1'; // Always enabled when going backwards
-      
+      if (nextBtn) (nextBtn as HTMLElement).style.opacity = '1';
+
       if (img) {
         (img as HTMLImageElement).style.opacity = '0';
-        
+
         setTimeout(() => {
           (img as HTMLImageElement).src = images[newIndex];
           (img as HTMLImageElement).style.opacity = '1';
-          
+
           if (counter) {
             counter.textContent = `${newIndex + 1} / ${images.length}`;
           }
@@ -721,32 +715,30 @@ export class PostElement extends LiteElement {
       }
     }
   }
-  
-  // Update showNextImage with improved navigation state
+
   private static showNextImage(viewer: HTMLElement) {
     const currentIndex = parseInt(viewer.dataset.currentIndex || '0');
     const images = JSON.parse(viewer.dataset.images || '[]');
-    
+
     if (currentIndex < images.length - 1) {
       const newIndex = currentIndex + 1;
       viewer.dataset.currentIndex = newIndex.toString();
-      
+
       const img = viewer.querySelector('img');
       const counter = viewer.querySelector('span');
       const prevBtn = viewer.querySelector('.prev-btn');
       const nextBtn = viewer.querySelector('.next-btn');
-      
-      // Update navigation button states
-      if (prevBtn) (prevBtn as HTMLElement).style.opacity = '1'; // Always enabled when going forwards
+
+      if (prevBtn) (prevBtn as HTMLElement).style.opacity = '1';
       if (nextBtn) (nextBtn as HTMLElement).style.opacity = newIndex === images.length - 1 ? '0.5' : '1';
-      
+
       if (img) {
         img.style.opacity = '0';
-        
+
         setTimeout(() => {
           img.src = images[newIndex];
           img.style.opacity = '1';
-          
+
           if (counter) {
             counter.textContent = `${newIndex + 1} / ${images.length}`;
           }
@@ -818,12 +810,12 @@ export class PostElement extends LiteElement {
   render() {
     const hasContent = this.content || this.shadowRoot?.querySelector('slot')?.assignedNodes().length;
     const hasOnlyTitles = !hasContent && (this.headline || this.subline);
-    
+
     return html`
     <div class="card ${hasOnlyTitles ? 'no-content' : ''}">
         ${this._renderImages()}
       <div class="content ${hasOnlyTitles ? 'has-only-titles' : ''}">
-        ${this._renderHeadline()} 
+        ${this._renderHeadline()}
         ${this._renderSubline()}
         ${this._renderContent()}
        <slot></slot>

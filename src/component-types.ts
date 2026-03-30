@@ -1,2 +1,8 @@
-export { CustomSelector } from '@vandeurenglenn/lite-elements/selector.js'
-export { CustomPages } from '@vandeurenglenn/lite-elements/pages.js'
+export interface CustomPages extends HTMLElement {
+  rendered: Promise<void>
+  select(value: string): void
+}
+
+export interface CustomSelector extends HTMLElement {
+  selected?: string
+}
