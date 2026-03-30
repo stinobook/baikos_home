@@ -49,11 +49,16 @@ export class BaikoShell extends LiteElement {
         display: flex;
         align-items: center;
         width: 100%;
-        height: 100dvh;
+        height: 100vh;
         flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
       }
       header-element {
-        max-width: fit-content;
+        position: sticky;
+        top: 0;
+        width: 100%;
         z-index: 100;
       }
       header-element flex-row {
@@ -180,25 +185,20 @@ export class BaikoShell extends LiteElement {
     :host {
       display: block;
       width: 100%;
-      height: 100dvh;
-      overflow: hidden;
-      overscroll-behavior: none;
     }
       baiko-pages {
+        display: block;
         width: 100%;
-        align-self: stretch;
-        flex: 1;
-        min-height: 0;
-        position: relative;
-        overflow: hidden;
+        padding-bottom: env(safe-area-inset-bottom);
       }
       baiko-pages > * {
-        position: absolute;
-        inset: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
         overscroll-behavior-x: none;
-        padding-bottom: env(safe-area-inset-bottom);
+        min-height: calc(100vh - 72px);
+      }
+      @media (max-width: 1280px) {
+        baiko-pages > * {
+          min-height: calc(100vh - 64px);
+        }
       }
       baiko-pages > *:not(.custom-selected) {
         display: none !important;
