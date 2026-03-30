@@ -49,11 +49,8 @@ export class BaikoShell extends LiteElement {
         display: flex;
         align-items: center;
         width: 100%;
-        height: 100dvh;
+        min-height: 100dvh;
         flex-direction: column;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
       }
       header-element {
         position: sticky;
