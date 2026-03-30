@@ -49,7 +49,7 @@ export class BaikoShell extends LiteElement {
         display: flex;
         align-items: center;
         width: 100%;
-        height: 100vh;
+        height: 100dvh;
         flex-direction: column;
         overflow-y: auto;
         overflow-x: hidden;
