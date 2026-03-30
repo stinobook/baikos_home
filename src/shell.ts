@@ -177,7 +177,6 @@ export class BaikoShell extends LitElement {
       baiko-pages {
         display: block;
         width: 100%;
-        padding-bottom: env(safe-area-inset-bottom);
       }
       baiko-pages > * {
         overscroll-behavior-x: none;
