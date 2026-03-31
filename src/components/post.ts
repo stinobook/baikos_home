@@ -25,6 +25,10 @@ export class PostElement extends LitElement {
 
   private static imageViewer: HTMLDivElement | null = null;
 
+  private static _preventBackgroundScroll = (e: Event) => {
+    e.preventDefault();
+  };
+
   @property({type: Boolean})
   accessor mainImage: boolean = true;
 
@@ -517,6 +521,7 @@ export class PostElement extends LitElement {
     // Remove any existing viewer first to prevent duplicates
     const existingViewer = document.getElementById('global-image-viewer');
     if (existingViewer) {
+      PostElement.unlockPageScroll(existingViewer as HTMLElement);
       existingViewer.remove();
     }
 
@@ -669,6 +674,8 @@ export class PostElement extends LitElement {
     // Show the viewer with direct style manipulation
     viewer.style.display = 'flex';
 
+    PostElement.lockPageScroll(viewer);
+
     // Force reflow
     void viewer.offsetWidth;
 
@@ -679,10 +686,75 @@ export class PostElement extends LitElement {
   // Static methods for navigation
   private static closeViewer(viewer: HTMLElement) {
     viewer.style.opacity = '0';
+    PostElement.unlockPageScroll(viewer);
 
     setTimeout(() => {
       viewer.style.display = 'none';
     }, 300);
+  }
+
+  private static lockPageScroll(viewer: HTMLElement) {
+    if (viewer.dataset.scrollLocked === 'true') return;
+
+    const body = document.body;
+    const html = document.documentElement;
+    const scrollY = window.scrollY;
+
+    viewer.dataset.scrollLocked = 'true';
+    viewer.dataset.scrollY = String(scrollY);
+    viewer.dataset.bodyOverflow = body.style.overflow;
+    viewer.dataset.bodyPosition = body.style.position;
+    viewer.dataset.bodyTop = body.style.top;
+    viewer.dataset.bodyLeft = body.style.left;
+    viewer.dataset.bodyRight = body.style.right;
+    viewer.dataset.bodyWidth = body.style.width;
+    viewer.dataset.bodyTouchAction = body.style.touchAction;
+    viewer.dataset.htmlOverflow = html.style.overflow;
+
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.left = '0';
+    body.style.right = '0';
+    body.style.width = '100%';
+    body.style.touchAction = 'none';
+
+    document.addEventListener('touchmove', PostElement._preventBackgroundScroll, { passive: false });
+    document.addEventListener('wheel', PostElement._preventBackgroundScroll, { passive: false });
+  }
+
+  private static unlockPageScroll(viewer: HTMLElement) {
+    if (viewer.dataset.scrollLocked !== 'true') return;
+
+    const body = document.body;
+    const html = document.documentElement;
+    const scrollY = Number.parseInt(viewer.dataset.scrollY || '0', 10);
+
+    body.style.overflow = viewer.dataset.bodyOverflow || '';
+    body.style.position = viewer.dataset.bodyPosition || '';
+    body.style.top = viewer.dataset.bodyTop || '';
+    body.style.left = viewer.dataset.bodyLeft || '';
+    body.style.right = viewer.dataset.bodyRight || '';
+    body.style.width = viewer.dataset.bodyWidth || '';
+    body.style.touchAction = viewer.dataset.bodyTouchAction || '';
+    html.style.overflow = viewer.dataset.htmlOverflow || '';
+
+    document.removeEventListener('touchmove', PostElement._preventBackgroundScroll);
+    document.removeEventListener('wheel', PostElement._preventBackgroundScroll);
+
+    window.scrollTo(0, Number.isNaN(scrollY) ? 0 : scrollY);
+
+    delete viewer.dataset.scrollLocked;
+    delete viewer.dataset.scrollY;
+    delete viewer.dataset.bodyOverflow;
+    delete viewer.dataset.bodyPosition;
+    delete viewer.dataset.bodyTop;
+    delete viewer.dataset.bodyLeft;
+    delete viewer.dataset.bodyRight;
+    delete viewer.dataset.bodyWidth;
+    delete viewer.dataset.bodyTouchAction;
+    delete viewer.dataset.htmlOverflow;
   }
 
   private static showPrevImage(viewer: HTMLElement) {
