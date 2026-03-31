@@ -1,23 +1,15 @@
 import { LitElement, html, css } from 'lit'
-import { customElement, property, query } from 'lit/decorators.js'
+import { customElement, property } from 'lit/decorators.js'
 
 @customElement('drawer-element')
 export class DrawerElement extends LitElement {
   private _open = false
-
-  @query('.panel') accessor _panel!: HTMLElement
 
   @property({ type: Boolean, reflect: true })
   set open(val: boolean) {
     const old = this._open
     this._open = val
     this.requestUpdate('open', old)
-    if (!this._panel) return
-    if (val) {
-      this._panel.style.transform = 'translateX(0)'
-    } else {
-      this._panel.style.transform = ''
-    }
   }
   get open() { return this._open }
 
@@ -49,9 +41,21 @@ export class DrawerElement extends LitElement {
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
         box-shadow: 8px 0 40px rgba(0, 0, 0, 0.25);
-        transform: translateX(-105%);
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(calc(-100% - 24px));
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.2s ease;
         will-change: transform;
+      }
+
+      :host([open]) .panel {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
       }
 
       .header {

@@ -20,6 +20,9 @@ export class BaikoShell extends LitElement {
         box-sizing: border-box;
         color: var(--md-sys-color-on-primary);
         position: relative;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: clip;
       }
       ::-webkit-scrollbar {
         width: 6px;
@@ -36,8 +39,10 @@ export class BaikoShell extends LitElement {
       #container {
         display: block;
         width: 100%;
+        max-width: 100%;
         position: relative;
         padding-top: 16px;
+        overflow-x: clip;
       }
       .logo {
         background: url("./img/full.png") no-repeat;
@@ -73,6 +78,11 @@ export class BaikoShell extends LitElement {
         header-element {
           min-width: 100%;
           max-height: 64px;
+        }
+        .logo h1 {
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
