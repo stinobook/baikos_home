@@ -2,6 +2,7 @@ customElements.define(
   'baiko-pages',
   class BaikoPages extends HTMLElement {
     #attrForSelected = 'route'
+    #enterTimer: number | null = null
 
     rendered = Promise.resolve()
 
@@ -10,32 +11,40 @@ customElements.define(
     }
 
     select(value: string) {
-      let found = false
-      for (const child of this.children as HTMLCollectionOf<HTMLElement>) {
-        const matches = child.getAttribute(this.#attrForSelected) === value
-        if (matches) {
-          child.style.opacity = '0'
-          child.style.transition = ''
-          child.classList.add('custom-selected')
-          // Two rAFs: first commits display:block at opacity:0, second starts the transition
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              child.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-              child.style.opacity = '1'
-              setTimeout(() => {
-                if (child.classList.contains('custom-selected')) {
-                  child.style.transition = ''
-                  child.style.opacity = ''
-                }
-              }, 350)
-            })
-          })
-          found = true
-        } else {
-          child.classList.remove('custom-selected')
-          child.style.opacity = ''
-          child.style.transition = ''
+      const children = this.children as HTMLCollectionOf<HTMLElement>
+      let nextChild: HTMLElement | null = null
+
+      for (const child of children) {
+        if (child.getAttribute(this.#attrForSelected) === value) {
+          nextChild = child
+          break
         }
+      }
+
+      if (!nextChild) return
+
+      // Switch instantly to avoid flash/fade artifacts on view changes.
+      nextChild.classList.add('custom-selected')
+      nextChild.style.opacity = ''
+      nextChild.style.transition = ''
+
+      // Apply a very subtle enter animation so text changes feel less abrupt.
+      nextChild.classList.remove('page-enter')
+      void nextChild.offsetWidth
+      nextChild.classList.add('page-enter')
+
+      if (this.#enterTimer !== null) window.clearTimeout(this.#enterTimer)
+      this.#enterTimer = window.setTimeout(() => {
+        nextChild.classList.remove('page-enter')
+        this.#enterTimer = null
+      }, 180)
+
+      for (const child of children) {
+        if (child === nextChild) continue
+        child.classList.remove('custom-selected')
+        child.classList.remove('page-enter')
+        child.style.opacity = ''
+        child.style.transition = ''
       }
       // Let the browser keep visual viewport stable on iOS during hash navigation.
     }

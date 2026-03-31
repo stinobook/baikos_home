@@ -1,13 +1,40 @@
 import { LitElement, html, css } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
+import { customElement, property, query } from 'lit/decorators.js'
 
 @customElement('drawer-element')
 export class DrawerElement extends LitElement {
-  @property({ type: Boolean, reflect: true }) accessor open
+  private _open = false
+
+  @query('.panel') accessor _panel!: HTMLElement
+
+  @property({ type: Boolean, reflect: true })
+  set open(val: boolean) {
+    const old = this._open
+    this._open = val
+    this.requestUpdate('open', old)
+    if (!this._panel) return
+    if (val) {
+      this._panel.style.transform = 'translateX(0)'
+    } else {
+      this._panel.style.transform = ''
+    }
+  }
+  get open() { return this._open }
 
   static styles = [
     css`
       :host {
+        display: contents;
+      }
+
+      /* Absolutely positioned inside position:relative container — zero position:fixed */
+      .panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: min(300px, 85vw);
+        height: 100%;
+        z-index: 1000;
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
@@ -16,32 +43,22 @@ export class DrawerElement extends LitElement {
         backdrop-filter: blur(20px) saturate(1.5);
         -webkit-backdrop-filter: blur(20px) saturate(1.5);
         color: var(--md-sys-color-on-surface);
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        left: 0;
-        top: 0;
-        pointer-events: none;
-        transform: translateX(-100%);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1000;
         gap: 8px;
-        box-shadow: none;
         border-right: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 20%, transparent);
         overflow-y: auto;
-      }
-
-      :host([open]) {
-        pointer-events: auto;
-        transform: translateX(0);
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
         box-shadow: 8px 0 40px rgba(0, 0, 0, 0.25);
+        transform: translateX(-105%);
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
       }
 
       .header {
         height: 64px;
         min-height: 64px;
         padding: 8px 0;
+        flex-shrink: 0;
         display: flex;
         align-items: center;
         gap: 12px;
@@ -75,9 +92,7 @@ export class DrawerElement extends LitElement {
         fill: currentColor;
       }
 
-      ::-webkit-scrollbar {
-        width: 4px;
-      }
+      ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-thumb {
         background: color-mix(in srgb, var(--md-sys-color-outline) 40%, transparent);
         border-radius: 4px;
@@ -87,17 +102,19 @@ export class DrawerElement extends LitElement {
 
   render() {
     return html`
-      <div class="header">
-        <button
-          class="close-button"
-          @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-          </svg>
-        </button>
-        <slot name="logoname"></slot>
+      <div class="panel">
+        <div class="header">
+          <button
+            class="close-button"
+            @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+          <slot name="logoname"></slot>
+        </div>
+        <slot></slot>
       </div>
-      <slot></slot>
     `
   }
 }

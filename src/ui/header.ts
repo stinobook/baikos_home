@@ -12,9 +12,11 @@ export class HeaderElement extends LitElement {
         padding: 10px 20px;
         align-items: center;
         gap: 12px;
-        margin: 16px auto;
+        margin: 0 auto;
         max-width: 1280px;
         width: 100%;
+        position: relative;
+        z-index: 500;
       }
 
       [name='nav-bar']::slotted(*) {
@@ -73,7 +75,7 @@ export class HeaderElement extends LitElement {
         :host {
           height: 64px;
           padding: 8px 16px;
-          margin: 12px auto;
+          margin: 0 auto;
         }
         .menu-button {
           display: flex;

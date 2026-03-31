@@ -14,7 +14,8 @@ static styles = [
             display: flex;
             flex-direction: column;
             width: 100%;
-            gap: 16px;
+          gap: 16px;
+            padding-top: 16px;
             padding-bottom: 24px;
             box-sizing: border-box;
         }
@@ -23,10 +24,8 @@ static styles = [
             max-width: 1280px;
             margin: 0 auto;
             display: flex;
-            flex-direction: row;
-            gap: 0;
-            justify-content: center;
-            align-items: stretch;
+            flex-direction: column;
+            gap: 16px;
             padding: 0 20px;
             width: 100%;
             box-sizing: border-box;
@@ -36,7 +35,7 @@ static styles = [
         .cards-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+          gap: 16px;
             width: 100%;
         }
 
@@ -52,15 +51,19 @@ static styles = [
         }
 
       @media (max-width: 1280px) {
+        :host {
+          padding-bottom: 24px;
+          gap: 16px;
+          box-sizing: border-box;
+        }
         .flex-container {
-            flex-direction: column;
-            align-items: stretch;
             padding: 0 16px;
+            gap: 16px;
             box-sizing: border-box;
         }
         .cards-row {
             grid-template-columns: 1fr;
-            gap: 16px;
+          gap: 16px;
             box-sizing: border-box;
         }
         post-element {
@@ -78,7 +81,7 @@ static styles = [
       @media (max-width: 600px) {
         .flex-container {
           padding: 0 12px;
-          gap: 0;
+          gap: 12px;
           box-sizing: border-box;
         }
         .cards-row {
@@ -90,6 +93,9 @@ static styles = [
             margin: 0;
             box-sizing: border-box;
         }
+      }
+      footer-element {
+        margin-top: auto;
       }
     `
 ];

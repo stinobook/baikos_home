@@ -327,12 +327,12 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
-      html, body {
+      html {
         margin: 0;
         padding: 0;
         width: 100%;
-        min-height: 100%;
-        overflow-x: hidden;
+        min-height: 100vh;
+        overflow-x: clip;
         background:
           radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--md-sys-color-primary) 30%, transparent) 0%, transparent 60%),
           radial-gradient(ellipse at 80% 20%, color-mix(in srgb, var(--md-sys-color-tertiary, var(--md-sys-color-primary)) 20%, transparent) 0%, transparent 50%),
@@ -341,8 +341,16 @@
             color-mix(in srgb, var(--md-sys-color-primary) 40%, black 50%)
           );
         background-color: #3d1516;
+        background-attachment: fixed;
         background-repeat: no-repeat;
         background-size: cover;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+        background: transparent;
       }
       baiko-shell {
         display: block;

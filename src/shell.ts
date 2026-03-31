@@ -16,9 +16,10 @@ export class BaikoShell extends LitElement {
   static styles = [
     css`
       :host {
-        display: block;
+        display: flow-root;
         box-sizing: border-box;
         color: var(--md-sys-color-on-primary);
+        position: relative;
       }
       ::-webkit-scrollbar {
         width: 6px;
@@ -35,6 +36,8 @@ export class BaikoShell extends LitElement {
       #container {
         display: block;
         width: 100%;
+        position: relative;
+        padding-top: 16px;
       }
       .logo {
         background: url("./img/full.png") no-repeat;
@@ -60,7 +63,7 @@ export class BaikoShell extends LitElement {
         pointer-events: none;
       }
       lang-element {
-        position: fixed;
+        position: absolute;
         right: 0;
         top: 0;
         margin: 5px;
@@ -81,7 +84,7 @@ export class BaikoShell extends LitElement {
         .logo {
           opacity: 0;
           width: 0px;
-          position: fixed;
+          position: absolute;
           left: -100px;
           top: -100px;
         }
@@ -127,27 +130,39 @@ export class BaikoShell extends LitElement {
         if (item.getAttribute('slot') === 'sub-menu') {
           item.parentElement.classList.add('custom-selected')
           if (item && this.drawer.open === true) {
-            this.drawer.open = false
-            this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.remove('visible')
+            document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))
           }
         } else {
           if (this.drawer.open === true) {
-            this.drawer.open = false
-            this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.remove('visible')
+            document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))
           }
         }
       }
     }
   }
 
+  // Block all scroll while drawer is open; only allow it if the drawer panel itself can scroll
+  _blockScroll = (e: Event) => {
+    const panel = this.drawer?.shadowRoot?.querySelector('.panel') as HTMLElement
+    const inDrawer = panel && e.composedPath().includes(panel)
+    if (!inDrawer || panel.scrollHeight <= panel.clientHeight) {
+      e.preventDefault()
+    }
+  }
+
   _drawerOpen = (e: Event) => {
     const { detail } = e as CustomEvent
     if (detail) {
+      window.scrollTo({ top: 0, behavior: 'instant' })
       this.drawer.open = true
       this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.add('visible')
+      document.addEventListener('touchmove', this._blockScroll, { passive: false })
+      document.addEventListener('wheel', this._blockScroll, { passive: false })
     } else {
       this.drawer.open = false
       this.shadowRoot?.querySelector('#drawer-backdrop')?.classList.remove('visible')
+      document.removeEventListener('touchmove', this._blockScroll)
+      document.removeEventListener('wheel', this._blockScroll)
     }
   }
 
@@ -168,7 +183,9 @@ export class BaikoShell extends LitElement {
       width: 100%;
     }
       baiko-pages {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 88px);
         width: 100%;
       }
       baiko-pages > * {
@@ -178,28 +195,65 @@ export class BaikoShell extends LitElement {
       baiko-pages > *:not(.custom-selected) {
         display: none !important;
       }
-      baiko-pages > *.custom-selected {
-        display: block;
+      baiko-pages > .custom-selected {
+        flex: 1;
       }
+      baiko-pages > .custom-selected.page-enter {
+        animation: page-enter 180ms cubic-bezier(0.2, 0, 0.2, 1);
+      }
+      @keyframes page-enter {
+        from {
+          opacity: 0.97;
+          transform: translateY(2px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        baiko-pages > .custom-selected.page-enter {
+          animation: none;
+        }
+      }
+      /* Let each view's own :host { display } take effect — don't override it */
 [slot='logoname'] h1 {
         color: var(--md-sys-color-on-surface) !important;
         text-shadow: none;
       }
       #drawer-backdrop {
-        position: fixed;
-        inset: 0;
+        display: none;
         background: rgba(0,0,0,0);
         z-index: 999;
         pointer-events: none;
         transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       #drawer-backdrop.visible {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: rgba(0,0,0,0.45);
         pointer-events: auto;
       }
     </style>
       <lang-element></lang-element>
       <div id="drawer-backdrop" @click=${() => document.dispatchEvent(new CustomEvent('drawer-open', { detail: false }))}></div>
+      <drawer-element>
+        <div slot="logoname" class="logo" @click=${() => location.hash = '!/home'}><h1>Baiko's Home</h1></div>
+        <custom-hover-menu-item type="drawer" name="Home" route="home"></custom-hover-menu-item>
+        <custom-hover-menu-item type="drawer" name="Over ons" route="about"></custom-hover-menu-item>
+        <custom-hover-menu-item type="drawer" name="Aanbod" route="services"></custom-hover-menu-item>
+        <custom-hover-menu type="drawer" name="Border Collie" route="vision">
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
+          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Koda x Siyala" route="kodaxsiyala"></custom-hover-menu-item>
+        </custom-hover-menu>
+        <custom-hover-menu-item type="drawer" name="Contact" route="contact"></custom-hover-menu-item>
+      </drawer-element>
       <div id="container">
       <header-element>
           <div class="logo" @click=${() => location.hash = '!/home'} ><h1>Baiko's Home</h1></div>
@@ -216,19 +270,6 @@ export class BaikoShell extends LitElement {
             <custom-hover-menu-item name="Contact" route="contact"></custom-hover-menu-item>
           </div>
         </header-element>
-        <drawer-element>
-        <div slot="logoname" class="logo" @click=${() => location.hash = '!/home'}><h1>Baiko's Home</h1></div>
-        <custom-hover-menu-item type="drawer" name="Home" route="home"></custom-hover-menu-item>
-        <custom-hover-menu-item type="drawer" name="Over ons" route="about"></custom-hover-menu-item>
-        <custom-hover-menu-item type="drawer" name="Aanbod" route="services"></custom-hover-menu-item>
-        <custom-hover-menu type="drawer" name="Border Collie" route="vision">
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Visie" route="vision"></custom-hover-menu-item>
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Reuen" route="studs"></custom-hover-menu-item>
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Teven" route="bitches"></custom-hover-menu-item>
-          <custom-hover-menu-item type="drawer" slot="sub-menu" name="Koda x Siyala" route="kodaxsiyala"></custom-hover-menu-item>
-        </custom-hover-menu>
-        <custom-hover-menu-item type="drawer" name="Contact" route="contact"></custom-hover-menu-item>
-        </drawer-element>
         <baiko-pages attr-for-selected="route">
             <loading-view route="loading"> </loading-view>
             <home-view route="home"> </home-view>

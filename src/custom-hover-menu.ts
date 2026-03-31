@@ -28,7 +28,6 @@ export class CustomHoverMenu extends LitElement {
       .sub-menu-container {
         overflow: hidden;
         pointer-events: none;
-        z-index: 1000;
         position: absolute;
         top: 100%;
         padding-top: 8px;
@@ -40,11 +39,10 @@ export class CustomHoverMenu extends LitElement {
         left: 50%;
         transform: translateX(-50%);
         white-space: nowrap;
-        filter: drop-shadow(0 4px 16px rgba(0,0,0,0.2));
       }
 
       .sub-menu {
-        background-color: color-mix(in srgb, var(--md-sys-color-surface) 85%, transparent);
+        background-color: color-mix(in srgb, var(--md-sys-color-surface) 98%, transparent);
         backdrop-filter: blur(16px) saturate(1.4);
         -webkit-backdrop-filter: blur(16px) saturate(1.4);
         color: var(--md-sys-color-on-surface);

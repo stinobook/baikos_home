@@ -11,6 +11,7 @@ export class BitchesView extends LitElement {
         display: flex;
         flex-direction: column;
         width: 100%;
+        padding-top: 16px;
         padding-bottom: 24px;
         gap: 16px;
         box-sizing: border-box;
@@ -49,6 +50,7 @@ export class BitchesView extends LitElement {
       }
       post-element:nth-of-type(even) { --flex-direction: row; }
       post-element:nth-of-type(odd) { --flex-direction: row-reverse; }
+      footer-element { margin-top: auto; }
     `
   ]
 

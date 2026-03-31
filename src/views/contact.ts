@@ -7,7 +7,7 @@ export class ContactView extends LitElement {
     css`
       :host {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: flex-start;
         padding: 24px 20px;
         width: 100%;
@@ -33,7 +33,7 @@ export class ContactView extends LitElement {
         margin: 0 auto;
         flex-wrap: wrap;
         border-radius: 20px;
-        background-color: color-mix(in srgb, var(--md-sys-color-surface) 97%, transparent);
+        background-color: var(--md-sys-color-surface);
         color: var(--md-sys-color-on-surface);
         box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.1);
         border: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 12%, transparent);

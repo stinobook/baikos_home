@@ -91,8 +91,14 @@ export default class Router {
   #onhashchange = async () => {
     const { route, params } = Router.parseHash(location.hash)
     updatePageMeta(route)
+
+    // Ensure the target view is defined before selection to avoid a transient
+    // empty page during hash navigation (notably problematic on iOS Safari).
+    if (!customElements.get(`${route}-view`)) {
+      await import(`./${route}.js`)
+    }
+
     this.host.select(route)
-    if (!customElements.get(`./${route}-view`)) await import(`./${route}.js`)
     const selected = this.host.pages.querySelector('.custom-selected')
     this.host.selected = selected
     if (Object.keys(params).length > 0) selected.params = params
